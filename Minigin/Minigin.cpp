@@ -9,7 +9,6 @@
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "Renderer.h"
-#include "TextObject.h"
 #include "GameObject.h"
 #include "Scene.h"
 #include "TextureComponent.h"
