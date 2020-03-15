@@ -44,14 +44,14 @@ void dae::Minigin::LoadGame() const
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
-	auto go = std::make_shared<GameObject>();
-	go->SetTexture("background.jpg");
-	scene.Add(go);
-
-	go = std::make_shared<GameObject>();
-	go->SetTexture("logo.png");
-	go->SetPosition(216, 180);
-	scene.Add(go);
+// 	auto go = std::make_shared<GameObject>();
+// 	go->SetTexture("background.jpg");
+// 	scene.Add(go);
+// 
+// 	go = std::make_shared<GameObject>();
+// 	go->SetTexture("logo.png");
+// 	go->SetPosition(216, 180);
+// 	scene.Add(go);
 
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	auto to = std::make_shared<TextObject>("Programming 4 Assignment", font);
@@ -82,16 +82,23 @@ void dae::Minigin::Run()
 		auto& input = InputManager::GetInstance();
 
 		bool doContinue = true;
+		auto lastTime{high_resolution_clock::now()};
+		float lag{};
 		while (doContinue)
 		{
 			const auto currentTime = high_resolution_clock::now();
-			
+			float deltaTime{duration<float>(currentTime - lastTime).count()};
+			lastTime = currentTime;
+			lag += deltaTime;
+
 			doContinue = input.ProcessInput();
-			sceneManager.Update();
+			while (lag >= MsPerFrame)
+			{
+				sceneManager.Update(MsPerFrame);
+				lag -= MsPerFrame;
+			}
 			renderer.Render();
 			
-			auto sleepTime = duration_cast<duration<float>>(currentTime + milliseconds(MsPerFrame) - high_resolution_clock::now());
-			this_thread::sleep_for(sleepTime);
 		}
 	}
 
