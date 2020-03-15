@@ -7,7 +7,7 @@ namespace dae
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
-		Scene& CreateScene(const std::string& name);
+		std::shared_ptr<dae::Scene> CreateScene(const std::string& name);
 
 		void Update(float deltaTime);
 		void Render();
