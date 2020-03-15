@@ -1,6 +1,7 @@
 #include "MiniginPCH.h"
 #include <SDL.h>
 #include <SDL_ttf.h>
+#include <SDL_pixels.h>
 
 #include "TextComponent.h"
 #include "GameObject.h"

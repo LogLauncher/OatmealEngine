@@ -13,6 +13,7 @@
 #include "Scene.h"
 #include "TextureComponent.h"
 #include "TextComponent.h"
+#include "FPSComponent.h"
 
 using namespace std::chrono;
 
@@ -59,8 +60,15 @@ void dae::Minigin::LoadGame() const
 
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	go = std::make_shared<GameObject>();
-	go->AddComponenet(std::make_shared<TextComponent>("Programming 4 Assignment", font, SDL_Color{255,0,0}));
+	go->AddComponenet(std::make_shared<TextComponent>("Programming 4 Assignment", font));
 	go->GetTransform().SetPosition(80, 20);
+	scene->Add(go);
+
+	font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 24);
+	go = std::make_shared<GameObject>();
+	auto fpsComp{std::make_shared<FPSComponent>(font, SDL_Color{255,255,0})};
+	go->AddComponenet(fpsComp);
+	fpsComp->Init();
 	scene->Add(go);
 
 }
