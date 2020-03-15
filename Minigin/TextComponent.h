@@ -8,7 +8,7 @@ namespace dae
 	class TextComponent final : public BaseComponent
 	{
 	public:
-		TextComponent(const std::string& text, const std::shared_ptr<Font>& font);
+		TextComponent(const std::string& text, const std::shared_ptr<Font>& font, const SDL_Color& color = {255,255,255});
 		virtual ~TextComponent() = default;
 
 		void Update(float deltaTime) override;
@@ -24,7 +24,6 @@ namespace dae
 		TextComponent& operator=(TextComponent&& other) = delete;
 
 	private:
-		bool m_NeedsUpdate;
 		std::string m_Text;
 		SDL_Color m_Color;
 		std::shared_ptr<Font> m_Font;
