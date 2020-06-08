@@ -1,33 +1,33 @@
 #include "MiniginPCH.h"
-
 #include "GameObject.h"
+
 #include "Renderer.h"
 #include "ResourceManager.h"
 
-void dae::GameObject::Update(float deltaTime)
+void OatmealEngine::GameObject::Update(float deltaTime)
 {
 	for (const auto& component : m_pComponents)
 		component->Update(deltaTime);
 }
 
-void dae::GameObject::Render() const
+void OatmealEngine::GameObject::Render() const
 {
 	for (const auto& component : m_pComponents)
 		component->Render();
 }
 
-dae::TransformComponent& dae::GameObject::GetTransform()
+OatmealEngine::TransformComponent& OatmealEngine::GameObject::GetTransform()
 {
 	return m_Transform;
 }
 
-void dae::GameObject::AddComponenet(std::shared_ptr<BaseComponent> component)
+void OatmealEngine::GameObject::AddComponenet(std::shared_ptr<BaseComponent> component)
 {
 	m_pComponents.push_back(component);
 	component->SetGameObject(shared_from_this());
 }
 
-dae::GameObject::~GameObject()
+OatmealEngine::GameObject::~GameObject()
 {
 	OutputDebugString("Destructor: GameObject\n");
 }

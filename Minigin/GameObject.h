@@ -2,7 +2,7 @@
 #include "BaseComponent.h"
 #include "TransformComponent.h"
 
-namespace dae
+namespace OatmealEngine
 {
 	class GameObject final : public std::enable_shared_from_this<GameObject>
 	{

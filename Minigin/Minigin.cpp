@@ -17,9 +17,9 @@
 
 using namespace std::chrono;
 
-const float dae::Minigin::MsPerFrame{16 / 1000.f}; //16 for 60 fps, 33 for 30 fps (divide by 1000 to convert it to milliseconds)
+const float OatmealEngine::Minigin::MsPerFrame{16 / 1000.f}; //16 for 60 fps, 33 for 30 fps (divide by 1000 to convert it to milliseconds)
 
-void dae::Minigin::Initialize()
+void OatmealEngine::Minigin::Initialize()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
 	{
@@ -45,7 +45,7 @@ void dae::Minigin::Initialize()
 /**
  * Code constructing the scene world starts here
  */
-void dae::Minigin::LoadGame() const
+void OatmealEngine::Minigin::LoadGame() const
 {
 	auto scene = SceneManager::GetInstance().CreateScene("Demo");
 
@@ -73,7 +73,7 @@ void dae::Minigin::LoadGame() const
 
 }
 
-void dae::Minigin::Cleanup()
+void OatmealEngine::Minigin::Cleanup()
 {
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(m_Window);
@@ -81,7 +81,7 @@ void dae::Minigin::Cleanup()
 	SDL_Quit();
 }
 
-void dae::Minigin::Run()
+void OatmealEngine::Minigin::Run()
 {
 	Initialize();
 

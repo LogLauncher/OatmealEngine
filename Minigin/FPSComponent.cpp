@@ -3,19 +3,19 @@
 
 #include "FPSComponent.h"
 
-dae::FPSComponent::FPSComponent(const std::shared_ptr<Font>& font, const SDL_Color& color)
+OatmealEngine::FPSComponent::FPSComponent(const std::shared_ptr<Font>& font, const SDL_Color& color)
 	: m_FPS{0}
 	, m_FpsCount{0}
 	, m_FpsTimer{0}
 	, m_TextComponent{"00 FPS", font, color}
 {}
 
-void dae::FPSComponent::Init()
+void OatmealEngine::FPSComponent::Init()
 {
 	m_TextComponent.SetGameObject(GetGameObject());
 }
 
-void dae::FPSComponent::Update(float deltaTime)
+void OatmealEngine::FPSComponent::Update(float deltaTime)
 {
 	m_FpsTimer += deltaTime;
 	++m_FpsCount;
@@ -30,7 +30,7 @@ void dae::FPSComponent::Update(float deltaTime)
 	}
 }
 
-void dae::FPSComponent::Render() const
+void OatmealEngine::FPSComponent::Render() const
 {
 	m_TextComponent.Render();
 }

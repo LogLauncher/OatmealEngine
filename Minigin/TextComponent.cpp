@@ -9,7 +9,7 @@
 #include "Font.h"
 #include "Texture2D.h"
 
-dae::TextComponent::TextComponent(const std::string& text, const std::shared_ptr<Font>& font, const SDL_Color& color)
+OatmealEngine::TextComponent::TextComponent(const std::string& text, const std::shared_ptr<Font>& font, const SDL_Color& color)
 	: m_Text{text}
 	, m_Font{font}
 	, m_Texture{nullptr}
@@ -18,10 +18,10 @@ dae::TextComponent::TextComponent(const std::string& text, const std::shared_ptr
 	UpdateTexture();
 }
 
-void dae::TextComponent::Update(float)
+void OatmealEngine::TextComponent::Update(float)
 {}
 
-void dae::TextComponent::UpdateTexture()
+void OatmealEngine::TextComponent::UpdateTexture()
 {
 	const SDL_Color color = m_Color;
 	const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), color);
@@ -38,7 +38,7 @@ void dae::TextComponent::UpdateTexture()
 	m_Texture = std::make_shared<Texture2D>(texture);
 }
 
-void dae::TextComponent::Render() const
+void OatmealEngine::TextComponent::Render() const
 {
 	if (m_Texture != nullptr)
 	{
@@ -47,13 +47,13 @@ void dae::TextComponent::Render() const
 	}
 }
 
-void dae::TextComponent::SetText(const std::string& text)
+void OatmealEngine::TextComponent::SetText(const std::string& text)
 {
 	m_Text = text;
 	UpdateTexture();
 }
 
-void dae::TextComponent::SetColor(const SDL_Color& color)
+void OatmealEngine::TextComponent::SetColor(const SDL_Color& color)
 {
 	m_Color = color;
 	UpdateTexture();

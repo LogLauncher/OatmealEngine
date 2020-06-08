@@ -1,7 +1,7 @@
 #pragma once
 #include "BaseComponent.h"
 
-namespace dae
+namespace OatmealEngine
 {
 	class Font;
 	class Texture2D;

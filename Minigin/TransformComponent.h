@@ -4,7 +4,7 @@
 #include <glm/vec3.hpp>
 #pragma warning(pop)
 
-namespace dae
+namespace OatmealEngine
 {
 	class TransformComponent final
 	{

@@ -2,18 +2,18 @@
 #include "Scene.h"
 #include "GameObject.h"
 
-unsigned int dae::Scene::m_IdCounter = 0;
+unsigned int OatmealEngine::Scene::m_IdCounter = 0;
 
-dae::Scene::Scene(const std::string& name)
+OatmealEngine::Scene::Scene(const std::string& name)
 	: m_Name(name)
 {}
 
-void dae::Scene::Add(const std::shared_ptr<dae::GameObject>& object)
+void OatmealEngine::Scene::Add(const std::shared_ptr<OatmealEngine::GameObject>& object)
 {
 	m_Objects.push_back(object);
 }
 
-void dae::Scene::Update(float deltaTime)
+void OatmealEngine::Scene::Update(float deltaTime)
 {
 	for(auto& object : m_Objects)
 	{
@@ -21,7 +21,7 @@ void dae::Scene::Update(float deltaTime)
 	}
 }
 
-void dae::Scene::Render() const
+void OatmealEngine::Scene::Render() const
 {
 	for (const auto& object : m_Objects)
 	{

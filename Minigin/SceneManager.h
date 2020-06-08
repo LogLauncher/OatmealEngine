@@ -1,13 +1,13 @@
 #pragma once
 #include "Singleton.h"
 
-namespace dae
+namespace OatmealEngine
 {
 	class Scene;
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
-		std::shared_ptr<dae::Scene> CreateScene(const std::string& name);
+		std::shared_ptr<OatmealEngine::Scene> CreateScene(const std::string& name);
 
 		void Update(float deltaTime);
 		void Render();

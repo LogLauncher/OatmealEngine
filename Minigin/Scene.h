@@ -1,12 +1,12 @@
 #pragma once
 #include "SceneManager.h"
 
-namespace dae
+namespace OatmealEngine
 {
 	class GameObject;
 	class Scene final
 	{
-		friend std::shared_ptr<dae::Scene> SceneManager::CreateScene(const std::string& name);
+		friend std::shared_ptr<OatmealEngine::Scene> SceneManager::CreateScene(const std::string& name);
 	public:
 		void Add(const std::shared_ptr<GameObject>& object);
 

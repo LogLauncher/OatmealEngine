@@ -1,6 +1,6 @@
 #pragma once
 
-namespace dae
+namespace OatmealEngine
 {
 	class GameObject;
 	class BaseComponent

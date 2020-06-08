@@ -1,18 +1,18 @@
 #include "MiniginPCH.h"
-
 #include "TextureComponent.h"
-#include "GameObject.h"
+
 #include "Renderer.h"
+#include "GameObject.h"
 #include "ResourceManager.h"
 
-dae::TextureComponent::TextureComponent(const std::string& filename)
+OatmealEngine::TextureComponent::TextureComponent(const std::string& filename)
 	: m_Texture{ResourceManager::GetInstance().LoadTexture(filename)}
 {}
 
-void dae::TextureComponent::Update(float)
+void OatmealEngine::TextureComponent::Update(float)
 {}
 
-void dae::TextureComponent::Render() const
+void OatmealEngine::TextureComponent::Render() const
 {
 	if (m_Texture != nullptr)
 	{
@@ -21,7 +21,7 @@ void dae::TextureComponent::Render() const
 	}
 }
 
-dae::TextureComponent::~TextureComponent()
+OatmealEngine::TextureComponent::~TextureComponent()
 {
 	OutputDebugString("Destructor: TextureComponent\n");
 

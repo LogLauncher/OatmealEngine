@@ -2,7 +2,7 @@
 #include "BaseComponent.h"
 #include "TextComponent.h"
 
-namespace dae
+namespace OatmealEngine
 {
 	class FPSComponent : public BaseComponent
 	{

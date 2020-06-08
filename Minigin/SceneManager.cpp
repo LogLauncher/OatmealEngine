@@ -2,7 +2,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
-void dae::SceneManager::Update(float deltaTime)
+void OatmealEngine::SceneManager::Update(float deltaTime)
 {
 	for(auto& scene : m_Scenes)
 	{
@@ -10,7 +10,7 @@ void dae::SceneManager::Update(float deltaTime)
 	}
 }
 
-void dae::SceneManager::Render()
+void OatmealEngine::SceneManager::Render()
 {
 	for (const auto& scene : m_Scenes)
 	{
@@ -18,7 +18,7 @@ void dae::SceneManager::Render()
 	}
 }
 
-std::shared_ptr<dae::Scene> dae::SceneManager::CreateScene(const std::string& name)
+std::shared_ptr<OatmealEngine::Scene> OatmealEngine::SceneManager::CreateScene(const std::string& name)
 {
 	auto scene = std::make_shared<Scene>(name);
 	m_Scenes.push_back(scene);
