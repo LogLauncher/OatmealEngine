@@ -26,8 +26,8 @@ void OatmealEngine::Minigin::Initialize()
 		"Programming 4 assignment",
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
-		640,
-		480,
+		m_WindowWidth,
+		m_WindowHeight,
 		SDL_WINDOW_OPENGL
 	);
 	if (m_Window == nullptr) 
@@ -43,30 +43,7 @@ void OatmealEngine::Minigin::Initialize()
  */
 void OatmealEngine::Minigin::LoadGame() const
 {
-	auto scene = SceneManager::GetInstance().CreateScene("Demo");
-
-	auto go{std::make_shared<GameObject>()};
-	go->AddComponenet(std::make_shared<TextureComponent>("background.jpg"));
-	scene->Add(go);
-
-	go = std::make_shared<GameObject>();
-	go->AddComponenet(std::make_shared<TextureComponent>("logo.png"));
-	go->GetTransform().SetPosition(216, 180);
-	scene->Add(go);
-
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	go = std::make_shared<GameObject>();
-	go->AddComponenet(std::make_shared<TextComponent>("Programming 4 Assignment", font));
-	go->GetTransform().SetPosition(80, 20);
-	scene->Add(go);
-
-	font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 24);
-	go = std::make_shared<GameObject>();
-	auto fpsComp{std::make_shared<FPSComponent>(font, SDL_Color{255,255,0})};
-	go->AddComponenet(fpsComp);
-	fpsComp->Init();
-	scene->Add(go);
-
+	SceneManager::GetInstance().Initialize();
 }
 
 void OatmealEngine::Minigin::Cleanup()
@@ -95,9 +72,6 @@ void OatmealEngine::Minigin::Run()
 		bool doContinue = true;
 		float lag{};
 
-		sceneManager.Awake();
-		sceneManager.Start();
-
 		gameTime.Init();
 
 		while (doContinue)
@@ -111,12 +85,12 @@ void OatmealEngine::Minigin::Run()
 
 			while (lag >= gameTime.FixedTime())
 			{
-				sceneManager.FixedUpdate();
+				sceneManager.RootFixedUpdate();
 				lag -= gameTime.FixedTime();
 			}
 
-			sceneManager.Update();
-			sceneManager.LateUpdate();
+			sceneManager.RootUpdate();
+			sceneManager.RootLateUpdate();
 
 			renderer.Render();
 			

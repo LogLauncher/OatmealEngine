@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseComponent.h"
+#include "SDL_pixels.h"
 
 namespace OatmealEngine
 {

@@ -9,37 +9,37 @@ OatmealEngine::GameObject::~GameObject()
 	OutputDebugString("Destructor: GameObject\n");
 }
 
-void OatmealEngine::GameObject::Awake()
+void OatmealEngine::GameObject::RootAwake()
 {
 	for (const auto& component : m_pComponents)
 		component->Awake();
 }
 
-void OatmealEngine::GameObject::Start()
+void OatmealEngine::GameObject::RootStart()
 {
 	for (const auto& component : m_pComponents)
 		component->Start();
 }
 
-void OatmealEngine::GameObject::FixedUpdate()
+void OatmealEngine::GameObject::RootFixedUpdate()
 {
 	for (const auto& component : m_pComponents)
 		component->FixedUpdate();
 }
 
-void OatmealEngine::GameObject::Update()
+void OatmealEngine::GameObject::RootUpdate()
 {
 	for (const auto& component : m_pComponents)
 		component->Update();
 }
 
-void OatmealEngine::GameObject::LateUpdate()
+void OatmealEngine::GameObject::RootLateUpdate()
 {
 	for (const auto& component : m_pComponents)
 		component->LateUpdate();
 }
 
-void OatmealEngine::GameObject::Render() const
+void OatmealEngine::GameObject::RootRender() const
 {
 	for (const auto& component : m_pComponents)
 		component->Render();

@@ -1,5 +1,6 @@
 #pragma once
 #include "Singleton.h"
+#include <map>
 
 namespace OatmealEngine
 {
@@ -7,20 +8,20 @@ namespace OatmealEngine
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
-		std::shared_ptr<OatmealEngine::Scene> CreateScene(const std::string& name);
+		void AddScene(std::shared_ptr<Scene> scene);
+		bool LoadScene(const std::string& name);
 
-		void Awake();
-		void Start();
+		void Initialize();
 
-		void FixedUpdate();
-		void Update();
-		void LateUpdate();
-
-		void Render() const;
+		void RootFixedUpdate();
+		void RootUpdate();
+		void RootLateUpdate();
+		void RootRender() const;
 
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
-		std::vector<std::shared_ptr<Scene>> m_Scenes;
+		std::map<std::string, std::shared_ptr<Scene>> m_Scenes;
+		std::shared_ptr<Scene> m_ActiveScene;
 	};
 }

@@ -1,8 +1,7 @@
 #include "MiniginPCH.h"
 #include "Scene.h"
-#include "GameObject.h"
 
-unsigned int OatmealEngine::Scene::m_IdCounter = 0;
+#include "GameObject.h"
 
 OatmealEngine::Scene::Scene(const std::string& name)
 	: m_Name(name)
@@ -13,38 +12,36 @@ void OatmealEngine::Scene::Add(const std::shared_ptr<OatmealEngine::GameObject>&
 	m_Objects.push_back(object);
 }
 
-void OatmealEngine::Scene::Awake()
+bool OatmealEngine::Scene::Remove(const std::shared_ptr<GameObject>& object)
 {
-	for (auto& object : m_Objects)
-		object->Awake();
+	auto it = find(m_Objects.begin(), m_Objects.end(), object);
+	if (it == m_Objects.end())
+		return false;
+
+	m_Objects.erase(it);
+	return true;
 }
 
-void OatmealEngine::Scene::Start()
+void OatmealEngine::Scene::RootFixedUpdate()
 {
 	for (auto& object : m_Objects)
-		object->Start();
+		object->RootFixedUpdate();
 }
 
-void OatmealEngine::Scene::FixedUpdate()
-{
-	for (auto& object : m_Objects)
-		object->FixedUpdate();
-}
-
-void OatmealEngine::Scene::Update()
+void OatmealEngine::Scene::RootUpdate()
 {
 	for(auto& object : m_Objects)
-		object->Update();
+		object->RootUpdate();
 }
 
-void OatmealEngine::Scene::LateUpdate()
+void OatmealEngine::Scene::RootLateUpdate()
 {
 	for (auto& object : m_Objects)
-		object->LateUpdate();
+		object->RootLateUpdate();
 }
 
-void OatmealEngine::Scene::Render() const
+void OatmealEngine::Scene::RootRender() const
 {
 	for (const auto& object : m_Objects)
-		object->Render();
+		object->RootRender();
 }

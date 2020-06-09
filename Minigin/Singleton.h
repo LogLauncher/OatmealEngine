@@ -1,4 +1,6 @@
 #pragma once
+#include "MiniginPCH.h"
+
 namespace OatmealEngine
 {
 	template <typename T>

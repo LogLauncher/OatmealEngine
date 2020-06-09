@@ -3,32 +3,38 @@
 
 namespace OatmealEngine
 {
+	class SceneManager;
 	class GameObject;
-	class Scene final
+
+	class Scene 
 	{
-		friend std::shared_ptr<OatmealEngine::Scene> SceneManager::CreateScene(const std::string& name);
 	public:
 		void Add(const std::shared_ptr<GameObject>& object);
+		bool Remove(const std::shared_ptr<GameObject>& object);
 
-		void Awake();
-		void Start();
 
-		void FixedUpdate();
-		void Update();
-		void LateUpdate();
-
-		void Render() const;
+		virtual void OnSceneLoad() {};
+		virtual void OnSceneUnload() {};
 
 		explicit Scene(const std::string& name);
 		~Scene() = default;
 		DEL_ROF(Scene);
 
+		const std::string& GetName() const { return m_Name; }
+
+	protected:
+		virtual void Initialize() = 0;
 
 	private:
+		friend class SceneManager;
+
+		void RootFixedUpdate();
+		void RootUpdate();
+		void RootLateUpdate();
+		void RootRender() const;
 		std::string m_Name;
 		std::vector<std::shared_ptr<GameObject>> m_Objects{};
 
-		static unsigned int m_IdCounter;
 	};
 
 }

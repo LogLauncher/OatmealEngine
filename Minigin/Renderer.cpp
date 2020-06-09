@@ -17,7 +17,7 @@ void OatmealEngine::Renderer::Render() const
 {
 	SDL_RenderClear(m_Renderer);
 
-	SceneManager::GetInstance().Render();
+	SceneManager::GetInstance().RootRender();
 	
 	SDL_RenderPresent(m_Renderer);
 }

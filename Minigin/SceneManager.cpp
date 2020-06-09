@@ -3,45 +3,47 @@
 
 #include "Scene.h"
 
-std::shared_ptr<OatmealEngine::Scene> OatmealEngine::SceneManager::CreateScene(const std::string& name)
+void OatmealEngine::SceneManager::AddScene(std::shared_ptr<Scene> scene)
 {
-	auto scene = std::make_shared<Scene>(name);
-	m_Scenes.push_back(scene);
-	return scene;
+	m_Scenes.insert(std::make_pair(scene->GetName(), scene));
 }
 
-void OatmealEngine::SceneManager::Awake()
+void OatmealEngine::SceneManager::RootFixedUpdate()
 {
-	for (const auto& scene : m_Scenes)
-		scene->Awake();
+	m_ActiveScene->RootFixedUpdate();
 }
 
-void OatmealEngine::SceneManager::Start()
+void OatmealEngine::SceneManager::RootUpdate()
 {
-	for (const auto& scene : m_Scenes)
-		scene->Start();
+	m_ActiveScene->RootUpdate();
 }
 
-void OatmealEngine::SceneManager::FixedUpdate()
+void OatmealEngine::SceneManager::RootLateUpdate()
 {
-	for(auto& scene : m_Scenes)
-		scene->FixedUpdate();
+	m_ActiveScene->RootLateUpdate();
 }
 
-void OatmealEngine::SceneManager::Update()
+void OatmealEngine::SceneManager::RootRender() const
 {
-	for (const auto& scene : m_Scenes)
-		scene->Update();
+	m_ActiveScene->RootRender();
 }
 
-void OatmealEngine::SceneManager::LateUpdate()
+bool OatmealEngine::SceneManager::LoadScene(const std::string& name)
 {
-	for (const auto& scene : m_Scenes)
-		scene->LateUpdate();
+	auto it = m_Scenes.find(name);
+	if (it == m_Scenes.end())
+		return false;
+
+	auto oldScene{(*it).second};
+	oldScene->OnSceneUnload();
+	m_ActiveScene = oldScene;
+	m_ActiveScene->OnSceneLoad();
+
+	return true;
 }
 
-void OatmealEngine::SceneManager::Render() const
+void OatmealEngine::SceneManager::Initialize()
 {
-	for (const auto& scene : m_Scenes)
-		scene->Render();
+	for (auto& scene : m_Scenes)
+		scene.second->Initialize();
 }

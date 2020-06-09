@@ -11,14 +11,12 @@ namespace OatmealEngine
 		virtual ~GameObject();
 		DEL_ROF(GameObject);
 
-		void Awake();
-		void Start();
-
-		void FixedUpdate();
-		void Update();
-		void LateUpdate();
-
-		void Render() const;
+		void RootAwake();
+		void RootStart();
+		void RootFixedUpdate();
+		void RootUpdate();
+		void RootLateUpdate();
+		void RootRender() const;
 
 		TransformComponent& GetTransform();
 		void AddComponenet(std::shared_ptr<BaseComponent> component);
