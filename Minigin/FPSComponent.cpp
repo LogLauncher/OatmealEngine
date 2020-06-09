@@ -4,24 +4,22 @@
 
 #include "FPSComponent.h"
 #include "GameTime.h"
+#include "GameObject.h"
 
 OatmealEngine::FPSComponent::FPSComponent(const std::shared_ptr<Font>& font, const SDL_Color& color)
-	: m_TextComponent{"00 FPS", font, color}
+	: m_Font{font}
+	, m_Color{color}
 {}
 
-void OatmealEngine::FPSComponent::Init()
+void OatmealEngine::FPSComponent::Awake()
 {
-	m_TextComponent.SetGameObject(GetGameObject());
+	m_TextComponent = std::make_shared<TextComponent>("00 FPS", m_Font, m_Color);
+	GetGameObject().lock()->AddComponenet(m_TextComponent);
 }
 
 void OatmealEngine::FPSComponent::Update()
 {
 	std::stringstream sst{};
 	sst << GameTime::GetInstance().FPS() << " FPS";
-	m_TextComponent.SetText(sst.str());
-}
-
-void OatmealEngine::FPSComponent::Render() const
-{
-	m_TextComponent.Render();
+	m_TextComponent->SetText(sst.str());
 }

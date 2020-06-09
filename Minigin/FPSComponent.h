@@ -12,14 +12,13 @@ namespace OatmealEngine
 		virtual ~FPSComponent() = default;
 		DEL_ROF(FPSComponent);
 
-		void Init();
-
-		void Update() override;
-		void Render() const override;
-
+		virtual void Awake() override;
+		virtual void Update() override;
 
 	private:
-		TextComponent m_TextComponent;
+		std::shared_ptr<TextComponent> m_TextComponent;
+		std::shared_ptr<Font> m_Font;
+		const SDL_Color m_Color;
 
 	};
 

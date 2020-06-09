@@ -193,6 +193,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BaseComponent.h" />
+    <ClInclude Include="Components.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="TextComponent.h" />

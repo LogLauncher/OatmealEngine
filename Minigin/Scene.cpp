@@ -5,6 +5,7 @@
 
 OatmealEngine::Scene::Scene(const std::string& name)
 	: m_Name(name)
+	, m_IsInitialized{false}
 {}
 
 void OatmealEngine::Scene::Add(const std::shared_ptr<OatmealEngine::GameObject>& object)
@@ -20,6 +21,18 @@ bool OatmealEngine::Scene::Remove(const std::shared_ptr<GameObject>& object)
 
 	m_Objects.erase(it);
 	return true;
+}
+
+void OatmealEngine::Scene::RootAwake()
+{
+	for (auto& object : m_Objects)
+		object->RootAwake();
+}
+
+void OatmealEngine::Scene::RootStart()
+{
+	for (auto& object : m_Objects)
+		object->RootStart();
 }
 
 void OatmealEngine::Scene::RootFixedUpdate()

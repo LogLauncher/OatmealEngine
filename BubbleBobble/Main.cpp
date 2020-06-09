@@ -12,7 +12,7 @@
 void InitScenes()
 {
 	OatmealEngine::SceneManager::GetInstance().AddScene(std::make_shared<DemoScene>());
-	OatmealEngine::SceneManager::GetInstance().LoadScene("DemoScene");
+	OatmealEngine::SceneManager::GetInstance().SetStartScene("DemoScene");
 }
 
 int main()

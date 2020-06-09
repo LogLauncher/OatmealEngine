@@ -7,21 +7,20 @@ namespace OatmealEngine
 	{
 	public:
 		BaseComponent() = default;
-		virtual ~BaseComponent();
+		virtual ~BaseComponent() = default;
 		DEL_ROF(BaseComponent);
 
-		virtual void Awake();
-		virtual void Start();
+		virtual void Awake() {};
+		virtual void Start() {};
 
-		virtual void FixedUpdate();
-		virtual void Update();
-		virtual void LateUpdate();
+		virtual void FixedUpdate() {};
+		virtual void Update() {};
+		virtual void LateUpdate() {};
 
-		virtual void Render() const;
+		virtual void Render() const {};
 
-		std::weak_ptr<GameObject> GetGameObject() const;
 		void SetGameObject(std::weak_ptr<GameObject> pGameObject);
-
+		std::weak_ptr<GameObject> GetGameObject() const;
 
 	private:
 		std::weak_ptr<GameObject> m_pGameObject;
