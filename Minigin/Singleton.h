@@ -12,7 +12,7 @@ namespace OatmealEngine
 		}
 
 		virtual ~Singleton() = default;
-		DEL_RO4(Singleton);
+		DEL_ROF(Singleton);
 
 	protected:
 		Singleton() = default;

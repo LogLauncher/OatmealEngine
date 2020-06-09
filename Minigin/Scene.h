@@ -21,7 +21,7 @@ namespace OatmealEngine
 
 		explicit Scene(const std::string& name);
 		~Scene() = default;
-		DEL_RO4(Scene);
+		DEL_ROF(Scene);
 
 
 	private:

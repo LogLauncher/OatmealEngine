@@ -9,7 +9,7 @@ namespace OatmealEngine
 	public:
 		GameObject() = default;
 		virtual ~GameObject();
-		DEL_RO4(GameObject);
+		DEL_ROF(GameObject);
 
 		void Awake();
 		void Start();

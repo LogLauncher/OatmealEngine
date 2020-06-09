@@ -9,7 +9,7 @@ namespace OatmealEngine
 	public:
 		TextureComponent(const std::string& filename);
 		virtual ~TextureComponent();
-		DEL_RO4(TextureComponent);
+		DEL_ROF(TextureComponent);
 
 		void Render() const override;
 

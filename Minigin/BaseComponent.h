@@ -8,7 +8,7 @@ namespace OatmealEngine
 	public:
 		BaseComponent() = default;
 		virtual ~BaseComponent();
-		DEL_RO4(BaseComponent);
+		DEL_ROF(BaseComponent);
 
 		virtual void Awake();
 		virtual void Start();

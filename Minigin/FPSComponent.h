@@ -9,7 +9,7 @@ namespace OatmealEngine
 	public:
 		FPSComponent(const std::shared_ptr<Font>& font, const SDL_Color& color = {255,255,255});
 		virtual ~FPSComponent() = default;
-		DEL_RO4(FPSComponent);
+		DEL_ROF(FPSComponent);
 
 		void Init();
 
@@ -19,10 +19,6 @@ namespace OatmealEngine
 
 	private:
 		TextComponent m_TextComponent;
-
-		float m_FpsTimer;
-		int m_FpsCount;
-		int m_FPS;
 
 	};
 

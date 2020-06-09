@@ -2,7 +2,6 @@
 #include "Minigin.h"
 
 #include <SDL.h>
-#include <chrono>
 #include <thread>
 
 #include "InputManager.h"
@@ -14,10 +13,7 @@
 #include "TextureComponent.h"
 #include "TextComponent.h"
 #include "FPSComponent.h"
-
-using namespace std::chrono;
-
-const float OatmealEngine::Minigin::MsPerFrame{16 / 1000.f}; //16 for 60 fps, 33 for 30 fps (divide by 1000 to convert it to milliseconds)
+#include "GameTime.h"
 
 void OatmealEngine::Minigin::Initialize()
 {
@@ -94,27 +90,29 @@ void OatmealEngine::Minigin::Run()
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
+		auto& gameTime = GameTime::GetInstance();
 
 		bool doContinue = true;
-		auto lastTime{high_resolution_clock::now()};
 		float lag{};
 
 		sceneManager.Awake();
 		sceneManager.Start();
 
+		gameTime.Init();
+
 		while (doContinue)
 		{
-			const auto currentTime = high_resolution_clock::now();
-			float deltaTime{duration<float>(currentTime - lastTime).count()};
-			lastTime = currentTime;
-			lag += deltaTime;
+			// Update game time
+			gameTime.Update();
+
+			lag += gameTime.DeltaTime();
 
 			doContinue = input.ProcessInput();
 
-			while (lag >= MsPerFrame)
+			while (lag >= gameTime.FixedTime())
 			{
 				sceneManager.FixedUpdate();
-				lag -= MsPerFrame;
+				lag -= gameTime.FixedTime();
 			}
 
 			sceneManager.Update();

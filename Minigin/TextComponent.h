@@ -10,7 +10,7 @@ namespace OatmealEngine
 	public:
 		TextComponent(const std::string& text, const std::shared_ptr<Font>& font, const SDL_Color& color = {255, 255, 255});
 		virtual ~TextComponent() = default;
-		DEL_RO4(TextComponent);
+		DEL_ROF(TextComponent);
 
 		void Render() const override;
 		void UpdateTexture();
