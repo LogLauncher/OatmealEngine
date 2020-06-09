@@ -8,9 +8,11 @@ OatmealEngine::BaseScene::BaseScene(const std::string& name)
 	, m_IsInitialized{false}
 {}
 
-void OatmealEngine::BaseScene::Add(const std::shared_ptr<OatmealEngine::GameObject>& object)
+std::shared_ptr<OatmealEngine::GameObject> OatmealEngine::BaseScene::GetNewGameObject()
 {
-	m_Objects.push_back(object);
+	auto gameObject{std::make_shared<GameObject>()};
+	m_Objects.push_back(gameObject);
+	return gameObject;
 }
 
 bool OatmealEngine::BaseScene::Remove(const std::shared_ptr<GameObject>& object)

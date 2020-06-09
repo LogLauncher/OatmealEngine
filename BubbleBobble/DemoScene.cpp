@@ -15,24 +15,20 @@ DemoScene::DemoScene()
 
 void DemoScene::Initialize()
 {
-	auto go{std::make_shared<GameObject>()};
+	auto go{GetNewGameObject()};
 	go->AddComponent(std::make_shared<TextureComponent>("background.jpg"));
-	Add(go);
 
-	go = std::make_shared<GameObject>();
+	go = GetNewGameObject();
 	go->AddComponent(std::make_shared<TextureComponent>("logo.png"));
 	go->GetTransform().SetPosition(216, 180);
-	Add(go);
 
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	go = std::make_shared<GameObject>();
+	go = GetNewGameObject();
 	go->AddComponent(std::make_shared<TextComponent>("Programming 4 Assignment", font));
 	go->GetTransform().SetPosition(80, 20);
-	Add(go);
 
 	font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 24);
-	go = std::make_shared<GameObject>();
+	go = GetNewGameObject();
 	auto fpsComp{std::make_shared<FPSComponent>(font, SDL_Color{255,255,0})};
 	go->AddComponent(fpsComp);
-	Add(go);
 }

@@ -9,7 +9,7 @@ namespace OatmealEngine
 	class BaseScene 
 	{
 	public:
-		void Add(const std::shared_ptr<GameObject>& object);
+		std::shared_ptr<GameObject> GetNewGameObject();
 		bool Remove(const std::shared_ptr<GameObject>& object);
 
 		virtual void OnSceneLoad() {};
