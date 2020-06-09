@@ -43,25 +43,26 @@ void OatmealEngine::Renderer::RenderTexture(const Texture2D& texture, const floa
 
 void OatmealEngine::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
 {
-	SDL_Rect dst;
-	dst.x = static_cast<int>(x);
-	dst.y = static_cast<int>(y);
-	dst.w = static_cast<int>(width);
-	dst.h = static_cast<int>(height);
-	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
+	RenderTexture(texture, x, y, width, height, 0);
 }
 
 void OatmealEngine::Renderer::RenderTexture(const Texture2D& texture, float x, float y, float width, float height, float angle) const
 {
-
 	SDL_Rect dst;
 	dst.x = static_cast<int>(x);
 	dst.y = static_cast<int>(y);
-	dst.w = static_cast<int>(width);
-	dst.h = static_cast<int>(height);
+	dst.w = static_cast<int>(abs(width));
+	dst.h = static_cast<int>(abs(height));
 	SDL_Point center;
-	center.x = static_cast<int>(width / 2.f);
-	center.y = static_cast<int>(height / 2.f);
+	center.x = static_cast<int>(abs(width) / 2.f);
+	center.y = static_cast<int>(abs(height) / 2.f);
 
-	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, angle, &center, SDL_FLIP_NONE);
+	if (width >= 0 && height >= 0)
+		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, angle, &center, SDL_FLIP_NONE);
+	else if (width < 0 && height >= 0)
+		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, 0, &center, SDL_FLIP_HORIZONTAL);
+	else if (width >= 0 && height < 0)
+		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, 0, &center, SDL_FLIP_VERTICAL);
+	else
+		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, 0, &center, SDL_RendererFlip(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL));
 }

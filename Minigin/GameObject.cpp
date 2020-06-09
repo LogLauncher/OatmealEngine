@@ -50,7 +50,7 @@ OatmealEngine::TransformComponent& OatmealEngine::GameObject::GetTransform()
 	return m_Transform;
 }
 
-void OatmealEngine::GameObject::AddComponenet(std::shared_ptr<BaseComponent> component)
+void OatmealEngine::GameObject::AddComponent(std::shared_ptr<BaseComponent> component)
 {
 	m_pComponents.push_back(component);
 	component->SetGameObject(shared_from_this());

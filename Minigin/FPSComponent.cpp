@@ -14,7 +14,7 @@ OatmealEngine::FPSComponent::FPSComponent(const std::shared_ptr<Font>& font, con
 void OatmealEngine::FPSComponent::Awake()
 {
 	m_TextComponent = std::make_shared<TextComponent>("00 FPS", m_Font, m_Color);
-	GetGameObject().lock()->AddComponenet(m_TextComponent);
+	GetGameObject().lock()->AddComponent(m_TextComponent);
 }
 
 void OatmealEngine::FPSComponent::Update()

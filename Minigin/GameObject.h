@@ -19,7 +19,7 @@ namespace OatmealEngine
 		void RootRender() const;
 
 		TransformComponent& GetTransform();
-		void AddComponenet(std::shared_ptr<BaseComponent> component);
+		void AddComponent(std::shared_ptr<BaseComponent> component);
 
 	private:
 		TransformComponent m_Transform;
