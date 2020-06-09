@@ -207,7 +207,7 @@
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="MiniginPCH.h" />
     <ClInclude Include="Renderer.h" />
-    <ClInclude Include="Scene.h" />
+    <ClInclude Include="BaseScene.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Texture2D.h" />
   </ItemGroup>
@@ -231,7 +231,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MiniginPCH.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="BaseScene.cpp" />
     <ClCompile Include="Texture2D.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

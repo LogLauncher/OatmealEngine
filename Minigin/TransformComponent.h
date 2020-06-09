@@ -1,10 +1,14 @@
 #pragma once
+#include "gtc/constants.hpp"
 
 namespace OatmealEngine
 {
 	class TransformComponent final
 	{
 	public:
+		//---------
+		// Position
+		//---------
 		const glm::vec3& GetPosition() const
 		{
 			return m_Position; 
@@ -34,7 +38,33 @@ namespace OatmealEngine
 			Translate(position.x, position.y);
 		}
 
-		const glm::vec2& GetScale() const {
+		//---------
+		// Rotation
+		//---------
+		float GetRotation() const
+		{
+			return m_Rotation;
+		}
+		void SetRotaion(float angle, bool isEuler = false)
+		{
+			if (isEuler)
+				m_Rotation = angle * (glm::pi<float>() / 180.f);
+			else
+				m_Rotation = angle;
+		}
+		void Rotate(float angle, bool isEuler = false)
+		{
+			if (isEuler)
+				m_Rotation += angle * (glm::pi<float>() / 180.f);
+			else
+				m_Rotation += angle;
+		}
+
+		//------
+		// Scale
+		//------
+		const glm::vec2& GetScale() const
+		{
 			return m_Scale;
 		}
 		void SetScale(const glm::vec2& scale)
@@ -49,6 +79,7 @@ namespace OatmealEngine
 
 	private:
 		glm::vec3 m_Position;
+		float m_Rotation;
 		glm::vec2 m_Scale{1,1};
 
 	};

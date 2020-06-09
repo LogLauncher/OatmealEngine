@@ -1,7 +1,7 @@
 #include "MiniginPCH.h"
 #include "SceneManager.h"
 
-#include "Scene.h"
+#include "BaseScene.h"
 
 void OatmealEngine::SceneManager::Initialize()
 {
@@ -17,7 +17,7 @@ void OatmealEngine::SceneManager::Initialize()
 	}
 }
 
-void OatmealEngine::SceneManager::AddScene(std::shared_ptr<Scene> scene)
+void OatmealEngine::SceneManager::AddScene(std::shared_ptr<BaseScene> scene)
 {
 	m_Scenes.insert(std::make_pair(scene->GetName(), scene));
 }

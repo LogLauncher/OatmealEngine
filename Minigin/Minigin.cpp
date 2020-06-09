@@ -9,7 +9,7 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 #include "GameObject.h"
-#include "Scene.h"
+#include "BaseScene.h"
 #include "TextureComponent.h"
 #include "TextComponent.h"
 #include "FPSComponent.h"

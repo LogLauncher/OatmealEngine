@@ -1,7 +1,7 @@
 #pragma once
-#include "Scene.h"
+#include "BaseScene.h"
 
-class DemoScene : public OatmealEngine::Scene
+class DemoScene : public OatmealEngine::BaseScene
 {
 public:
 	DemoScene();

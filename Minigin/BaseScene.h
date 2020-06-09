@@ -6,7 +6,7 @@ namespace OatmealEngine
 	class SceneManager;
 	class GameObject;
 
-	class Scene 
+	class BaseScene 
 	{
 	public:
 		void Add(const std::shared_ptr<GameObject>& object);
@@ -15,9 +15,9 @@ namespace OatmealEngine
 		virtual void OnSceneLoad() {};
 		virtual void OnSceneUnload() {};
 
-		explicit Scene(const std::string& name);
-		~Scene() = default;
-		DEL_ROF(Scene);
+		explicit BaseScene(const std::string& name);
+		~BaseScene() = default;
+		DEL_ROF(BaseScene);
 
 		const std::string& GetName() const { return m_Name; }
 

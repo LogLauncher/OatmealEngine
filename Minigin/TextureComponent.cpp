@@ -21,8 +21,9 @@ void OatmealEngine::TextureComponent::Render() const
 {
 	if (m_Texture != nullptr)
 	{
-		const auto& pos{GetGameObject().lock()->GetTransform().GetPosition()};
-		const auto& scale{GetGameObject().lock()->GetTransform().GetScale()};
-		Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y, m_Size.x * scale.x, m_Size.y * scale.y);
+		const auto& transform{GetGameObject().lock()->GetTransform()};
+		const auto& pos{transform.GetPosition()};
+		const auto& scale{transform.GetScale()};
+		Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y, m_Size.x * scale.x, m_Size.y * scale.y, transform.GetRotation());
 	}
 }

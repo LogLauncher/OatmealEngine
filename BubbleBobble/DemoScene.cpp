@@ -10,7 +10,7 @@
 using namespace OatmealEngine;
 
 DemoScene::DemoScene()
-	: Scene("DemoScene")
+	: BaseScene("DemoScene")
 {}
 
 void DemoScene::Initialize()

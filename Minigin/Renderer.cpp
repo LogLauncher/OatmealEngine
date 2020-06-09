@@ -3,6 +3,7 @@
 #include "Renderer.h"
 #include "SceneManager.h"
 #include "Texture2D.h"
+#include "SDL_rect.h"
 
 void OatmealEngine::Renderer::Init(SDL_Window * window)
 {
@@ -48,4 +49,19 @@ void OatmealEngine::Renderer::RenderTexture(const Texture2D& texture, const floa
 	dst.w = static_cast<int>(width);
 	dst.h = static_cast<int>(height);
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
+}
+
+void OatmealEngine::Renderer::RenderTexture(const Texture2D& texture, float x, float y, float width, float height, float angle) const
+{
+
+	SDL_Rect dst;
+	dst.x = static_cast<int>(x);
+	dst.y = static_cast<int>(y);
+	dst.w = static_cast<int>(width);
+	dst.h = static_cast<int>(height);
+	SDL_Point center;
+	center.x = static_cast<int>(width / 2.f);
+	center.y = static_cast<int>(height / 2.f);
+
+	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, angle, &center, SDL_FLIP_NONE);
 }
