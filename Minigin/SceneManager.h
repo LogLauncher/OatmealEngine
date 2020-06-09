@@ -9,8 +9,15 @@ namespace OatmealEngine
 	public:
 		std::shared_ptr<OatmealEngine::Scene> CreateScene(const std::string& name);
 
-		void Update(float deltaTime);
-		void Render();
+		void Awake();
+		void Start();
+
+		void FixedUpdate();
+		void Update();
+		void LateUpdate();
+
+		void Render() const;
+
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;

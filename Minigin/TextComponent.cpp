@@ -18,9 +18,6 @@ OatmealEngine::TextComponent::TextComponent(const std::string& text, const std::
 	UpdateTexture();
 }
 
-void OatmealEngine::TextComponent::Update(float)
-{}
-
 void OatmealEngine::TextComponent::UpdateTexture()
 {
 	const SDL_Color color = m_Color;

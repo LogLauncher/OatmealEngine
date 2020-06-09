@@ -10,16 +10,19 @@ namespace OatmealEngine
 	public:
 		void Add(const std::shared_ptr<GameObject>& object);
 
-		void Update(float deltaTime);
+		void Awake();
+		void Start();
+
+		void FixedUpdate();
+		void Update();
+		void LateUpdate();
+
 		void Render() const;
 
 		explicit Scene(const std::string& name);
 		~Scene() = default;
+		DEL_RO4(Scene);
 
-		Scene(const Scene& other) = delete;
-		Scene(Scene&& other) = delete;
-		Scene& operator=(const Scene& other) = delete;
-		Scene& operator=(Scene&& other) = delete;
 
 	private:
 		std::string m_Name;

@@ -9,9 +9,6 @@ OatmealEngine::TextureComponent::TextureComponent(const std::string& filename)
 	: m_Texture{ResourceManager::GetInstance().LoadTexture(filename)}
 {}
 
-void OatmealEngine::TextureComponent::Update(float)
-{}
-
 void OatmealEngine::TextureComponent::Render() const
 {
 	if (m_Texture != nullptr)

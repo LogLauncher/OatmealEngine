@@ -7,19 +7,21 @@ namespace OatmealEngine
 	class GameObject final : public std::enable_shared_from_this<GameObject>
 	{
 	public:
-		void Update(float deltaTime);
+		GameObject() = default;
+		virtual ~GameObject();
+		DEL_RO4(GameObject);
+
+		void Awake();
+		void Start();
+
+		void FixedUpdate();
+		void Update();
+		void LateUpdate();
+
 		void Render() const;
 
 		TransformComponent& GetTransform();
 		void AddComponenet(std::shared_ptr<BaseComponent> component);
-
-		GameObject() = default;
-		virtual ~GameObject();
-
-		GameObject(const GameObject& other) = delete;
-		GameObject(GameObject&& other) = delete;
-		GameObject& operator=(const GameObject& other) = delete;
-		GameObject& operator=(GameObject&& other) = delete;
 
 	private:
 		TransformComponent m_Transform;

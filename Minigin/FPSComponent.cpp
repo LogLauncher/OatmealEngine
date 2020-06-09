@@ -15,9 +15,9 @@ void OatmealEngine::FPSComponent::Init()
 	m_TextComponent.SetGameObject(GetGameObject());
 }
 
-void OatmealEngine::FPSComponent::Update(float deltaTime)
+void OatmealEngine::FPSComponent::Update()
 {
-	m_FpsTimer += deltaTime;
+	m_FpsTimer += 0.016f;
 	++m_FpsCount;
 	if (m_FpsTimer >= 1.0f)
 	{

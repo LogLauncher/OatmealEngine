@@ -12,10 +12,7 @@ namespace OatmealEngine
 		}
 
 		virtual ~Singleton() = default;
-		Singleton(const Singleton& other) = delete;
-		Singleton(Singleton&& other) = delete;
-		Singleton& operator=(const Singleton& other) = delete;
-		Singleton& operator=(Singleton&& other) = delete;
+		DEL_RO4(Singleton);
 
 	protected:
 		Singleton() = default;

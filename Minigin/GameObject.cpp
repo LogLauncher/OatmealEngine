@@ -4,10 +4,39 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 
-void OatmealEngine::GameObject::Update(float deltaTime)
+OatmealEngine::GameObject::~GameObject()
+{
+	OutputDebugString("Destructor: GameObject\n");
+}
+
+void OatmealEngine::GameObject::Awake()
 {
 	for (const auto& component : m_pComponents)
-		component->Update(deltaTime);
+		component->Awake();
+}
+
+void OatmealEngine::GameObject::Start()
+{
+	for (const auto& component : m_pComponents)
+		component->Start();
+}
+
+void OatmealEngine::GameObject::FixedUpdate()
+{
+	for (const auto& component : m_pComponents)
+		component->FixedUpdate();
+}
+
+void OatmealEngine::GameObject::Update()
+{
+	for (const auto& component : m_pComponents)
+		component->Update();
+}
+
+void OatmealEngine::GameObject::LateUpdate()
+{
+	for (const auto& component : m_pComponents)
+		component->LateUpdate();
 }
 
 void OatmealEngine::GameObject::Render() const
@@ -25,9 +54,4 @@ void OatmealEngine::GameObject::AddComponenet(std::shared_ptr<BaseComponent> com
 {
 	m_pComponents.push_back(component);
 	component->SetGameObject(shared_from_this());
-}
-
-OatmealEngine::GameObject::~GameObject()
-{
-	OutputDebugString("Destructor: GameObject\n");
 }

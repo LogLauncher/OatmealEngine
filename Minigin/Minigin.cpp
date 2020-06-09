@@ -98,6 +98,10 @@ void OatmealEngine::Minigin::Run()
 		bool doContinue = true;
 		auto lastTime{high_resolution_clock::now()};
 		float lag{};
+
+		sceneManager.Awake();
+		sceneManager.Start();
+
 		while (doContinue)
 		{
 			const auto currentTime = high_resolution_clock::now();
@@ -106,11 +110,16 @@ void OatmealEngine::Minigin::Run()
 			lag += deltaTime;
 
 			doContinue = input.ProcessInput();
+
 			while (lag >= MsPerFrame)
 			{
-				sceneManager.Update(MsPerFrame);
+				sceneManager.FixedUpdate();
 				lag -= MsPerFrame;
 			}
+
+			sceneManager.Update();
+			sceneManager.LateUpdate();
+
 			renderer.Render();
 			
 		}
