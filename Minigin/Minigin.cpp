@@ -38,14 +38,6 @@ void OatmealEngine::Minigin::Initialize()
 	Renderer::GetInstance().Init(m_Window);
 }
 
-/**
- * Code constructing the scene world starts here
- */
-void OatmealEngine::Minigin::LoadGame() const
-{
-	SceneManager::GetInstance().Initialize();
-}
-
 void OatmealEngine::Minigin::Cleanup()
 {
 	Renderer::GetInstance().Destroy();
@@ -61,7 +53,7 @@ void OatmealEngine::Minigin::Run()
 	// tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("../Data/");
 
-	LoadGame();
+	SceneManager::GetInstance().Initialize();
 
 	{
 		auto& renderer = Renderer::GetInstance();
