@@ -22,5 +22,6 @@ int main()
 	OatmealEngine::Minigin engine;
 	engine.SetWindowDimentions(720, 720);
 	engine.Run();
+
 	return 0;
 }

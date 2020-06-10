@@ -1,4 +1,5 @@
 #pragma once
+#include "TransformComponent.h"
 
 namespace OatmealEngine
 {
@@ -17,10 +18,10 @@ namespace OatmealEngine
 		virtual void Update() {};
 		virtual void LateUpdate() {};
 
-		virtual void Render() const {};
-
 		void SetGameObject(std::weak_ptr<GameObject> pGameObject);
 		std::weak_ptr<GameObject> GetGameObject() const;
+
+		TransformComponent& GetTransform() const;
 
 	private:
 		std::weak_ptr<GameObject> m_pGameObject;

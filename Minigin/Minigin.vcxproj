@@ -196,6 +196,7 @@
     <ClInclude Include="Components.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="GameTime.h" />
+    <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="TextureComponent.h" />
     <ClInclude Include="TransformComponent.h" />
@@ -215,6 +216,7 @@
     <ClCompile Include="BaseComponent.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="GameTime.cpp" />
+    <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="TextureComponent.cpp" />
     <ClCompile Include="Font.cpp" />

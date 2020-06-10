@@ -78,8 +78,8 @@ namespace OatmealEngine
 		}
 
 	private:
-		glm::vec3 m_Position;
-		float m_Rotation;
+		glm::vec3 m_Position{};
+		float m_Rotation{};
 		glm::vec2 m_Scale{1,1};
 
 	};

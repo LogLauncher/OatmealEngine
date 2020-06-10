@@ -5,67 +5,66 @@
 
 void OatmealEngine::SceneManager::Initialize()
 {
-	for (auto& scene : m_Scenes)
+	for (auto& scene : m_pScenes)
 		scene.second->Initialize();
 
-	if (!m_ActiveScene->m_IsInitialized)
+	auto pActiveScene{m_pActiveScene.lock()};
+	if (!pActiveScene->m_IsInitialized)
 	{
-		m_ActiveScene->RootAwake();
-		m_ActiveScene->RootStart();
-		m_ActiveScene->OnSceneLoad();
-		m_ActiveScene->m_IsInitialized = true;
+		pActiveScene->RootStart();
+		pActiveScene->OnSceneLoad();
+		pActiveScene->m_IsInitialized = true;
 	}
 }
 
-void OatmealEngine::SceneManager::AddScene(std::shared_ptr<BaseScene> scene)
+void OatmealEngine::SceneManager::AddScene(const std::shared_ptr<BaseScene>& scene)
 {
-	m_Scenes.insert(std::make_pair(scene->GetName(), scene));
+	m_pScenes.insert(std::make_pair(scene->GetName(), scene));
 }
 bool OatmealEngine::SceneManager::SetStartScene(const std::string& name)
 {
-	auto it = m_Scenes.find(name);
-	if (it == m_Scenes.end())
+	auto it = m_pScenes.find(name);
+	if (it == m_pScenes.end())
 		return false;
 
 	auto sceneToLoad{(*it).second};
-	m_ActiveScene = sceneToLoad;
+	m_pActiveScene = sceneToLoad;
 
 	return true;
 }
 bool OatmealEngine::SceneManager::LoadScene(const std::string& name)
 {
-	auto it = m_Scenes.find(name);
-	if (it == m_Scenes.end())
+	auto it = m_pScenes.find(name);
+	if (it == m_pScenes.end())
 		return false;
 
 	auto sceneToLoad{(*it).second};
 	if (!sceneToLoad->m_IsInitialized)
 	{
-		sceneToLoad->RootAwake();
 		sceneToLoad->RootStart();
 		sceneToLoad->m_IsInitialized = true;
 	}
 
-	m_ActiveScene->OnSceneUnload();
-	m_ActiveScene = sceneToLoad;
-	m_ActiveScene->OnSceneLoad();
+	m_pActiveScene.lock()->OnSceneUnload();
+	m_pActiveScene = sceneToLoad;
+	m_pActiveScene.lock()->OnSceneLoad();
 
 	return true;
 }
 
 void OatmealEngine::SceneManager::RootFixedUpdate()
 {
-	m_ActiveScene->RootFixedUpdate();
+	m_pActiveScene.lock()->RootFixedUpdate();
 }
 void OatmealEngine::SceneManager::RootUpdate()
 {
-	m_ActiveScene->RootUpdate();
+	m_pActiveScene.lock()->RootUpdate();
 }
 void OatmealEngine::SceneManager::RootLateUpdate()
 {
-	m_ActiveScene->RootLateUpdate();
+	m_pActiveScene.lock()->RootLateUpdate();
 }
 void OatmealEngine::SceneManager::RootRender() const
 {
-	m_ActiveScene->RootRender();
+	m_pActiveScene.lock()->RootRender();
 }

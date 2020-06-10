@@ -5,10 +5,10 @@
 
 namespace OatmealEngine
 {
-	class FPSComponent : public BaseComponent
+	class FPSComponent final : public BaseComponent
 	{
 	public:
-		FPSComponent(const std::shared_ptr<Font>& font, const SDL_Color& color = {255,255,255});
+		FPSComponent(const std::shared_ptr<Font>& pFont, const SDL_Color& color = {255,255,255});
 		virtual ~FPSComponent() = default;
 		DEL_ROF(FPSComponent);
 
@@ -16,8 +16,8 @@ namespace OatmealEngine
 		virtual void Update() override;
 
 	private:
-		std::shared_ptr<TextComponent> m_TextComponent;
-		std::shared_ptr<Font> m_Font;
+		std::weak_ptr<TextComponent> m_pTextComponent;
+		std::shared_ptr<Font> m_pFont;
 		const SDL_Color m_Color;
 
 	};

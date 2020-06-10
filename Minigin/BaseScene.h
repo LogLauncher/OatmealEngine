@@ -5,8 +5,9 @@ namespace OatmealEngine
 {
 	class SceneManager;
 	class GameObject;
+	class RenderComponent;
 
-	class BaseScene 
+	class BaseScene : public std::enable_shared_from_this<BaseScene>
 	{
 	public:
 		std::shared_ptr<GameObject> GetNewGameObject();
@@ -21,13 +22,14 @@ namespace OatmealEngine
 
 		const std::string& GetName() const { return m_Name; }
 
+		void AddRenderComponent(const std::shared_ptr<RenderComponent>& pRenderComponent);
+
 	protected:
 		virtual void Initialize() = 0;
 
 	private:
 		friend class SceneManager;
 
-		void RootAwake();
 		void RootStart();
 		void RootFixedUpdate();
 		void RootUpdate();
@@ -35,7 +37,8 @@ namespace OatmealEngine
 		void RootRender() const;
 
 		std::string m_Name;
-		std::vector<std::shared_ptr<GameObject>> m_Objects{};
+		std::vector<std::shared_ptr<GameObject>> m_pObjects{};
+		std::vector<std::shared_ptr<RenderComponent>> m_pRenderComponents{};
 		bool m_IsInitialized;
 
 	};

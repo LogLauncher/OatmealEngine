@@ -4,6 +4,7 @@
 namespace OatmealEngine
 {
 	class Texture2D;
+	class RenderComponent;
 	class TextureComponent final : public BaseComponent
 	{
 	public:
@@ -11,13 +12,10 @@ namespace OatmealEngine
 		virtual ~TextureComponent() = default;
 		DEL_ROF(TextureComponent);
 
-		void Render() const override;
-
-		const glm::vec2& GetSize() { return m_Size; }
+		virtual void Awake() override;
 
 	private:
-		std::shared_ptr<Texture2D> m_Texture;
-		glm::vec2 m_Size;
+		std::shared_ptr<Texture2D> m_pTexture;
 
 	};
 

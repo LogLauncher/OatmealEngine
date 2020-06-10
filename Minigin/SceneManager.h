@@ -8,7 +8,7 @@ namespace OatmealEngine
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
-		void AddScene(std::shared_ptr<BaseScene> scene);
+		void AddScene(const std::shared_ptr<BaseScene>& scene);
 		bool SetStartScene(const std::string& name);
 		bool LoadScene(const std::string& name);
 
@@ -20,8 +20,9 @@ namespace OatmealEngine
 		friend class Singleton<SceneManager>;
 
 		SceneManager() = default;
-		std::map<std::string, std::shared_ptr<BaseScene>> m_Scenes;
-		std::shared_ptr<BaseScene> m_ActiveScene;
+		~SceneManager() = default;
+		std::map<std::string, std::shared_ptr<BaseScene>> m_pScenes;
+		std::weak_ptr<BaseScene> m_pActiveScene;
 
 		void RootFixedUpdate();
 		void RootUpdate();

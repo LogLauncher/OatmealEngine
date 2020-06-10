@@ -1,5 +1,6 @@
 #pragma once
 struct SDL_Texture;
+
 namespace OatmealEngine
 {
 	/**
@@ -7,17 +8,17 @@ namespace OatmealEngine
 	 */
 	class Texture2D
 	{
-	public:
-		SDL_Texture* GetSDLTexture() const;
+	public:	
 		explicit Texture2D(SDL_Texture* texture);
 		~Texture2D();
+		DEL_ROF(Texture2D);
 
-		Texture2D(const Texture2D &) = delete;
-		Texture2D(Texture2D &&) = delete;
-		Texture2D & operator= (const Texture2D &) = delete;
-		Texture2D & operator= (const Texture2D &&) = delete;
+		SDL_Texture* GetSDLTexture() const;
+		glm::vec2 GetSize() const;
+
 	private:
 		SDL_Texture* m_Texture;
+		glm::vec2 m_Size;
 
 	};
 }

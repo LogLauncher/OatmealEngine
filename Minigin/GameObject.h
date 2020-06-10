@@ -1,14 +1,17 @@
 #pragma once
-#include "BaseComponent.h"
 #include "TransformComponent.h"
 
 namespace OatmealEngine
 {
+	class BaseScene;
+	class BaseComponent;
+	class RenderComponent;
+
 	class GameObject final : public std::enable_shared_from_this<GameObject>
 	{
 	public:
 		GameObject() = default;
-		virtual ~GameObject();
+		virtual ~GameObject() = default;
 		DEL_ROF(GameObject);
 
 		void RootAwake();
@@ -16,13 +19,17 @@ namespace OatmealEngine
 		void RootFixedUpdate();
 		void RootUpdate();
 		void RootLateUpdate();
-		void RootRender() const;
+
+		void SetScene(const std::weak_ptr<BaseScene>& pBaseScene);
+		std::weak_ptr<BaseScene> GetScene() const;
 
 		TransformComponent& GetTransform();
-		void AddComponent(std::shared_ptr<BaseComponent> component);
+		void AddComponent(const std::shared_ptr<BaseComponent>& pComponent);
+		void AddComponent(const std::shared_ptr<RenderComponent>& pComponent);
 
 	private:
 		TransformComponent m_Transform;
+		std::weak_ptr<BaseScene> m_pBaseScene;
 		std::vector<std::shared_ptr<BaseComponent>> m_pComponents;
 
 	};

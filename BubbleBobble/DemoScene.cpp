@@ -29,6 +29,6 @@ void DemoScene::Initialize()
 
 	font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 24);
 	go = GetNewGameObject();
-	auto fpsComp{std::make_shared<FPSComponent>(font, SDL_Color{255,255,0})};
-	go->AddComponent(fpsComp);
+	go->AddComponent(std::make_shared<FPSComponent>(font, SDL_Color{255,255,0}));
+
 }

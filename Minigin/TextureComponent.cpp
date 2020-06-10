@@ -1,29 +1,17 @@
 #include "MiniginPCH.h"
 #include "TextureComponent.h"
 
-#include "Renderer.h"
 #include "GameObject.h"
 #include "ResourceManager.h"
-#include "Texture2D.h"
-#include "SDL_render.h"
+#include "RenderComponent.h"
 
 OatmealEngine::TextureComponent::TextureComponent(const std::string& filename)
-	: m_Texture{ResourceManager::GetInstance().LoadTexture(filename)}
-	, m_Size{}
-{
-	int width{}, height{};
-	SDL_QueryTexture(m_Texture->GetSDLTexture(), nullptr, nullptr, &width, &height);
-	m_Size.x = float(width);
-	m_Size.y = float(height);
-}
+	: m_pTexture{ResourceManager::GetInstance().LoadTexture(filename)}
+{}
 
-void OatmealEngine::TextureComponent::Render() const
+void OatmealEngine::TextureComponent::Awake()
 {
-	if (m_Texture != nullptr)
-	{
-		const auto& transform{GetGameObject().lock()->GetTransform()};
-		const auto& pos{transform.GetPosition()};
-		const auto& scale{transform.GetScale()};
-		Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y, m_Size.x * scale.x, m_Size.y * scale.y, transform.GetRotation());
-	}
+	auto pRenderComponent{std::make_shared<RenderComponent>()};
+	pRenderComponent->SetTexture(m_pTexture);
+	GetGameObject().lock()->AddComponent(pRenderComponent);
 }

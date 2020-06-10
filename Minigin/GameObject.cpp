@@ -1,13 +1,9 @@
 #include "MiniginPCH.h"
 #include "GameObject.h"
 
-#include "Renderer.h"
-#include "ResourceManager.h"
-
-OatmealEngine::GameObject::~GameObject()
-{
-	OutputDebugString("Destructor: GameObject\n");
-}
+#include "BaseScene.h"
+#include "BaseComponent.h"
+#include "RenderComponent.h"
 
 void OatmealEngine::GameObject::RootAwake()
 {
@@ -39,19 +35,31 @@ void OatmealEngine::GameObject::RootLateUpdate()
 		component->LateUpdate();
 }
 
-void OatmealEngine::GameObject::RootRender() const
-{
-	for (const auto& component : m_pComponents)
-		component->Render();
-}
-
 OatmealEngine::TransformComponent& OatmealEngine::GameObject::GetTransform()
 {
 	return m_Transform;
 }
 
-void OatmealEngine::GameObject::AddComponent(std::shared_ptr<BaseComponent> component)
+void OatmealEngine::GameObject::AddComponent(const std::shared_ptr<BaseComponent>& pComponent)
 {
-	m_pComponents.push_back(component);
-	component->SetGameObject(shared_from_this());
+	m_pComponents.push_back(pComponent);
+	pComponent->SetGameObject(shared_from_this());
+	pComponent->Awake();
+}
+
+void OatmealEngine::GameObject::AddComponent(const std::shared_ptr<RenderComponent>& pComponent)
+{
+	m_pBaseScene.lock()->AddRenderComponent(pComponent);
+	pComponent->SetGameObject(shared_from_this());
+	pComponent->Awake();
+}
+
+std::weak_ptr<OatmealEngine::BaseScene> OatmealEngine::GameObject::GetScene() const
+{
+	return m_pBaseScene;
+}
+
+void OatmealEngine::GameObject::SetScene(const std::weak_ptr<BaseScene>& pBaseScene)
+{
+	m_pBaseScene = pBaseScene;
 }
