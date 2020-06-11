@@ -20,6 +20,7 @@ namespace OatmealEngine
 		void SetColor(const SDL_Color& color);
 
 		virtual void Awake() override;
+		virtual void LateUpdate() override;
 
 	private:
 		std::string m_Text;

@@ -10,7 +10,7 @@
 #include "Renderer.h"
 #include "GameObject.h"
 #include "BaseScene.h"
-#include "TextureComponent.h"
+#include "SpriteComponent.h"
 #include "TextComponent.h"
 #include "FPSComponent.h"
 #include "GameTime.h"
@@ -51,7 +51,7 @@ void OatmealEngine::Minigin::Run()
 	Initialize();
 
 	// tell the resource manager where he can find the game data
-	ResourceManager::GetInstance().Init("../Data/");
+	ResourceManager::GetInstance().Init("Resources/");
 
 	SceneManager::GetInstance().Initialize();
 

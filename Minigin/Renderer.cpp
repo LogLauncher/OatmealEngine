@@ -1,5 +1,6 @@
 #include "MiniginPCH.h"
 #include <SDL.h>
+
 #include "Renderer.h"
 #include "SceneManager.h"
 #include "Texture2D.h"
@@ -57,12 +58,30 @@ void OatmealEngine::Renderer::RenderTexture(const Texture2D& texture, float x, f
 	center.x = static_cast<int>(abs(width) / 2.f);
 	center.y = static_cast<int>(abs(height) / 2.f);
 
+	// #TODO add the srcRect
 	if (width >= 0 && height >= 0)
 		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, angle, &center, SDL_FLIP_NONE);
 	else if (width < 0 && height >= 0)
-		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, 0, &center, SDL_FLIP_HORIZONTAL);
+		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, angle, &center, SDL_FLIP_HORIZONTAL);
 	else if (width >= 0 && height < 0)
-		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, 0, &center, SDL_FLIP_VERTICAL);
+		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, angle, &center, SDL_FLIP_VERTICAL);
 	else
-		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, 0, &center, SDL_RendererFlip(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL));
+		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, angle, &center, SDL_RendererFlip(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL));
+}
+
+void OatmealEngine::Renderer::RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, const SDL_Rect& destRect, float angle, const SDL_Point& direction) const
+{
+	SDL_Point center;
+	center.x = static_cast<int>(destRect.w / 2.f);
+	center.y = static_cast<int>(destRect.h / 2.f);
+
+	// #TODO add the srcRect
+	if (direction.x >= 0 && direction.y >= 0)
+		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), &srcRect, &destRect, angle, &center, SDL_FLIP_NONE);
+	else if (direction.x < 0 && direction.y >= 0)
+		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), &srcRect, &destRect, angle, &center, SDL_FLIP_HORIZONTAL);
+	else if (direction.x >= 0 && direction.y < 0)
+		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), &srcRect, &destRect, angle, &center, SDL_FLIP_VERTICAL);
+	else
+		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), &srcRect, &destRect, angle, &center, SDL_RendererFlip(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL));
 }

@@ -20,7 +20,7 @@ int main()
 	InitScenes();
 
 	OatmealEngine::Minigin engine;
-	engine.SetWindowDimentions(720, 720);
+	engine.SetWindowDimentions(1920, 1080);
 	engine.Run();
 
 	return 0;

@@ -22,9 +22,9 @@ OatmealEngine::TextComponent::TextComponent(const std::string& text, const std::
 void OatmealEngine::TextComponent::Awake()
 {
 	auto pRenderComponent{std::make_shared<RenderComponent>()};
+	GetGameObject().lock()->AddComponent(pRenderComponent);
 	pRenderComponent->SetTexture(m_pTexture);
 	m_pRenderComponent = pRenderComponent;
-	GetGameObject().lock()->AddComponent(pRenderComponent);
 }
 
 void OatmealEngine::TextComponent::UpdateTexture()
@@ -42,6 +42,28 @@ void OatmealEngine::TextComponent::UpdateTexture()
 	}
 	SDL_FreeSurface(surf);
 	m_pTexture = std::make_shared<Texture2D>(texture);
+}
+
+void OatmealEngine::TextComponent::LateUpdate()
+{
+	auto& transform{GetTransform()};
+	const auto& pos{transform.GetPosition()};
+	const auto& scale{transform.GetScale()};
+	const auto& size{m_pTexture->GetSize()};
+
+	SDL_Rect destRect{};
+	destRect.x = int(pos.x);
+	destRect.y = int(pos.y);
+	destRect.w = int(abs(size.x * scale.x));
+	destRect.h = int(abs(size.y * scale.y));
+
+	auto pRenderComponent{m_pRenderComponent.lock()};
+	pRenderComponent->SetDestRect(destRect);
+
+	SDL_Point direction{};
+	direction.x = int(Utils::sign(scale.x));
+	direction.y = int(Utils::sign(scale.y));
+	pRenderComponent->SetDirection(direction);
 }
 
 void OatmealEngine::TextComponent::SetText(const std::string& text)

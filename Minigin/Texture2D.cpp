@@ -2,26 +2,16 @@
 #include "Texture2D.h"
 #include <SDL.h>
 
-OatmealEngine::Texture2D::~Texture2D()
-{
-	SDL_DestroyTexture(m_Texture);
-}
-
-SDL_Texture* OatmealEngine::Texture2D::GetSDLTexture() const
-{
-	return m_Texture;
-}
-
-glm::vec2 OatmealEngine::Texture2D::GetSize() const
-{
-	return m_Size;
-}
-
 OatmealEngine::Texture2D::Texture2D(SDL_Texture* texture)
-	: m_Texture{texture}
+	: m_pTexture{texture}
 {
 	int width{}, height{};
-	SDL_QueryTexture(m_Texture, nullptr, nullptr, &width, &height);
-	m_Size.x = float(width);
-	m_Size.y = float(height);
+	SDL_QueryTexture(m_pTexture, nullptr, nullptr, &width, &height);
+	m_Size.x = width;
+	m_Size.y = height;
+}
+
+OatmealEngine::Texture2D::~Texture2D()
+{
+	SDL_DestroyTexture(m_pTexture);
 }

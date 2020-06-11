@@ -3,6 +3,8 @@
 
 struct SDL_Window;
 struct SDL_Renderer;
+struct SDL_Rect;
+struct SDL_Point;
 
 namespace OatmealEngine
 {
@@ -20,6 +22,7 @@ namespace OatmealEngine
 		void RenderTexture(const Texture2D& texture, float x, float y) const;
 		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height) const;
 		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height, float angle) const;
+		void RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, const SDL_Rect& destRect, float angle, const SDL_Point& direction) const;
 
 		SDL_Renderer* GetSDLRenderer() const { return m_Renderer; }
 	private:

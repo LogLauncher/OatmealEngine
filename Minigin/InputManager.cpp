@@ -24,7 +24,6 @@ bool OatmealEngine::InputManager::Update()
 			keyState.emplace_back(e.key.keysym.sym, InputTriggerState::Pressed);
 		if (e.type == SDL_KEYUP && e.key.repeat == 0)
 			keyState.emplace_back(e.key.keysym.sym, InputTriggerState::Released);
-		
 	}
 
 	for (auto& actionPair : m_InputActions)

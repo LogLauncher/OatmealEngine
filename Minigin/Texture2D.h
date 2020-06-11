@@ -1,4 +1,6 @@
 #pragma once
+#include "SDL_rect.h"
+
 struct SDL_Texture;
 
 namespace OatmealEngine
@@ -13,12 +15,13 @@ namespace OatmealEngine
 		~Texture2D();
 		DEL_ROF(Texture2D);
 
-		SDL_Texture* GetSDLTexture() const;
-		glm::vec2 GetSize() const;
+		SDL_Texture* GetSDLTexture() const { return m_pTexture; }
+
+		const SDL_Point& GetSize() const { return m_Size; }
 
 	private:
-		SDL_Texture* m_Texture;
-		glm::vec2 m_Size;
+		SDL_Texture* m_pTexture;
+		SDL_Point m_Size;
 
 	};
 }

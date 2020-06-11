@@ -51,7 +51,6 @@ void OatmealEngine::GameObject::AddComponent(const std::shared_ptr<RenderCompone
 {
 	m_pBaseScene.lock()->AddRenderComponent(pComponent);
 	pComponent->SetGameObject(shared_from_this());
-	pComponent->Awake();
 }
 
 std::weak_ptr<OatmealEngine::BaseScene> OatmealEngine::GameObject::GetScene() const
