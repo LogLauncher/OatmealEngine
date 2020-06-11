@@ -8,14 +8,14 @@ namespace OatmealEngine
 	class TextureComponent final : public BaseComponent
 	{
 	public:
-		TextureComponent(const std::string& filename);
+		TextureComponent(const std::weak_ptr<Texture2D>& pTexture);
 		virtual ~TextureComponent() = default;
 		DEL_ROF(TextureComponent);
 
 		virtual void Awake() override;
 
 	private:
-		std::shared_ptr<Texture2D> m_pTexture;
+		std::weak_ptr<Texture2D> m_pTexture;
 
 	};
 

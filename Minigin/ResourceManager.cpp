@@ -31,18 +31,44 @@ void OatmealEngine::ResourceManager::Init(const std::string& dataPath)
 	}
 }
 
-std::shared_ptr<OatmealEngine::Texture2D> OatmealEngine::ResourceManager::LoadTexture(const std::string& file) const
+bool OatmealEngine::ResourceManager::AddTexture(const std::string& id, const std::string& file)
 {
 	const auto fullPath = m_DataPath + file;
 	auto texture = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.c_str());
-	if (texture == nullptr) 
+	if (texture == nullptr)
 	{
 		throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
 	}
-	return std::make_shared<Texture2D>(texture);
+
+	if (m_pTextures.find(id) != m_pTextures.end())
+		return false;
+
+	m_pTextures.insert(std::make_pair(id, std::make_shared<Texture2D>(texture)));
+	return true;
+}
+std::weak_ptr<OatmealEngine::Texture2D> OatmealEngine::ResourceManager::LoadTexture(const std::string& id) const
+{
+	auto it{m_pTextures.find(id)};
+	if (it == m_pTextures.end())
+		return {};
+
+	return (*it).second;
 }
 
-std::shared_ptr<OatmealEngine::Font> OatmealEngine::ResourceManager::LoadFont(const std::string& file, unsigned int size) const
+bool OatmealEngine::ResourceManager::AddFont(const std::string& id, const std::string& file, unsigned int size)
 {
-	return std::make_shared<Font>(m_DataPath + file, size);
+	if (m_pFonts.find(id) != m_pFonts.end())
+		return false;
+
+	m_pFonts.insert(std::make_pair(id, std::make_shared<Font>(m_DataPath + file, size)));
+	return true;
+
+}
+std::weak_ptr<OatmealEngine::Font> OatmealEngine::ResourceManager::LoadFont(const std::string& id) const
+{
+	auto it{m_pFonts.find(id)};
+	if (it == m_pFonts.end())
+		return {};
+
+	return (*it).second;
 }

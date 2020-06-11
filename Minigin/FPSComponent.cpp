@@ -6,7 +6,7 @@
 #include "GameObject.h"
 #include "FPSComponent.h"
 
-OatmealEngine::FPSComponent::FPSComponent(const std::shared_ptr<Font>& pFont, const SDL_Color& color)
+OatmealEngine::FPSComponent::FPSComponent(const std::weak_ptr<Font>& pFont, const SDL_Color& color)
 	: m_pFont{pFont}
 	, m_Color{color}
 {}

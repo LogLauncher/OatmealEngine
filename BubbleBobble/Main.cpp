@@ -6,7 +6,7 @@
 
 #include <memory>
 
-#include "DemoScene.h"
+#include "Scenes/DemoScene.h"
 #include "SceneManager.h"
 
 void InitScenes()

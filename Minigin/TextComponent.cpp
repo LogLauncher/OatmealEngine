@@ -10,7 +10,7 @@
 #include "TextComponent.h"
 #include "RenderComponent.h"
 
-OatmealEngine::TextComponent::TextComponent(const std::string& text, const std::shared_ptr<Font>& font, const SDL_Color& color)
+OatmealEngine::TextComponent::TextComponent(const std::string& text, const std::weak_ptr<Font>& font, const SDL_Color& color)
 	: m_Text{text}
 	, m_pFont{font}
 	, m_pTexture{nullptr}
@@ -30,7 +30,7 @@ void OatmealEngine::TextComponent::Awake()
 void OatmealEngine::TextComponent::UpdateTexture()
 {
 	const SDL_Color color = m_Color;
-	const auto surf = TTF_RenderText_Blended(m_pFont->GetFont(), m_Text.c_str(), color);
+	const auto surf = TTF_RenderText_Blended(m_pFont.lock()->GetFont(), m_Text.c_str(), color);
 	if (surf == nullptr)
 	{
 		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());

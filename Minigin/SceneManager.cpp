@@ -23,6 +23,7 @@ void OatmealEngine::SceneManager::AddScene(const std::shared_ptr<BaseScene>& sce
 }
 bool OatmealEngine::SceneManager::SetStartScene(const std::string& name)
 {
+	// Check if exists
 	auto it = m_pScenes.find(name);
 	if (it == m_pScenes.end())
 		return false;

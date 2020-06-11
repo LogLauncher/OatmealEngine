@@ -5,8 +5,8 @@
 #include "ResourceManager.h"
 #include "RenderComponent.h"
 
-OatmealEngine::TextureComponent::TextureComponent(const std::string& filename)
-	: m_pTexture{ResourceManager::GetInstance().LoadTexture(filename)}
+OatmealEngine::TextureComponent::TextureComponent(const std::weak_ptr<Texture2D>& pTexture)
+	: m_pTexture{pTexture}
 {}
 
 void OatmealEngine::TextureComponent::Awake()

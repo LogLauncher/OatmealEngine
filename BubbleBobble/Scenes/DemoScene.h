@@ -9,5 +9,8 @@ public:
 
 	virtual void Initialize() override;
 
+private:
+	void LoadResources() const;
+
 };
 

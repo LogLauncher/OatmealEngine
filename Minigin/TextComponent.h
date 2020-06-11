@@ -10,7 +10,7 @@ namespace OatmealEngine
 	class TextComponent final : public BaseComponent
 	{
 	public:
-		TextComponent(const std::string& text, const std::shared_ptr<Font>& font, const SDL_Color& color = {255, 255, 255});
+		TextComponent(const std::string& text, const std::weak_ptr<Font>& font, const SDL_Color& color = {255, 255, 255});
 		virtual ~TextComponent() = default;
 		DEL_ROF(TextComponent);
 
@@ -24,7 +24,7 @@ namespace OatmealEngine
 	private:
 		std::string m_Text;
 		SDL_Color m_Color;
-		std::shared_ptr<Font> m_pFont;
+		std::weak_ptr<Font> m_pFont;
 		std::shared_ptr<Texture2D> m_pTexture;
 		std::weak_ptr<RenderComponent> m_pRenderComponent;
 
