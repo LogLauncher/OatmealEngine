@@ -3,7 +3,7 @@
 
 #include <SDL.h>
 
-bool OatmealEngine::InputManager::ProcessInput()
+bool OatmealEngine::InputManager::Update()
 {
 	// Update Gamepad states
 	m_OldGamepadState = m_CurrentGamepadState;
@@ -92,7 +92,7 @@ bool OatmealEngine::InputManager::IsGamepadButtonDown(GamepadButton button, bool
 	{
 		if (previousFrame)
 		{
-			if (m_OldGamepadState.Gamepad.wButtons == button)
+			if ((m_OldGamepadState.Gamepad.wButtons & button) != 0)
 				return true;
 			if (button == GamepadButton::LEFT_TRIGGER && m_OldGamepadState.Gamepad.bLeftTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
 				return true;
@@ -101,7 +101,7 @@ bool OatmealEngine::InputManager::IsGamepadButtonDown(GamepadButton button, bool
 		}
 		else
 		{
-			if (m_CurrentGamepadState.Gamepad.wButtons == button)
+			if ((m_CurrentGamepadState.Gamepad.wButtons & button) != 0)
 				return true;
 			if (button == GamepadButton::LEFT_TRIGGER && m_CurrentGamepadState.Gamepad.bLeftTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
 				return true;

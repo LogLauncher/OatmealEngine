@@ -73,7 +73,7 @@ void OatmealEngine::Minigin::Run()
 
 			lag += gameTime.DeltaTime();
 
-			doContinue = input.ProcessInput();
+			doContinue = input.Update();
 
 			while (lag >= gameTime.FixedTime())
 			{

@@ -23,6 +23,7 @@ void DemoScene::Initialize()
 
 	go = GetNewGameObject();
 	go->AddComponent(std::make_shared<TextureComponent>(resourceManager.LoadTexture("DAELogo")));
+	go->AddComponent(std::make_shared<ControllerComponent>());
 	go->GetTransform().SetPosition(216, 180);
 
 	go = GetNewGameObject();

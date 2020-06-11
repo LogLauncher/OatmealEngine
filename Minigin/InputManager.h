@@ -68,7 +68,7 @@ namespace OatmealEngine
 	class InputManager final : public Singleton<InputManager>
 	{
 	public:
-		bool ProcessInput();
+		bool Update();
 		bool AddInputAction(InputAction action);
 		bool IsActionTriggered(const std::string& actionID);
 

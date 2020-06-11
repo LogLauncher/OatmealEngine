@@ -193,6 +193,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BaseComponent.h" />
+    <ClInclude Include="ControllerComponent.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="GameTime.h" />
@@ -214,6 +215,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseComponent.cpp" />
+    <ClCompile Include="ControllerComponent.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
