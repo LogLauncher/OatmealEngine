@@ -1,4 +1,4 @@
-#include "DemoScene.h"
+#include "TestScene.h"
 
 #include <memory>
 
@@ -10,21 +10,17 @@
 
 using namespace OatmealEngine;
 
-DemoScene::DemoScene()
-	: BaseScene("DemoScene")
+TestScene::TestScene()
+	: BaseScene("TestScene")
 {}
 
-void DemoScene::Initialize()
+void TestScene::Initialize()
 {
 	LoadResources();
 	auto& resourceManager{ResourceManager::GetInstance()};
 
-	auto go{GetNewGameObject()};
-	go->AddComponent(std::make_shared<SpriteComponent>(resourceManager.LoadTexture("Blocks"), SDL_Point{8, 8}, 0, 9));
-	go->GetTransform().SetPosition(500, 500);
-	go->GetTransform().SetScale(5,5);
-
-	go = GetNewGameObject();
+#pragma region Test components
+	auto go = GetNewGameObject();
 	go->AddComponent(std::make_shared<SpriteComponent>(resourceManager.LoadTexture("BaseBackground")));
 
 	go = GetNewGameObject();
@@ -34,17 +30,32 @@ void DemoScene::Initialize()
 
 	go = GetNewGameObject();
 	go->AddComponent(std::make_shared<TextComponent>("Programming 4 Assignment", resourceManager.LoadFont("Lingua36")));
-	go->GetTransform().SetPosition(80, 20);
+	go->GetTransform().SetPosition(80, 30);
 
 	go = GetNewGameObject();
-	go->AddComponent(std::make_shared<FPSComponent>(resourceManager.LoadFont("Lingua36"), SDL_Color{200,200,200}));
+	go->AddComponent(std::make_shared<FPSComponent>(resourceManager.LoadFont("Lingua24"), SDL_Color{245, 229, 27}));
+#pragma endregion
 
+#pragma region Test game objects
+	go = GetNewGameObject();
+	go->AddComponent(std::make_shared<SpriteComponent>(resourceManager.LoadTexture("Blocks"), SDL_Point{8, 8}, 0, 0));
+	go->GetTransform().SetPosition(720, 0);
+	go->GetTransform().SetScale(5,5);
+
+	go = GetNewGameObject();
+	go->AddComponent(std::make_shared<SpriteComponent>(resourceManager.LoadTexture("Characters"), SDL_Point{16, 16}, 0, 0));
+	go->GetTransform().SetPosition(736, 0);
+	go->GetTransform().SetScale(5,5);
+
+#pragma endregion
 }
 
-void DemoScene::LoadResources() const
+void TestScene::LoadResources() const
 {
 	auto& resourceManager{ResourceManager::GetInstance()};
 	resourceManager.AddTexture("Blocks", "blocks.png");
+	resourceManager.AddTexture("Characters", "characters.png");
+
 	resourceManager.AddTexture("BaseBackground", "background.jpg");
 	resourceManager.AddTexture("DAELogo", "logo.png");
 	resourceManager.AddFont("Lingua36", "Lingua.otf", 36);
