@@ -196,6 +196,7 @@
     <ClInclude Include="ControllerComponent.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="FPSComponent.h" />
+    <ClInclude Include="GameSettings.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="TextComponent.h" />

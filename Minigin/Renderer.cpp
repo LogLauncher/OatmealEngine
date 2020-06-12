@@ -8,7 +8,11 @@
 
 void OatmealEngine::Renderer::Init(SDL_Window * window)
 {
-	m_Renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED /*| SDL_RENDERER_PRESENTVSYNC*/);
+	if (GameSettings::WindowSettings.VSync)
+		m_Renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	else
+		m_Renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
 	if (m_Renderer == nullptr) 
 	{
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());

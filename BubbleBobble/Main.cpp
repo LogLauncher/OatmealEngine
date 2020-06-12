@@ -8,6 +8,7 @@
 
 #include "Scenes/TestScene.h"
 #include "SceneManager.h"
+#include "GameSettings.h"
 
 void InitScenes()
 {
@@ -17,10 +18,16 @@ void InitScenes()
 
 int main()
 {
+	// GameSettings
+	OatmealEngine::GameSettings::WindowSettings.Width = 1920;
+	OatmealEngine::GameSettings::WindowSettings.Height = 1080;
+	OatmealEngine::GameSettings::WindowSettings.VSync = false;
+
+	// Initialize all the scenes
 	InitScenes();
 
+	// Start the engine
 	OatmealEngine::Minigin engine;
-	engine.SetWindowDimentions(1920, 1080);
 	engine.Run();
 
 	return 0;
