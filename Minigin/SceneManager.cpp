@@ -53,15 +53,15 @@ bool OatmealEngine::SceneManager::LoadScene(const std::string& name)
 	return true;
 }
 
-void OatmealEngine::SceneManager::RootFixedUpdate()
+void OatmealEngine::SceneManager::RootFixedUpdate() const
 {
 	m_pActiveScene.lock()->RootFixedUpdate();
 }
-void OatmealEngine::SceneManager::RootUpdate()
+void OatmealEngine::SceneManager::RootUpdate() const
 {
 	m_pActiveScene.lock()->RootUpdate();
 }
-void OatmealEngine::SceneManager::RootLateUpdate()
+void OatmealEngine::SceneManager::RootLateUpdate() const
 {
 	m_pActiveScene.lock()->RootLateUpdate();
 }
@@ -69,6 +69,12 @@ void OatmealEngine::SceneManager::RootRender() const
 {
 	m_pActiveScene.lock()->RootRender();
 }
+
+void OatmealEngine::SceneManager::RootUpdateCollision() const
+{
+	m_pActiveScene.lock()->UpdateCollision();
+}
+
 
 #ifdef _DEBUG
 void OatmealEngine::SceneManager::RootDebugRender() const

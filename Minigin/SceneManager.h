@@ -24,10 +24,11 @@ namespace OatmealEngine
 		std::map<std::string, std::shared_ptr<BaseScene>> m_pScenes;
 		std::weak_ptr<BaseScene> m_pActiveScene;
 
-		void RootFixedUpdate();
-		void RootUpdate();
-		void RootLateUpdate();
+		void RootFixedUpdate() const;
+		void RootUpdate() const;
+		void RootLateUpdate() const;
 		void RootRender() const;
+		void RootUpdateCollision() const;
 #ifdef _DEBUG
 		void RootDebugRender() const;
 #endif

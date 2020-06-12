@@ -81,6 +81,8 @@ void OatmealEngine::Minigin::Run()
 				lag -= gameTime.FixedTime();
 			}
 
+			sceneManager.RootUpdateCollision();
+
 			sceneManager.RootUpdate();
 			sceneManager.RootLateUpdate();
 

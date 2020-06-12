@@ -6,6 +6,7 @@ namespace OatmealEngine
 	class SceneManager;
 	class GameObject;
 	class RenderComponent;
+	class RigidbodyComponent;
 
 	class BaseScene : public std::enable_shared_from_this<BaseScene>
 	{
@@ -23,6 +24,7 @@ namespace OatmealEngine
 		const std::string& GetName() const { return m_Name; }
 
 		void AddRenderComponent(const std::shared_ptr<RenderComponent>& pRenderComponent);
+		void AddRigidbodyComponent(const std::weak_ptr<RigidbodyComponent>& pRigidbodyComponent);
 
 	protected:
 		virtual void Initialize() = 0;
@@ -30,11 +32,13 @@ namespace OatmealEngine
 	private:
 		friend class SceneManager;
 
-		void RootStart();
-		void RootFixedUpdate();
-		void RootUpdate();
-		void RootLateUpdate();
+		void RootStart() const;
+		void RootFixedUpdate() const;
+		void RootUpdate() const;
+		void RootLateUpdate() const;
 		void RootRender() const;
+
+		void UpdateCollision() const;
 
 #ifdef _DEBUG
 		void RootDebugRender() const;
@@ -43,6 +47,7 @@ namespace OatmealEngine
 		std::string m_Name;
 		std::vector<std::shared_ptr<GameObject>> m_pObjects{};
 		std::vector<std::shared_ptr<RenderComponent>> m_pRenderComponents{};
+		std::vector<std::weak_ptr<RigidbodyComponent>> m_pRigidbodyComponents{};
 		bool m_IsInitialized;
 
 	};

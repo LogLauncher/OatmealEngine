@@ -4,6 +4,7 @@
 #include "BaseScene.h"
 #include "BaseComponent.h"
 #include "RenderComponent.h"
+#include "RigidbodyComponent.h"
 
 void OatmealEngine::GameObject::RootAwake()
 {
@@ -51,6 +52,14 @@ void OatmealEngine::GameObject::AddComponent(const std::shared_ptr<RenderCompone
 {
 	m_pBaseScene.lock()->AddRenderComponent(pComponent);
 	pComponent->SetGameObject(shared_from_this());
+}
+
+void OatmealEngine::GameObject::AddComponent(const std::shared_ptr<RigidbodyComponent>& pComponent)
+{
+	m_pComponents.push_back(pComponent);
+	m_pBaseScene.lock()->AddRigidbodyComponent(pComponent);
+	pComponent->SetGameObject(shared_from_this());
+	pComponent->Awake();
 }
 
 std::weak_ptr<OatmealEngine::BaseScene> OatmealEngine::GameObject::GetScene() const

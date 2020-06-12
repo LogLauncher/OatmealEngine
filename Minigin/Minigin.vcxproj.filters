@@ -83,7 +83,10 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="ColliderComponent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidbodyComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -138,7 +141,10 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="ColliderComponent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidbodyComponent.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

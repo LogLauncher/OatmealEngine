@@ -3,6 +3,7 @@
 
 #include "GameObject.h"
 #include "RenderComponent.h"
+#include "RigidbodyComponent.h"
 
 OatmealEngine::BaseScene::BaseScene(const std::string& name)
 	: m_Name(name)
@@ -12,6 +13,11 @@ OatmealEngine::BaseScene::BaseScene(const std::string& name)
 void OatmealEngine::BaseScene::AddRenderComponent(const std::shared_ptr<RenderComponent>& pRenderComponent)
 {
 	m_pRenderComponents.push_back(pRenderComponent);
+}
+
+void OatmealEngine::BaseScene::AddRigidbodyComponent(const std::weak_ptr<RigidbodyComponent>& pRigidbodyComponent)
+{
+	m_pRigidbodyComponents.push_back(pRigidbodyComponent);
 }
 
 std::shared_ptr<OatmealEngine::GameObject> OatmealEngine::BaseScene::GetNewGameObject()
@@ -32,25 +38,25 @@ bool OatmealEngine::BaseScene::Remove(const std::shared_ptr<GameObject>& object)
 	return true;
 }
 
-void OatmealEngine::BaseScene::RootStart()
+void OatmealEngine::BaseScene::RootStart() const
 {
 	for (auto& object : m_pObjects)
 		object->RootStart();
 }
 
-void OatmealEngine::BaseScene::RootFixedUpdate()
+void OatmealEngine::BaseScene::RootFixedUpdate() const
 {
 	for (auto& object : m_pObjects)
 		object->RootFixedUpdate();
 }
 
-void OatmealEngine::BaseScene::RootUpdate()
+void OatmealEngine::BaseScene::RootUpdate() const
 {
 	for(auto& object : m_pObjects)
 		object->RootUpdate();
 }
 
-void OatmealEngine::BaseScene::RootLateUpdate()
+void OatmealEngine::BaseScene::RootLateUpdate() const
 {
 	for (auto& object : m_pObjects)
 		object->RootLateUpdate();
@@ -60,6 +66,16 @@ void OatmealEngine::BaseScene::RootRender() const
 {
 	for (const auto& component : m_pRenderComponents)
 		component->Render();
+}
+
+void OatmealEngine::BaseScene::UpdateCollision() const
+{
+	for (auto& pComponent : m_pRigidbodyComponents)
+	{
+		auto pRigidbody{pComponent.lock()};
+		if (!pRigidbody->IsStatic())
+			pRigidbody->UpdateCollision(m_pRigidbodyComponents);
+	}
 }
 
 #ifdef _DEBUG

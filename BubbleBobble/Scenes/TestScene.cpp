@@ -43,9 +43,19 @@ void TestScene::Initialize()
 	go->GetTransform().SetScale(5,5);
 
 	go = GetNewGameObject();
+	go->AddComponent(std::make_shared<SpriteComponent>(resourceManager.LoadTexture("Blocks"), SDL_Point{8, 8}, 0, 0));
+	auto collider{std::make_shared<ColliderComponent>(8,8)};
+	go->AddComponent(collider);
+	go->AddComponent(std::make_shared<RigidbodyComponent>(collider, true));
+	go->GetTransform().SetPosition(720, 500);
+	go->GetTransform().SetScale(5, 5);
+
+	go = GetNewGameObject();
 	go->AddComponent(std::make_shared<SpriteComponent>(resourceManager.LoadTexture("Characters"), SDL_Point{16, 16}, 0, 0));
 	go->AddComponent(std::make_shared<ControllerComponent>());
-	go->AddComponent(std::make_shared<ColliderComponent>(16,16));
+	collider = std::make_shared<ColliderComponent>(16,16);
+	go->AddComponent(collider);
+	go->AddComponent(std::make_shared<RigidbodyComponent>(collider));
 	go->GetTransform().SetPosition(736, 0);
 	go->GetTransform().SetScale(5,5);
 #pragma endregion

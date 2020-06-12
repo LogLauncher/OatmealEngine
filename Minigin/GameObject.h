@@ -6,6 +6,7 @@ namespace OatmealEngine
 	class BaseScene;
 	class BaseComponent;
 	class RenderComponent;
+	class RigidbodyComponent;
 
 	class GameObject final : public std::enable_shared_from_this<GameObject>
 	{
@@ -30,6 +31,7 @@ namespace OatmealEngine
 		TransformComponent& GetTransform();
 		void AddComponent(const std::shared_ptr<BaseComponent>& pComponent);
 		void AddComponent(const std::shared_ptr<RenderComponent>& pComponent);
+		void AddComponent(const std::shared_ptr<RigidbodyComponent>& pComponent);
 
 	private:
 		TransformComponent m_Transform;

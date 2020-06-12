@@ -25,10 +25,10 @@ namespace OatmealEngine
 		~GameSettings() = default;
 
 		static WindowDetails WindowSettings;
-		static float Gravity;
+		static glm::vec2 Gravity;
 	};
 
 	__declspec(selectany) OatmealEngine::GameSettings::WindowDetails GameSettings::WindowSettings{};
-	__declspec(selectany) float GameSettings::Gravity{9.81f};
+	__declspec(selectany) glm::vec2 GameSettings::Gravity{0, 150.f};
 
 }
