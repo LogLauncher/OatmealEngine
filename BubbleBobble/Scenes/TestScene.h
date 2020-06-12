@@ -11,6 +11,7 @@ public:
 
 private:
 	void LoadResources() const;
+	void CreateBlock(int rowWorld, int colWorld, int rowSpriteSheet, int colSpriteSheet);
 
 };
 

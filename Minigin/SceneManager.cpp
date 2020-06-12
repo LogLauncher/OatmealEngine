@@ -75,7 +75,6 @@ void OatmealEngine::SceneManager::RootUpdateCollision() const
 	m_pActiveScene.lock()->UpdateCollision();
 }
 
-
 #ifdef _DEBUG
 void OatmealEngine::SceneManager::RootDebugRender() const
 {

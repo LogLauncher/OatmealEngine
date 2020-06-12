@@ -27,11 +27,11 @@ void OatmealEngine::ControllerComponent::UpdateMovement() const
 {
 	auto& inputManager{InputManager::GetInstance()};
 	if (inputManager.IsActionTriggered("MoveUp"))
-		GetTransform().Translate(0, -m_SpeedVertical * GameTime::GetInstance().DeltaTime());
+		GetTransform().Translate(0.f, -m_SpeedVertical * GameTime::GetInstance().DeltaTime());
 	if (inputManager.IsActionTriggered("MoveLeft"))
-		GetTransform().Translate(-m_SpeedHorizontal * GameTime::GetInstance().DeltaTime(), 0);
+		GetTransform().Translate(-m_SpeedHorizontal * GameTime::GetInstance().DeltaTime(), 0.f);
 	if (inputManager.IsActionTriggered("MoveDown"))
-		GetTransform().Translate(0, m_SpeedVertical * GameTime::GetInstance().DeltaTime());
+		GetTransform().Translate(0.f, m_SpeedVertical * GameTime::GetInstance().DeltaTime());
 	if (inputManager.IsActionTriggered("MoveRight"))
-		GetTransform().Translate(m_SpeedHorizontal * GameTime::GetInstance().DeltaTime(), 0);
+		GetTransform().Translate(m_SpeedHorizontal * GameTime::GetInstance().DeltaTime(), 0.f);
 }

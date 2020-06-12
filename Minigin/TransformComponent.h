@@ -19,6 +19,12 @@ namespace OatmealEngine
 			m_Position.y = y;
 			m_Position.z = z;
 		}
+		void SetPosition(int x, int y, int z = 0)
+		{
+			m_Position.x = float(x);
+			m_Position.y = float(y);
+			m_Position.z = float(z);
+		}
 		void SetPosition(const glm::vec3& position)
 		{
 			m_Position = position;
@@ -28,6 +34,12 @@ namespace OatmealEngine
 			m_Position.x += x;
 			m_Position.y += y;
 			m_Position.z += z;
+		}
+		void Translate(int x, int y, int z = 0)
+		{
+			m_Position.x += float(x);
+			m_Position.y += float(y);
+			m_Position.z += float(z);
 		}
 		void Translate(const glm::vec3& position)
 		{
