@@ -21,18 +21,6 @@ void TestScene::Initialize()
 
 #pragma region Test components
 	auto go = GetNewGameObject();
-	go->AddComponent(std::make_shared<SpriteComponent>(resourceManager.LoadTexture("BaseBackground")));
-
-	go = GetNewGameObject();
-	go->AddComponent(std::make_shared<SpriteComponent>(resourceManager.LoadTexture("DAELogo")));
-	go->AddComponent(std::make_shared<ControllerComponent>());
-	go->GetTransform().SetPosition(216, 180);
-
-	go = GetNewGameObject();
-	go->AddComponent(std::make_shared<TextComponent>("Programming 4 Assignment", resourceManager.LoadFont("Lingua36")));
-	go->GetTransform().SetPosition(80, 30);
-
-	go = GetNewGameObject();
 	go->AddComponent(std::make_shared<FPSComponent>(resourceManager.LoadFont("Lingua24"), SDL_Color{245, 229, 27}));
 #pragma endregion
 
@@ -69,9 +57,6 @@ void TestScene::LoadResources() const
 	resourceManager.AddTexture("Blocks", "blocks.png");
 	resourceManager.AddTexture("Characters", "characters.png");
 
-	resourceManager.AddTexture("BaseBackground", "background.jpg");
-	resourceManager.AddTexture("DAELogo", "logo.png");
-	resourceManager.AddFont("Lingua36", "Lingua.otf", 36);
 	resourceManager.AddFont("Lingua24", "Lingua.otf", 24);
 }
 

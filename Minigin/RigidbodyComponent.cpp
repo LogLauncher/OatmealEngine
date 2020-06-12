@@ -40,14 +40,19 @@ void OatmealEngine::RigidbodyComponent::UpdateCollision(const std::vector<std::w
 		{
 			if (SDL_IntersectRect(&selfRect, &otherRect, &intersectionRect))
 			{
-				m_Velocity = {};
 				auto& pos{GetTransform().GetPosition()};
-				glm::vec3 otherPos{intersectionRect.x, intersectionRect.y, 0};
-				glm::vec3 moveOut{pos - otherPos};
-				if (abs(moveOut.y) > abs(moveOut.x))
-					GetTransform().Translate(0, int(intersectionRect.h * Utils::Sign(moveOut.y)));
-				else
+				const glm::vec3 otherPos{intersectionRect.x, intersectionRect.y, 0};
+				const glm::vec3 moveOut{pos - otherPos};
+				if (abs(moveOut.x) > abs(moveOut.y) && intersectionRect.w < intersectionRect.h)
+				{
 					GetTransform().Translate(int(intersectionRect.w * Utils::Sign(moveOut.x)), 0);
+					m_Velocity.x = 0;
+				}
+				else if (intersectionRect.h < intersectionRect.w)
+				{
+					GetTransform().Translate(0, int(intersectionRect.h * Utils::Sign(moveOut.y)));
+					m_Velocity.y = 0;
+				}
 			}
 		}
 	}
