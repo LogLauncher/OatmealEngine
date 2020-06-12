@@ -20,7 +20,7 @@ void OatmealEngine::BaseScene::AddRigidbodyComponent(const std::weak_ptr<Rigidbo
 	m_pRigidbodyComponents.push_back(pRigidbodyComponent);
 }
 
-std::shared_ptr<OatmealEngine::GameObject> OatmealEngine::BaseScene::GetNewGameObject()
+std::shared_ptr<OatmealEngine::GameObject> OatmealEngine::BaseScene::NewGameObject()
 {
 	auto gameObject{std::make_shared<GameObject>()};
 	gameObject->SetScene(shared_from_this());

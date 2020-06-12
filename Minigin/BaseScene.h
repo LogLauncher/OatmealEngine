@@ -11,7 +11,7 @@ namespace OatmealEngine
 	class BaseScene : public std::enable_shared_from_this<BaseScene>
 	{
 	public:
-		std::shared_ptr<GameObject> GetNewGameObject();
+		std::shared_ptr<GameObject> NewGameObject();
 		bool Remove(const std::shared_ptr<GameObject>& object);
 
 		virtual void OnSceneLoad() {};

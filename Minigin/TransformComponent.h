@@ -88,6 +88,14 @@ namespace OatmealEngine
 			m_Scale.x = x;
 			m_Scale.y = y;
 		}
+		void InvertXScale()
+		{
+			m_Scale.x *= -1;
+		}
+		void InvertYScale()
+		{
+			m_Scale.y *= -1;
+		}
 
 	private:
 		glm::vec3 m_Position{};

@@ -26,9 +26,9 @@ void OatmealEngine::ColliderComponent::LateUpdate()
 
 void OatmealEngine::ColliderComponent::UpdateSize()
 {
-	auto& transform{GetTransform()};
-	m_Size.x = int(m_OriginalSize.x * transform.GetScale().x);
-	m_Size.y = int(m_OriginalSize.y * transform.GetScale().y);
+	const auto& scale{GetTransform().GetScale()};
+	m_Size.x = int(m_OriginalSize.x * abs(scale.x));
+	m_Size.y = int(m_OriginalSize.y * abs(scale.y));
 }
 
 #ifdef _DEBUG
