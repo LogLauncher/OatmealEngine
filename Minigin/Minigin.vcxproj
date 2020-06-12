@@ -193,6 +193,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BaseComponent.h" />
+    <ClInclude Include="BinaryReader.h" />
     <ClInclude Include="ControllerComponent.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="FPSComponent.h" />
@@ -217,6 +218,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseComponent.cpp" />
+    <ClCompile Include="BinaryReader.cpp" />
     <ClCompile Include="ControllerComponent.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="GameTime.cpp" />
