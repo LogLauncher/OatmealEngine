@@ -18,6 +18,10 @@ namespace OatmealEngine
 		virtual void Update() {};
 		virtual void LateUpdate() {};
 
+#ifdef _DEBUG
+		virtual void DebugRender() {};
+#endif // _DEBUG
+
 		void SetGameObject(std::weak_ptr<GameObject> pGameObject);
 		std::weak_ptr<GameObject> GetGameObject() const;
 

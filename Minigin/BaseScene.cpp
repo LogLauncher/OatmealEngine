@@ -61,3 +61,11 @@ void OatmealEngine::BaseScene::RootRender() const
 	for (const auto& component : m_pRenderComponents)
 		component->Render();
 }
+
+#ifdef _DEBUG
+void OatmealEngine::BaseScene::RootDebugRender() const
+{
+	for (auto& object : m_pObjects)
+		object->RootDebugRender();
+}
+#endif

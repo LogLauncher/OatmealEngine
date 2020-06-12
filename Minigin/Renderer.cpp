@@ -6,14 +6,14 @@
 #include "Texture2D.h"
 #include "SDL_rect.h"
 
-void OatmealEngine::Renderer::Init(SDL_Window * window)
+void OatmealEngine::Renderer::Init(SDL_Window* pWindow)
 {
 	if (GameSettings::WindowSettings.VSync)
-		m_Renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+		m_pRenderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	else
-		m_Renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+		m_pRenderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED);
 
-	if (m_Renderer == nullptr) 
+	if (m_pRenderer == nullptr) 
 	{
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
@@ -21,19 +21,23 @@ void OatmealEngine::Renderer::Init(SDL_Window * window)
 
 void OatmealEngine::Renderer::Render() const
 {
-	SDL_RenderClear(m_Renderer);
+	SDL_RenderClear(m_pRenderer);
 
 	SceneManager::GetInstance().RootRender();
+#ifdef _DEBUG
+	SceneManager::GetInstance().RootDebugRender();
+	SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
+#endif
 	
-	SDL_RenderPresent(m_Renderer);
+	SDL_RenderPresent(m_pRenderer);
 }
 
 void OatmealEngine::Renderer::Destroy()
 {
-	if (m_Renderer != nullptr)
+	if (m_pRenderer != nullptr)
 	{
-		SDL_DestroyRenderer(m_Renderer);
-		m_Renderer = nullptr;
+		SDL_DestroyRenderer(m_pRenderer);
+		m_pRenderer = nullptr;
 	}
 }
 

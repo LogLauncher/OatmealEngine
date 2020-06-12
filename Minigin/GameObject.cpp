@@ -62,3 +62,11 @@ void OatmealEngine::GameObject::SetScene(const std::weak_ptr<BaseScene>& pBaseSc
 {
 	m_pBaseScene = pBaseScene;
 }
+
+#ifdef _DEBUG
+void OatmealEngine::GameObject::RootDebugRender() const
+{
+	for (const auto& component : m_pComponents)
+		component->DebugRender();
+}
+#endif // _DEBUG

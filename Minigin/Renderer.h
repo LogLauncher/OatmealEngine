@@ -15,7 +15,7 @@ namespace OatmealEngine
 	class Renderer final : public Singleton<Renderer>
 	{
 	public:
-		void Init(SDL_Window* window);
+		void Init(SDL_Window* pWindow);
 		void Render() const;
 		void Destroy();
 
@@ -24,9 +24,9 @@ namespace OatmealEngine
 		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height, float angle) const;
 		void RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, const SDL_Rect& destRect, float angle, const SDL_Point& direction) const;
 
-		SDL_Renderer* GetSDLRenderer() const { return m_Renderer; }
+		SDL_Renderer* GetSDLRenderer() const { return m_pRenderer; }
 	private:
-		SDL_Renderer* m_Renderer{};
+		SDL_Renderer* m_pRenderer{};
 	};
 }
 

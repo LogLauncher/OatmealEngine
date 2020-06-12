@@ -20,6 +20,10 @@ namespace OatmealEngine
 		void RootUpdate();
 		void RootLateUpdate();
 
+#ifdef _DEBUG
+		void RootDebugRender() const;
+#endif
+
 		void SetScene(const std::weak_ptr<BaseScene>& pBaseScene);
 		std::weak_ptr<BaseScene> GetScene() const;
 

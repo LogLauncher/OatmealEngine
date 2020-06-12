@@ -36,6 +36,10 @@ namespace OatmealEngine
 		void RootLateUpdate();
 		void RootRender() const;
 
+#ifdef _DEBUG
+		void RootDebugRender() const;
+#endif
+
 		std::string m_Name;
 		std::vector<std::shared_ptr<GameObject>> m_pObjects{};
 		std::vector<std::shared_ptr<RenderComponent>> m_pRenderComponents{};

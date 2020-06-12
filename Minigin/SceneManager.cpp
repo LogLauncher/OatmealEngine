@@ -69,3 +69,10 @@ void OatmealEngine::SceneManager::RootRender() const
 {
 	m_pActiveScene.lock()->RootRender();
 }
+
+#ifdef _DEBUG
+void OatmealEngine::SceneManager::RootDebugRender() const
+{
+	m_pActiveScene.lock()->RootDebugRender();
+}
+#endif

@@ -44,9 +44,10 @@ void TestScene::Initialize()
 
 	go = GetNewGameObject();
 	go->AddComponent(std::make_shared<SpriteComponent>(resourceManager.LoadTexture("Characters"), SDL_Point{16, 16}, 0, 0));
+	go->AddComponent(std::make_shared<ControllerComponent>());
+	go->AddComponent(std::make_shared<ColliderComponent>(16,16));
 	go->GetTransform().SetPosition(736, 0);
 	go->GetTransform().SetScale(5,5);
-
 #pragma endregion
 }
 

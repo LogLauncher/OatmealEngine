@@ -28,6 +28,9 @@ namespace OatmealEngine
 		void RootUpdate();
 		void RootLateUpdate();
 		void RootRender() const;
+#ifdef _DEBUG
+		void RootDebugRender() const;
+#endif
 
 	};
 }
