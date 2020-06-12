@@ -13,6 +13,7 @@ OatmealEngine::RigidbodyComponent::RigidbodyComponent(const std::weak_ptr<Collid
 	, m_Velocity{0,0}
 	, m_HasGravity{true}
 	, m_IsStatic{isStatic}
+	, m_IsGrounded{false}
 {}
 
 void OatmealEngine::RigidbodyComponent::FixedUpdate()
@@ -51,6 +52,8 @@ void OatmealEngine::RigidbodyComponent::UpdateCollision(const std::vector<std::w
 				else if (intersectionRect.h < intersectionRect.w)
 				{
 					GetTransform().Translate(0, int(intersectionRect.h * Utils::Sign(moveOut.y)));
+					if (m_Velocity.y > 0)
+						m_IsGrounded = true;
 					m_Velocity.y = 0;
 				}
 			}

@@ -32,6 +32,8 @@ namespace OatmealEngine
 		void AddComponent(const std::shared_ptr<BaseComponent>& pComponent);
 		void AddComponent(const std::shared_ptr<RenderComponent>& pComponent);
 		void AddComponent(const std::shared_ptr<RigidbodyComponent>& pComponent);
+		template <class T>
+		std::weak_ptr<T> GetComponent() const;
 
 	private:
 		TransformComponent m_Transform;
@@ -39,4 +41,17 @@ namespace OatmealEngine
 		std::vector<std::shared_ptr<BaseComponent>> m_pComponents;
 
 	};
+
+	template <class T>
+	std::weak_ptr<T> OatmealEngine::GameObject::GetComponent() const
+	{
+		const type_info& ti = typeid(T);
+		for (auto pComponent : m_pComponents)
+		{
+			if (pComponent && typeid(*pComponent) == ti)
+				return std::static_pointer_cast<T>(pComponent);
+		}
+		return {};
+	}
+
 }

@@ -22,7 +22,7 @@ int main()
 	OatmealEngine::GameSettings::WindowSettings.Width = 1920;
 	OatmealEngine::GameSettings::WindowSettings.Height = 1080;
 	OatmealEngine::GameSettings::WindowSettings.VSync = false;
-	OatmealEngine::GameSettings::Gravity = {0,500.f};
+	OatmealEngine::GameSettings::Gravity = {0,750.f};
 
 	// Initialize all the scenes
 	InitScenes();

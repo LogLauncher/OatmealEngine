@@ -42,7 +42,7 @@ void TestScene::Initialize()
 
 	go = NewGameObject();
 	go->AddComponent(std::make_shared<SpriteComponent>(resourceManager.LoadTexture("Characters"), SDL_Point{16, 16}, 0, 0));
-	go->AddComponent(std::make_shared<ControllerComponent>(500.f,0.f));
+	go->AddComponent(std::make_shared<ControllerComponent>(500.f,0.f, 500.f));
 	auto collider = std::make_shared<ColliderComponent>(16,16);
 	go->AddComponent(collider);
 	go->AddComponent(std::make_shared<RigidbodyComponent>(collider));

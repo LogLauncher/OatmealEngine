@@ -21,6 +21,9 @@ namespace OatmealEngine
 		void SetVelocity(const glm::vec2& velocity) { m_Velocity = velocity; }
 		const glm::vec2& GetVelocity() const { return m_Velocity; }
 
+		void SetGrounded(bool isGrounded) { m_IsGrounded = isGrounded; }
+		bool IsGrounded() { return m_IsGrounded; }
+
 		void EnableGravity(bool hasGravity) { m_HasGravity = hasGravity; }
 		
 		bool IsStatic() const { return m_IsStatic; }
@@ -28,6 +31,8 @@ namespace OatmealEngine
 	private:
 		glm::vec2 m_Velocity;
 		std::weak_ptr<ColliderComponent> m_pCollider;
+
+		bool m_IsGrounded;
 
 		bool m_HasGravity;
 		bool m_IsStatic;
