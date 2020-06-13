@@ -7,7 +7,7 @@
 #include "InputManager.h"
 #include "GameSettings.h"
 
-PlayerComponent::PlayerComponent(int playerNr)
+PlayerComponent::PlayerComponent(OatmealEngine::PlayerIndex playerNr)
 	: m_PlayerNr{playerNr}
 	, m_SpeedH{250.f}
 	, m_JumpForce{470.f}
@@ -18,17 +18,17 @@ void PlayerComponent::Awake()
 	auto& inputManager{OatmealEngine::InputManager::GetInstance()};
 	switch (m_PlayerNr)
 	{
-	case 1:
-		inputManager.AddInputAction(OatmealEngine::InputAction("MoveLeft" + m_PlayerNr, OatmealEngine::InputTriggerState::Down, SDLK_LEFT, OatmealEngine::GamepadButton::DPAD_LEFT));
-		inputManager.AddInputAction(OatmealEngine::InputAction("MoveRight" + m_PlayerNr, OatmealEngine::InputTriggerState::Down, SDLK_RIGHT, OatmealEngine::GamepadButton::DPAD_RIGHT));
-		inputManager.AddInputAction(OatmealEngine::InputAction("Jump" + m_PlayerNr, OatmealEngine::InputTriggerState::Pressed, SDLK_UP, OatmealEngine::GamepadButton::DPAD_UP));
-		inputManager.AddInputAction(OatmealEngine::InputAction("Shoot" + m_PlayerNr, OatmealEngine::InputTriggerState::Pressed, SDLK_RCTRL, OatmealEngine::GamepadButton::A));
+	case OatmealEngine::PlayerIndex::PlayerOne:
+		inputManager.AddInputAction(OatmealEngine::InputAction("MoveLeft", OatmealEngine::InputTriggerState::Down, SDLK_LEFT, OatmealEngine::GamepadButton::DPAD_LEFT, OatmealEngine::PlayerIndex::PlayerOne));
+		inputManager.AddInputAction(OatmealEngine::InputAction("MoveRight", OatmealEngine::InputTriggerState::Down, SDLK_RIGHT, OatmealEngine::GamepadButton::DPAD_RIGHT, OatmealEngine::PlayerIndex::PlayerOne));
+		inputManager.AddInputAction(OatmealEngine::InputAction("Jump", OatmealEngine::InputTriggerState::Pressed, SDLK_UP, OatmealEngine::GamepadButton::DPAD_UP, OatmealEngine::PlayerIndex::PlayerOne));
+		inputManager.AddInputAction(OatmealEngine::InputAction("Shoot", OatmealEngine::InputTriggerState::Pressed, SDLK_RCTRL, OatmealEngine::GamepadButton::A, OatmealEngine::PlayerIndex::PlayerOne));
 		break;
-	case 2:
-		inputManager.AddInputAction(OatmealEngine::InputAction("MoveLeft" + m_PlayerNr, OatmealEngine::InputTriggerState::Down, SDLK_a, OatmealEngine::GamepadButton::DPAD_LEFT));
-		inputManager.AddInputAction(OatmealEngine::InputAction("MoveRight" + m_PlayerNr, OatmealEngine::InputTriggerState::Down, SDLK_d, OatmealEngine::GamepadButton::DPAD_RIGHT));
-		inputManager.AddInputAction(OatmealEngine::InputAction("Jump" + m_PlayerNr, OatmealEngine::InputTriggerState::Pressed, SDLK_w, OatmealEngine::GamepadButton::DPAD_UP));
-		inputManager.AddInputAction(OatmealEngine::InputAction("Shoot" + m_PlayerNr, OatmealEngine::InputTriggerState::Pressed, SDLK_LCTRL, OatmealEngine::GamepadButton::A));
+	case OatmealEngine::PlayerIndex::PlayerTwo:
+		inputManager.AddInputAction(OatmealEngine::InputAction("MoveLeft", OatmealEngine::InputTriggerState::Down, SDLK_a, OatmealEngine::GamepadButton::DPAD_LEFT, OatmealEngine::PlayerIndex::PlayerTwo));
+		inputManager.AddInputAction(OatmealEngine::InputAction("MoveRight", OatmealEngine::InputTriggerState::Down, SDLK_d, OatmealEngine::GamepadButton::DPAD_RIGHT, OatmealEngine::PlayerIndex::PlayerTwo));
+		inputManager.AddInputAction(OatmealEngine::InputAction("Jump", OatmealEngine::InputTriggerState::Pressed, SDLK_w, OatmealEngine::GamepadButton::DPAD_UP, OatmealEngine::PlayerIndex::PlayerTwo));
+		inputManager.AddInputAction(OatmealEngine::InputAction("Shoot", OatmealEngine::InputTriggerState::Pressed, SDLK_LCTRL, OatmealEngine::GamepadButton::A, OatmealEngine::PlayerIndex::PlayerTwo));
 		break;
 	default:
 		break;
@@ -65,8 +65,9 @@ void PlayerComponent::UpdateMovement()
 	auto pAnimaion{m_pAnimationComponent.lock()};
 	auto& inputManager{OatmealEngine::InputManager::GetInstance()};
 
+	UINT playerIndex = static_cast<UINT>(m_PlayerNr);
 	bool doingSomething{false};
-	if (inputManager.IsActionTriggered("MoveLeft" + m_PlayerNr))
+	if (inputManager.IsActionTriggered("MoveLeft" + std::to_string(playerIndex)))
 	{
 		pAnimaion->Play("Move");
 		transform.Translate(-m_SpeedH * OatmealEngine::GameTime::GetInstance().DeltaTime(), 0.f);
@@ -74,7 +75,7 @@ void PlayerComponent::UpdateMovement()
 			transform.InvertXScale();
 		doingSomething = true;
 	}
-	if (inputManager.IsActionTriggered("MoveRight" + m_PlayerNr))
+	if (inputManager.IsActionTriggered("MoveRight" + std::to_string(playerIndex)))
 	{
 		pAnimaion->Play("Move");
 		transform.Translate(m_SpeedH * OatmealEngine::GameTime::GetInstance().DeltaTime(), 0.f);
@@ -82,7 +83,7 @@ void PlayerComponent::UpdateMovement()
 			transform.InvertXScale();
 		doingSomething = true;
 	}
-	if (inputManager.IsActionTriggered("Jump" + m_PlayerNr) && pRigidbody->IsGrounded())
+	if (inputManager.IsActionTriggered("Jump" + std::to_string(playerIndex)) && pRigidbody->IsGrounded())
 	{
 		pRigidbody->AddForce({0, -m_JumpForce});
 		pRigidbody->SetGrounded(false);

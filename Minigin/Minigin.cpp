@@ -64,6 +64,7 @@ void OatmealEngine::Minigin::Run()
 		bool doContinue = true;
 		float lag{};
 
+		input.Initialize();
 		gameTime.Init();
 
 		while (doContinue)

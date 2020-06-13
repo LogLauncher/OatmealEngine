@@ -3,12 +3,25 @@
 
 #include <SDL.h>
 
+void OatmealEngine::InputManager::Initialize()
+{
+	if (m_IsInitialized)
+		return;
+
+	for (DWORD i = 0; i < XUSER_MAX_COUNT; ++i)
+	{
+		XINPUT_STATE state;
+		ZeroMemory(&state, sizeof(XINPUT_STATE));
+		const DWORD dwResult = XInputGetState(i, &state);
+		m_ConnectedGamepads[i] = (dwResult == ERROR_SUCCESS);
+	}
+	m_IsInitialized = true;
+}
+
 bool OatmealEngine::InputManager::Update()
 {
 	// Update Gamepad states
-	m_OldGamepadState = m_CurrentGamepadState;
-	ZeroMemory(&m_CurrentGamepadState, sizeof(XINPUT_STATE));
-	XInputGetState(0, &m_CurrentGamepadState);
+	UpdateGamepadStates();
 
 	// Update keyboard
 	const Uint8* keyboardState = SDL_GetKeyboardState(nullptr);
@@ -36,7 +49,7 @@ bool OatmealEngine::InputManager::Update()
 		case InputTriggerState::Pressed:
 			// GamePad
 			if (!currentAction.IsTriggered)
-				if (!IsGamepadButtonDown(currentAction.GamepadButtonCode, true) && IsGamepadButtonDown(currentAction.GamepadButtonCode))
+				if (!IsGamepadButtonDown(currentAction.GamepadButtonCode, currentAction.PlayerNr, true) && IsGamepadButtonDown(currentAction.GamepadButtonCode, currentAction.PlayerNr))
 					currentAction.IsTriggered = true;
 			// Keyboard
 			if (!currentAction.IsTriggered)
@@ -47,7 +60,7 @@ bool OatmealEngine::InputManager::Update()
 		case InputTriggerState::Down:
 			// GamePad
 			if (!currentAction.IsTriggered)
-				if (IsGamepadButtonDown(currentAction.GamepadButtonCode, true) && IsGamepadButtonDown(currentAction.GamepadButtonCode))
+				if (IsGamepadButtonDown(currentAction.GamepadButtonCode, currentAction.PlayerNr, true) && IsGamepadButtonDown(currentAction.GamepadButtonCode, currentAction.PlayerNr))
 					currentAction.IsTriggered = true;
 			// Keyboard
 			if (!currentAction.IsTriggered)
@@ -57,7 +70,7 @@ bool OatmealEngine::InputManager::Update()
 		case InputTriggerState::Released:
 			// GamePad
 			if (!currentAction.IsTriggered)
-				if (IsGamepadButtonDown(currentAction.GamepadButtonCode, true) && !IsGamepadButtonDown(currentAction.GamepadButtonCode))
+				if (IsGamepadButtonDown(currentAction.GamepadButtonCode, currentAction.PlayerNr, true) && !IsGamepadButtonDown(currentAction.GamepadButtonCode, currentAction.PlayerNr))
 					currentAction.IsTriggered = true;
 			// Keyboard
 			if (!currentAction.IsTriggered)
@@ -76,35 +89,38 @@ bool OatmealEngine::InputManager::IsActionTriggered(const std::string& actionID)
 }
 bool OatmealEngine::InputManager::AddInputAction(InputAction action)
 {
-	auto it{m_InputActions.find(action.ActionID)};
+	UINT playerIndex = static_cast<UINT>(action.PlayerNr);
+	std::string actionId{action.ActionID + std::to_string(playerIndex)};
+	auto it{m_InputActions.find(actionId)};
 	if (it != m_InputActions.end())
 		return false;
 
-	m_InputActions.insert(std::make_pair(action.ActionID, action));
+	m_InputActions.insert(std::make_pair(actionId, action));
 
 	return true;
 }
 
-bool OatmealEngine::InputManager::IsGamepadButtonDown(GamepadButton button, bool previousFrame)
+bool OatmealEngine::InputManager::IsGamepadButtonDown(GamepadButton button, PlayerIndex playerNr, bool previousFrame)
 {
 	if (button != GamepadButton::INVALID)
 	{
+		UINT playerIndex = static_cast<UINT>(playerNr);
 		if (previousFrame)
 		{
-			if ((m_OldGamepadState.Gamepad.wButtons & button) != 0)
+			if ((m_OldGamepadState[playerIndex].Gamepad.wButtons & button) != 0)
 				return true;
-			if (button == GamepadButton::LEFT_TRIGGER && m_OldGamepadState.Gamepad.bLeftTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
+			if (button == GamepadButton::LEFT_TRIGGER && m_OldGamepadState[playerIndex].Gamepad.bLeftTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
 				return true;
-			if (button == GamepadButton::RIGHT_TRIGGER && m_OldGamepadState.Gamepad.bRightTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
+			if (button == GamepadButton::RIGHT_TRIGGER && m_OldGamepadState[playerIndex].Gamepad.bRightTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
 				return true;
 		}
 		else
 		{
-			if ((m_CurrentGamepadState.Gamepad.wButtons & button) != 0)
+			if ((m_CurrentGamepadState[playerIndex].Gamepad.wButtons & button) != 0)
 				return true;
-			if (button == GamepadButton::LEFT_TRIGGER && m_CurrentGamepadState.Gamepad.bLeftTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
+			if (button == GamepadButton::LEFT_TRIGGER && m_CurrentGamepadState[playerIndex].Gamepad.bLeftTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
 				return true;
-			if (button == GamepadButton::RIGHT_TRIGGER && m_CurrentGamepadState.Gamepad.bRightTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
+			if (button == GamepadButton::RIGHT_TRIGGER && m_CurrentGamepadState[playerIndex].Gamepad.bRightTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
 				return true;
 		}
 	}
@@ -124,3 +140,16 @@ bool OatmealEngine::InputManager::IsKeyboardKeyDown(const std::vector<std::pair<
 	return false;
 }
 
+void OatmealEngine::InputManager::UpdateGamepadStates()
+{
+	for (DWORD i = 0; i < XUSER_MAX_COUNT; ++i)
+	{
+		if (!m_ConnectedGamepads[i])
+			return;
+
+		m_OldGamepadState[i] = m_CurrentGamepadState[i];
+
+		const DWORD dwResult = XInputGetState(i, &m_CurrentGamepadState[i]);
+		m_ConnectedGamepads[i] = (dwResult == ERROR_SUCCESS);
+	}
+}

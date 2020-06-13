@@ -3,11 +3,12 @@
 
 #include "RigidbodyComponent.h"
 #include "AnimationComponent.h"
+#include "InputManager.h"
 
 class PlayerComponent final : public OatmealEngine::BaseComponent
 {
 public:
-	explicit PlayerComponent(int playerNr);
+	explicit PlayerComponent(OatmealEngine::PlayerIndex playerNr);
 	virtual ~PlayerComponent() = default;
 	DEL_ROF(PlayerComponent);
 
@@ -17,7 +18,7 @@ public:
 
 
 private:
-	int m_PlayerNr;
+	OatmealEngine::PlayerIndex m_PlayerNr;
 
 	float m_SpeedH;
 	float m_JumpForce;

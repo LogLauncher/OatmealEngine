@@ -8,6 +8,13 @@
 
 namespace OatmealEngine
 {
+	enum class PlayerIndex : DWORD
+	{
+		PlayerOne = 0,
+		PlayerTwo = 1,
+		PlayerThree = 2,
+		PlayerFour = 3,
+	};
 	enum class InputTriggerState
 	{
 		Pressed,
@@ -44,41 +51,52 @@ namespace OatmealEngine
 
 	struct InputAction
 	{
-		InputAction() :
-			ActionID(""),
-			TriggerState(InputTriggerState::Pressed),
-			KeyboardCode(-1),
-			GamepadButtonCode(GamepadButton::INVALID),
-			IsTriggered(false) {}
+		InputAction()
+			: ActionID("")
+			, TriggerState(InputTriggerState::Pressed)
+			, KeyboardCode(-1)
+			, GamepadButtonCode(GamepadButton::INVALID)
+			, PlayerNr(PlayerIndex::PlayerOne)
+			, IsTriggered(false)
+		{}
 
-		InputAction(const std::string& actionID, InputTriggerState triggerState = InputTriggerState::Pressed, SDL_Keycode keyboardCode = -1, GamepadButton gamepadButtonCode = GamepadButton::INVALID) :
-			ActionID(actionID),
-			TriggerState(triggerState),
-			KeyboardCode(keyboardCode),
-			GamepadButtonCode(gamepadButtonCode),
-			IsTriggered(false) {}
+		InputAction(const std::string& actionID, InputTriggerState triggerState = InputTriggerState::Pressed, SDL_Keycode keyboardCode = -1, GamepadButton gamepadButtonCode = GamepadButton::INVALID, PlayerIndex playerNr = PlayerIndex::PlayerOne)
+			: ActionID(actionID)
+			, TriggerState(triggerState)
+			, KeyboardCode(keyboardCode)
+			, GamepadButtonCode(gamepadButtonCode)
+			, PlayerNr(playerNr)
+			, IsTriggered(false)
+		{}
 
 		const std::string ActionID;
 		InputTriggerState TriggerState;
 		SDL_Keycode KeyboardCode;
 		GamepadButton GamepadButtonCode;
+		PlayerIndex PlayerNr;
 		bool IsTriggered;
 	};
 
 	class InputManager final : public Singleton<InputManager>
 	{
 	public:
+		void Initialize();
 		bool Update();
 		bool AddInputAction(InputAction action);
 		bool IsActionTriggered(const std::string& actionID);
 
 	private:
-		XINPUT_STATE m_OldGamepadState{};
-		XINPUT_STATE m_CurrentGamepadState{};
+		XINPUT_STATE m_OldGamepadState[XUSER_MAX_COUNT]{};
+		XINPUT_STATE m_CurrentGamepadState[XUSER_MAX_COUNT]{};
+		bool m_ConnectedGamepads[XUSER_MAX_COUNT];
 		std::map<std::string, InputAction> m_InputActions;
 
-		bool IsGamepadButtonDown(GamepadButton button, bool previousFrame = false);
+		bool m_IsInitialized;
+
+		bool IsGamepadButtonDown(GamepadButton button, PlayerIndex playerNr, bool previousFrame = false);
 		bool IsKeyboardKeyDown(const std::vector<std::pair<SDL_Keycode, InputTriggerState>>& keyState, InputAction& currentAction);
+
+		void UpdateGamepadStates();
 
 	};
 
