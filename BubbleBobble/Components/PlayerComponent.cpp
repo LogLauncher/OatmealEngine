@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "Components.h"
 #include "InputManager.h"
+#include "GameSettings.h"
 
 PlayerComponent::PlayerComponent(int playerNr)
 	: m_PlayerNr{playerNr}
@@ -42,6 +43,22 @@ void PlayerComponent::Start()
 }
 
 void PlayerComponent::Update()
+{
+	UpdateMovement();
+
+	// Check position if under the level
+	auto& transform{GetTransform()};
+	const auto& pos{transform.GetPosition()};
+	const auto& scale{transform.GetScale()};
+	const int windowHeight{OatmealEngine::GameSettings::WindowSettings.Height};
+
+	if (pos.y > windowHeight)
+		transform.Translate(0, int(-windowHeight - 16 * scale.y));
+	if (pos.y < (-16 * scale.y))
+		transform.Translate(0, windowHeight);
+}
+
+void PlayerComponent::UpdateMovement()
 {
 	auto& transform{GetTransform()};
 	auto pRigidbody{m_pRigidbodyComponent.lock()};

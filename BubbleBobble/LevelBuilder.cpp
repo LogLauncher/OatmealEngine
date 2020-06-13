@@ -46,7 +46,6 @@ void LevelBuilder::Build(int levelNr, OatmealEngine::BaseScene* pScene, const st
 				CreateBlock(height, width * blockPerByte + 7, rowSpriteSheet, colSpriteSheet, pScene, pTexture);
 		}
 	}
-	std::cout << reader.GetBufferPosition() << std::endl;
 }
 
 

@@ -25,5 +25,7 @@ private:
 	std::weak_ptr<OatmealEngine::RigidbodyComponent> m_pRigidbodyComponent;
 	std::weak_ptr<OatmealEngine::AnimationComponent> m_pAnimationComponent;
 
+	void UpdateMovement();
+
 };
 
