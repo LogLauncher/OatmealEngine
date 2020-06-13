@@ -64,3 +64,17 @@ void OatmealEngine::SpriteComponent::LateUpdate()
 	pRenderComponent->SetDirection(direction);
 
 }
+
+void OatmealEngine::SpriteComponent::SetRowColumn(int row, int col)
+{
+	m_Row = row;
+	m_Column = col;
+
+	SDL_Rect srcRect{};
+	srcRect.x = (m_Column < 0) ? 0 : m_TileSize.x * m_Column;
+	srcRect.y = (m_Row < 0) ? 0 : m_TileSize.y * m_Row;
+	srcRect.w = m_TileSize.x;
+	srcRect.h = m_TileSize.y;
+	m_pRenderComponent.lock()->SetSrcRect(srcRect);
+
+}

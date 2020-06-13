@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "InputManager.h"
 #include "RigidbodyComponent.h"
+#include "AnimationComponent.h"
 
 OatmealEngine::ControllerComponent::ControllerComponent(float speedH, float speedV, float jumpForce)
 	: m_SpeedHorizontal{speedH}
@@ -25,6 +26,7 @@ void OatmealEngine::ControllerComponent::Awake()
 void OatmealEngine::ControllerComponent::Start()
 {
 	m_pRigidbodyComponent = GetGameObject().lock()->GetComponent<RigidbodyComponent>();
+	m_pAnimationComponent = GetGameObject().lock()->GetComponent<AnimationComponent>();
 }
 
 void OatmealEngine::ControllerComponent::Update()
@@ -36,28 +38,45 @@ void OatmealEngine::ControllerComponent::UpdateMovement() const
 {
 	auto& transform{GetTransform()};
 	auto pRigidbody{m_pRigidbodyComponent.lock()};
+	auto pAnimaion{m_pAnimationComponent.lock()};
 	auto& inputManager{InputManager::GetInstance()};
 
+	bool doingSomething{false};
+
 	if (inputManager.IsActionTriggered("MoveUp"))
+	{
 		transform.Translate(0.f, -m_SpeedVertical * GameTime::GetInstance().DeltaTime());
+		doingSomething = true;
+	}
 	if (inputManager.IsActionTriggered("MoveLeft"))
 	{
+		pAnimaion->Play("Move");
 		transform.Translate(-m_SpeedHorizontal * GameTime::GetInstance().DeltaTime(), 0.f);
 		if (transform.GetScale().x > 0)
 			transform.InvertXScale();
+		doingSomething = true;
 	}
 	if (inputManager.IsActionTriggered("MoveDown"))
+	{
 		transform.Translate(0.f, m_SpeedVertical * GameTime::GetInstance().DeltaTime());
+		doingSomething = true;
+	}
 	if (inputManager.IsActionTriggered("MoveRight"))
 	{
+		pAnimaion->Play("Move");
 		transform.Translate(m_SpeedHorizontal * GameTime::GetInstance().DeltaTime(), 0.f);
 		if (transform.GetScale().x < 0)
 			transform.InvertXScale();
+		doingSomething = true;
 	}
 	if (inputManager.IsActionTriggered("Jump") && pRigidbody->IsGrounded())
 	{
 		pRigidbody->AddForce({0, -m_JumpForce});
 		pRigidbody->SetGrounded(false);
+		doingSomething = true;
 	}
-		
+	
+	if (!doingSomething)
+		pAnimaion->Play("Idle");
+
 }

@@ -1,9 +1,10 @@
 #pragma once
-#include "TransformComponent.h"
 #include "TextComponent.h"
 #include "SpriteComponent.h"
-#include "RigidbodyComponent.h"
 #include "ColliderComponent.h"
+#include "TransformComponent.h"
+#include "RigidbodyComponent.h"
+#include "AnimationComponent.h"
 
 #include "ControllerComponent.h"
 

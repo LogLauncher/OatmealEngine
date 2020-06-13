@@ -19,6 +19,7 @@ namespace OatmealEngine
 			int Width;
 			int Height;
 			bool VSync;
+			std::string Name;
 		};
 
 		explicit GameSettings() = default;

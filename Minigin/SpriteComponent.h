@@ -18,6 +18,9 @@ namespace OatmealEngine
 		virtual void Awake() override;
 		virtual void LateUpdate() override;
 
+		const SDL_Point& GetSize() const { return m_TileSize; }
+		void SetRowColumn(int row, int col);
+
 	private:
 		std::weak_ptr<Texture2D> m_pTexture;
 		std::weak_ptr<RenderComponent> m_pRenderComponent;

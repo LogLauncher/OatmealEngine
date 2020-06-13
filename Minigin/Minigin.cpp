@@ -23,7 +23,7 @@ void OatmealEngine::Minigin::Initialize()
 	}
 
 	m_Window = SDL_CreateWindow(
-		"Programming 4 assignment",
+		GameSettings::WindowSettings.Name.c_str(),
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
 		GameSettings::WindowSettings.Width,

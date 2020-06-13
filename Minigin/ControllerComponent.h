@@ -4,6 +4,7 @@
 namespace OatmealEngine
 {
 	class RigidbodyComponent;
+	class AnimationComponent;
 
 	class ControllerComponent final : public BaseComponent
 	{
@@ -20,7 +21,8 @@ namespace OatmealEngine
 		float m_SpeedVertical;
 		float m_JumpForce;
 		
-		std::weak_ptr<RigidbodyComponent> m_pRigidbodyComponent;
+		std::weak_ptr<RigidbodyComponent> m_pRigidbodyComponent; 
+		std::weak_ptr<AnimationComponent> m_pAnimationComponent;
 
 		void UpdateMovement() const;
 

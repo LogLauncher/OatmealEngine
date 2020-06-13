@@ -19,9 +19,10 @@ void InitScenes()
 int main()
 {
 	// GameSettings
-	OatmealEngine::GameSettings::WindowSettings.Width = 1920;
-	OatmealEngine::GameSettings::WindowSettings.Height = 1080;
+	OatmealEngine::GameSettings::WindowSettings.Width = 1280;
+	OatmealEngine::GameSettings::WindowSettings.Height = 720;
 	OatmealEngine::GameSettings::WindowSettings.VSync = false;
+	OatmealEngine::GameSettings::WindowSettings.Name = "OatmealEngine";
 	OatmealEngine::GameSettings::Gravity = {0,750.f};
 
 	// Initialize all the scenes

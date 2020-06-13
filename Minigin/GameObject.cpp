@@ -41,25 +41,29 @@ OatmealEngine::TransformComponent& OatmealEngine::GameObject::GetTransform()
 	return m_Transform;
 }
 
-void OatmealEngine::GameObject::AddComponent(const std::shared_ptr<BaseComponent>& pComponent)
-{
-	m_pComponents.push_back(pComponent);
-	pComponent->SetGameObject(shared_from_this());
-	pComponent->Awake();
-}
+// void std::shared_ptr<OatmealEngine::BaseComponent>& OatmealEngine::GameObject::AddComponent(const std::shared_ptr<BaseComponent>& pComponent)
+// {
+// 	m_pComponents.push_back(pComponent);
+// 	pComponent->SetGameObject(shared_from_this());
+// 	pComponent->Awake();
+// 
+// 	return pComponent;
+// }
 
-void OatmealEngine::GameObject::AddComponent(const std::shared_ptr<RenderComponent>& pComponent)
+std::shared_ptr<OatmealEngine::RenderComponent> OatmealEngine::GameObject::AddComponent(const std::shared_ptr<RenderComponent>& pComponent)
 {
 	m_pBaseScene.lock()->AddRenderComponent(pComponent);
 	pComponent->SetGameObject(shared_from_this());
+	return pComponent;
 }
 
-void OatmealEngine::GameObject::AddComponent(const std::shared_ptr<RigidbodyComponent>& pComponent)
+std::shared_ptr<OatmealEngine::RigidbodyComponent> OatmealEngine::GameObject::AddComponent(const std::shared_ptr<RigidbodyComponent>& pComponent)
 {
 	m_pComponents.push_back(pComponent);
 	m_pBaseScene.lock()->AddRigidbodyComponent(pComponent);
 	pComponent->SetGameObject(shared_from_this());
 	pComponent->Awake();
+	return pComponent;
 }
 
 std::weak_ptr<OatmealEngine::BaseScene> OatmealEngine::GameObject::GetScene() const

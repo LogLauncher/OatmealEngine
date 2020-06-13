@@ -66,7 +66,6 @@ void OatmealEngine::Renderer::RenderTexture(const Texture2D& texture, float x, f
 	center.x = static_cast<int>(abs(width) / 2.f);
 	center.y = static_cast<int>(abs(height) / 2.f);
 
-	// #TODO add the srcRect
 	if (width >= 0 && height >= 0)
 		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, angle, &center, SDL_FLIP_NONE);
 	else if (width < 0 && height >= 0)
@@ -83,7 +82,6 @@ void OatmealEngine::Renderer::RenderTexture(const Texture2D& texture, const SDL_
 	center.x = static_cast<int>(destRect.w / 2.f);
 	center.y = static_cast<int>(destRect.h / 2.f);
 
-	// #TODO add the srcRect
 	if (direction.x >= 0 && direction.y >= 0)
 		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), &srcRect, &destRect, angle, &center, SDL_FLIP_NONE);
 	else if (direction.x < 0 && direction.y >= 0)
