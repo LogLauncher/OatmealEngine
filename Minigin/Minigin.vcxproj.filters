@@ -94,6 +94,9 @@
     <ClInclude Include="BaseCollider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PlatformColliderComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer.cpp">
@@ -156,6 +159,9 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="BaseCollider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlatformColliderComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

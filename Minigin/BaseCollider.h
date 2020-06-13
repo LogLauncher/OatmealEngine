@@ -13,13 +13,14 @@ namespace OatmealEngine
 		virtual ~BaseCollider() = default;
 		DEL_ROF(BaseCollider);
 
-		virtual void LateUpdate() override = 0;
-		virtual void Start() override = 0;
+		virtual void Start() override;
+		virtual void LateUpdate() override;
 #ifdef _DEBUG
 		virtual void DebugRender() override;
 #endif // _DEBUG
 
-		virtual bool CheckCollision(RigidbodyComponent* pSelfRigidbody, std::shared_ptr<RigidbodyComponent> pOtherRigidbody) = 0;
+		bool IsColliding(std::shared_ptr<BaseCollider> pOther, SDL_Rect& intersectionRect);
+		virtual void CollidedLogic(RigidbodyComponent* pOtherRigidbody, const SDL_Rect& intersectionRect) = 0;
 
 		const SDL_Point& GetSize() const {
 			return m_Size;

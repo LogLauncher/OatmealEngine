@@ -32,5 +32,10 @@ void OatmealEngine::RigidbodyComponent::UpdateCollision(const std::vector<std::w
 {
 	auto pCollider{m_pCollider.lock()};
 	for (const auto& pOtherRigidbody : pRigidbodyComponents)
-		pCollider->CheckCollision(this, pOtherRigidbody.lock());
+	{
+		SDL_Rect intersectionRect{};
+		auto pOtherCollider{pOtherRigidbody.lock()->GetCollider().lock()};
+		if (pCollider->IsColliding(pOtherCollider, intersectionRect))
+			pOtherCollider->CollidedLogic(this, intersectionRect);
+	}
 }

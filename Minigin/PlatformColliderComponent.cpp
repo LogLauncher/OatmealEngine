@@ -1,19 +1,22 @@
 #include "MiniginPCH.h"
-#include "ColliderComponent.h"
+#include "PlatformColliderComponent.h"
 
-#include "GameTime.h"
+#include "GameObject.h"
 #include "RigidbodyComponent.h"
 
-OatmealEngine::ColliderComponent::ColliderComponent(int width, int height)
-	: ColliderComponent(SDL_Point{width, height})
+OatmealEngine::PlatformColliderComponent::PlatformColliderComponent(int width, int height)
+	: PlatformColliderComponent(SDL_Point{width, height})
 {}
 
-OatmealEngine::ColliderComponent::ColliderComponent(const SDL_Point& size)
+OatmealEngine::PlatformColliderComponent::PlatformColliderComponent(const SDL_Point& size)
 	: BaseCollider(size)
 {}
 
-void OatmealEngine::ColliderComponent::CollidedLogic(RigidbodyComponent* pOtherRigidbody, const SDL_Rect& intersectionRect)
+void OatmealEngine::PlatformColliderComponent::CollidedLogic(RigidbodyComponent* pOtherRigidbody, const SDL_Rect& intersectionRect)
 {
+	if (pOtherRigidbody->GetVelocity().y <= 0.001f)
+		return;
+
 	auto& pos{GetTransform().GetPosition()};
 	const glm::vec3 otherPos{intersectionRect.x, intersectionRect.y, 0};
 	const glm::vec3 moveOut{pos - otherPos};
@@ -30,5 +33,6 @@ void OatmealEngine::ColliderComponent::CollidedLogic(RigidbodyComponent* pOtherR
 		if (pOtherRigidbody->GetVelocity().y > 0)
 			pOtherRigidbody->SetGrounded(true);
 		pOtherRigidbody->ResetVelocityY();
+
 	}
 }

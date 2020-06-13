@@ -29,7 +29,6 @@ namespace OatmealEngine
 		std::weak_ptr<BaseScene> GetScene() const;
 
 		TransformComponent& GetTransform();
-// 		std::shared_ptr<BaseComponent> AddComponent(const std::shared_ptr<BaseComponent>& pComponent);
 		template <class T>
 		std::shared_ptr<T> AddComponent(const std::shared_ptr<T>& pComponent);
 		std::shared_ptr<RenderComponent> AddComponent(const std::shared_ptr<RenderComponent>& pComponent);
@@ -66,15 +65,5 @@ namespace OatmealEngine
 		}
 		return {};
 	}
-
-// 	template <class T>
-// 	std::shared_ptr<T> AddComponent(const std::shared_ptr<T>& pComponent)
-// 	{
-// 		m_pComponents.push_back(pComponent);
-// 		pComponent->SetGameObject(shared_from_this());
-// 		pComponent->Awake();
-// 
-// 		return pComponent;
-// 	}
 
 }

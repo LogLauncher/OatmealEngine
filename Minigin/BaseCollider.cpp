@@ -12,6 +12,16 @@ OatmealEngine::BaseCollider::BaseCollider(int width, int height)
 	: BaseCollider(SDL_Point{width, height})
 {}
 
+void OatmealEngine::BaseCollider::Start()
+{
+	UpdateSize();
+}
+
+void OatmealEngine::BaseCollider::LateUpdate()
+{
+	UpdateSize();
+}
+
 OatmealEngine::BaseCollider::BaseCollider(const SDL_Point& size)
 	: m_OriginalSize{size}
 	, m_Size{size}
@@ -38,6 +48,21 @@ void OatmealEngine::BaseCollider::DebugRender()
 	SDL_RenderDrawRect(sdlRenderer, &dest);
 }
 #endif // _DEBUG
+
+bool OatmealEngine::BaseCollider::IsColliding(std::shared_ptr<BaseCollider> pOther, SDL_Rect& intersectionRect)
+{
+	auto selfRect{GetRect()};
+	auto otherRect{pOther->GetRect()};
+
+	// Don't check with self
+	if (!SDL_RectEquals(&selfRect, &otherRect))
+	{
+		// Check if intersecting
+		if (SDL_IntersectRect(&selfRect, &otherRect, &intersectionRect))
+			return true;
+	}
+	return false;
+}
 
 SDL_Rect OatmealEngine::BaseCollider::GetRect() const
 {
