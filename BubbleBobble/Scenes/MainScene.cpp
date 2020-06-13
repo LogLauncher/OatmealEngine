@@ -33,7 +33,7 @@ void MainScene::Initialize()
 		go->AddComponent(std::make_shared<SpriteComponent>(resourceManager.LoadTexture("Characters"), SDL_Point{16, 16}, spriteRow, 0));
 		go->AddComponent(std::make_shared<PlayerComponent>(PlayerIndex::PlayerOne));
 
-		auto collider = go->AddComponent(std::make_shared<ColliderComponent>(14, 16));
+		auto collider = go->AddComponent(std::make_shared<ColliderComponent>(16, 16));
 		go->AddComponent(std::make_shared<RigidbodyComponent>(collider));
 
 		auto animation = go->AddComponent(std::make_shared<AnimationComponent>());
@@ -68,7 +68,7 @@ void MainScene::Initialize()
 // 		go->AddComponent(std::make_shared<SpriteComponent>(resourceManager.LoadTexture("Characters"), SDL_Point{16, 16}, spriteRow, 0));
 // 		go->AddComponent(std::make_shared<PlayerComponent>(PlayerIndex::PlayerTwo));
 // 
-// 		auto collider = go->AddComponent(std::make_shared<ColliderComponent>(14, 16));
+// 		auto collider = go->AddComponent(std::make_shared<ColliderComponent>(16, 16));
 // 		go->AddComponent(std::make_shared<RigidbodyComponent>(collider));
 // 
 // 		auto animation = go->AddComponent(std::make_shared<AnimationComponent>());

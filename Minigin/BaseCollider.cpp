@@ -7,6 +7,7 @@
 #endif
 
 #include "GameTime.h"
+#include "RigidbodyComponent.h"
 
 OatmealEngine::BaseCollider::BaseCollider(int width, int height)
 	: BaseCollider(SDL_Point{width, height})
@@ -49,7 +50,7 @@ void OatmealEngine::BaseCollider::DebugRender()
 }
 #endif // _DEBUG
 
-bool OatmealEngine::BaseCollider::IsColliding(std::shared_ptr<BaseCollider> pOther, SDL_Rect& intersectionRect)
+bool OatmealEngine::BaseCollider::IsColliding(std::shared_ptr<BaseCollider> pOther, SDL_Rect& intersectionRect) const
 {
 	auto selfRect{GetRect()};
 	auto otherRect{pOther->GetRect()};
@@ -62,6 +63,27 @@ bool OatmealEngine::BaseCollider::IsColliding(std::shared_ptr<BaseCollider> pOth
 			return true;
 	}
 	return false;
+}
+
+void OatmealEngine::BaseCollider::EjectFromCollider(RigidbodyComponent* pOtherRigidbody, const SDL_Rect& intersectionRect) const
+{
+	auto& pos{pOtherRigidbody->GetTransform().GetPosition()};
+	const glm::vec3 otherPos{intersectionRect.x, intersectionRect.y, 0};
+	const glm::vec3 moveOut{pos - otherPos};
+
+	// Prioritize Y axis
+	if (intersectionRect.h < intersectionRect.w)
+	{
+		pOtherRigidbody->GetTransform().Translate(0, int(intersectionRect.h * Utils::Sign(moveOut.y)));
+		if (pOtherRigidbody->GetVelocity().y > 0)
+			pOtherRigidbody->SetGrounded(true);
+		pOtherRigidbody->ResetVelocityY();
+	}
+	else
+	{
+		pOtherRigidbody->GetTransform().Translate(int(intersectionRect.w * Utils::Sign(moveOut.x)), 0);
+ 		pOtherRigidbody->ResetVelocityX();
+	}
 }
 
 SDL_Rect OatmealEngine::BaseCollider::GetRect() const

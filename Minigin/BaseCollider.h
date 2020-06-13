@@ -19,8 +19,9 @@ namespace OatmealEngine
 		virtual void DebugRender() override;
 #endif // _DEBUG
 
-		bool IsColliding(std::shared_ptr<BaseCollider> pOther, SDL_Rect& intersectionRect);
 		virtual void CollidedLogic(RigidbodyComponent* pOtherRigidbody, const SDL_Rect& intersectionRect) = 0;
+		bool IsColliding(std::shared_ptr<BaseCollider> pOther, SDL_Rect& intersectionRect) const;
+		void EjectFromCollider(RigidbodyComponent* pOtherRigidbody, const SDL_Rect& intersectionRect) const;
 
 		const SDL_Point& GetSize() const {
 			return m_Size;

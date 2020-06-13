@@ -6,7 +6,7 @@
 class LevelBuilder
 {
 public:
-	static void Build(int levelNr, OatmealEngine::BaseScene* pScene, const std::shared_ptr<OatmealEngine::Texture2D>& pTexture);
+	static bool Build(int levelNr, OatmealEngine::BaseScene* pScene, const std::shared_ptr<OatmealEngine::Texture2D>& pTexture);
 
 private:
 	static void CreateFullBlock(int rowWorld, int colWorld, int rowSpriteSheet, int colSpriteSheet, OatmealEngine::BaseScene* pScene, const std::shared_ptr<OatmealEngine::Texture2D>& pTexture);
