@@ -2,6 +2,7 @@
 #include "BinaryReader.h"
 
 #include <fstream>
+#include <string>
 
 OatmealEngine::BinaryReader::BinaryReader()
 	: m_Exists{false}
@@ -89,7 +90,6 @@ void OatmealEngine::BinaryReader::Open(const std::string& binaryFile)
 	else
 		Close();
 }
-
 void OatmealEngine::BinaryReader::Open(char* s, UINT32 size)
 {
 	Close();
