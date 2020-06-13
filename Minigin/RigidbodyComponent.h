@@ -3,22 +3,24 @@
 
 namespace OatmealEngine
 {
-	class ColliderComponent;
+	class BaseCollider;
 
 	class RigidbodyComponent final : public BaseComponent
 	{
 	public:
-		explicit RigidbodyComponent(const std::weak_ptr<ColliderComponent>& pColliderComponent);
-		explicit RigidbodyComponent(const std::weak_ptr<ColliderComponent>& pColliderComponent, bool isStatic);
+		explicit RigidbodyComponent(const std::weak_ptr<BaseCollider>& pColliderComponent);
+		explicit RigidbodyComponent(const std::weak_ptr<BaseCollider>& pColliderComponent, bool isStatic);
 		virtual ~RigidbodyComponent() = default;
 
 		virtual void FixedUpdate() override;
 
-		std::weak_ptr<ColliderComponent> GetCollider() const { return m_pCollider; }
+		std::weak_ptr<BaseCollider> GetCollider() const { return m_pCollider; }
 		void UpdateCollision(const std::vector<std::weak_ptr<RigidbodyComponent>>& pRigidbodyComponents);
 
 		void AddForce(const glm::vec2& force) { m_Velocity += force; }
 		void SetVelocity(const glm::vec2& velocity) { m_Velocity = velocity; }
+		void ResetVelocityX() { m_Velocity.x = 0; }
+		void ResetVelocityY() { m_Velocity.y = 0; }
 		const glm::vec2& GetVelocity() const { return m_Velocity; }
 
 		void SetGrounded(bool isGrounded) { m_IsGrounded = isGrounded; }
@@ -30,7 +32,7 @@ namespace OatmealEngine
 
 	private:
 		glm::vec2 m_Velocity;
-		std::weak_ptr<ColliderComponent> m_pCollider;
+		std::weak_ptr<BaseCollider> m_pCollider;
 
 		bool m_IsGrounded;
 

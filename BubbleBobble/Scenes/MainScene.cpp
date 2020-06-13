@@ -1,4 +1,4 @@
-#include "TestScene.h"
+#include "MainScene.h"
 
 #include <memory>
 
@@ -13,17 +13,17 @@
 
 using namespace OatmealEngine;
 
-TestScene::TestScene()
-	: BaseScene("TestScene")
+MainScene::MainScene()
+	: BaseScene("MainScene")
 {}
 
-void TestScene::Initialize()
+void MainScene::Initialize()
 {
 	LoadResources();
 	auto& resourceManager{ResourceManager::GetInstance()};
 
 	// Level
-	LevelBuilder::Build(3, this, resourceManager.LoadTexture("Blocks").lock());
+	LevelBuilder::Build(1, this, resourceManager.LoadTexture("Blocks").lock());
 
 #pragma region Player 1
 	// Player 1
@@ -33,7 +33,7 @@ void TestScene::Initialize()
 		go->AddComponent(std::make_shared<SpriteComponent>(resourceManager.LoadTexture("Characters"), SDL_Point{16, 16}, spriteRow, 0));
 		go->AddComponent(std::make_shared<PlayerComponent>(PlayerIndex::PlayerOne));
 
-		auto collider = go->AddComponent(std::make_shared<ColliderComponent>(16, 16));
+		auto collider = go->AddComponent(std::make_shared<ColliderComponent>(14, 16));
 		go->AddComponent(std::make_shared<RigidbodyComponent>(collider));
 
 		auto animation = go->AddComponent(std::make_shared<AnimationComponent>());
@@ -68,7 +68,7 @@ void TestScene::Initialize()
 		go->AddComponent(std::make_shared<SpriteComponent>(resourceManager.LoadTexture("Characters"), SDL_Point{16, 16}, spriteRow, 0));
 		go->AddComponent(std::make_shared<PlayerComponent>(PlayerIndex::PlayerTwo));
 
-		auto collider = go->AddComponent(std::make_shared<ColliderComponent>(16, 16));
+		auto collider = go->AddComponent(std::make_shared<ColliderComponent>(14, 16));
 		go->AddComponent(std::make_shared<RigidbodyComponent>(collider));
 
 		auto animation = go->AddComponent(std::make_shared<AnimationComponent>());
@@ -104,7 +104,7 @@ void TestScene::Initialize()
 
 }
 
-void TestScene::LoadResources() const
+void MainScene::LoadResources() const
 {
 	auto& resourceManager{ResourceManager::GetInstance()};
 	resourceManager.AddTexture("Blocks", "blocks.png");

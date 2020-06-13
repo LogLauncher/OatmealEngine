@@ -6,14 +6,14 @@
 
 #include <memory>
 
-#include "Scenes/TestScene.h"
+#include "Scenes/MainScene.h"
 #include "SceneManager.h"
 #include "GameSettings.h"
 
 void InitScenes()
 {
-	OatmealEngine::SceneManager::GetInstance().AddScene(std::make_shared<TestScene>());
-	OatmealEngine::SceneManager::GetInstance().SetStartScene("TestScene");
+	OatmealEngine::SceneManager::GetInstance().AddScene(std::make_shared<MainScene>());
+	OatmealEngine::SceneManager::GetInstance().SetStartScene("MainScene");
 }
 
 int main()

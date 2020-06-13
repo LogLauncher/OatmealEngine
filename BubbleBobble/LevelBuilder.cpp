@@ -56,9 +56,10 @@ void LevelBuilder::CreateBlock(int rowWorld, int colWorld, int rowSpriteSheet, i
 
 	auto go = pScene->NewGameObject();
 	go->AddComponent(std::make_shared<OatmealEngine::SpriteComponent>(pTexture, blockSize, rowSpriteSheet, colSpriteSheet));
-	auto collider{std::make_shared<OatmealEngine::ColliderComponent>(blockSize)};
-	go->AddComponent(collider);
+
+	auto collider = go->AddComponent(std::make_shared<OatmealEngine::ColliderComponent>(blockSize));
 	go->AddComponent(std::make_shared<OatmealEngine::RigidbodyComponent>(collider, true));
+
 	go->GetTransform().SetPosition(colWorld * blockSize.x * scale, rowWorld * blockSize.y * scale);
 	go->GetTransform().SetScale(scale, scale);
 }

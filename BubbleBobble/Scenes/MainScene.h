@@ -1,11 +1,11 @@
 #pragma once
 #include "BaseScene.h"
 
-class TestScene : public OatmealEngine::BaseScene
+class MainScene : public OatmealEngine::BaseScene
 {
 public:
-	TestScene();
-	virtual ~TestScene() = default;
+	MainScene();
+	virtual ~MainScene() = default;
 
 	virtual void Initialize() override;
 

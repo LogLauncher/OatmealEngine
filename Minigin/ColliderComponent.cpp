@@ -1,17 +1,15 @@
 #include "MiniginPCH.h"
 #include "ColliderComponent.h"
-#include "Renderer.h"
-#include "SDL_render.h"
+
 #include "GameTime.h"
+#include "RigidbodyComponent.h"
 
 OatmealEngine::ColliderComponent::ColliderComponent(int width, int height)
 	: ColliderComponent(SDL_Point{width, height})
 {}
 
 OatmealEngine::ColliderComponent::ColliderComponent(const SDL_Point& size)
-	: m_OriginalSize{size}
-	, m_Size{size}
-	, m_IsTrigger{false}
+	: BaseCollider(size)
 {}
 
 void OatmealEngine::ColliderComponent::Start()
@@ -24,34 +22,39 @@ void OatmealEngine::ColliderComponent::LateUpdate()
 	UpdateSize();
 }
 
-void OatmealEngine::ColliderComponent::UpdateSize()
+bool OatmealEngine::ColliderComponent::CheckCollision(RigidbodyComponent* pSelfRigidbody, std::shared_ptr<RigidbodyComponent> pOtherRigidbody)
 {
-	const auto& scale{GetTransform().GetScale()};
-	m_Size.x = int(m_OriginalSize.x * abs(scale.x));
-	m_Size.y = int(m_OriginalSize.y * abs(scale.y));
-}
+	SDL_Rect intersectionRect{};
+	auto selfRect{GetRect()};
+	auto otherRect{pOtherRigidbody->GetCollider().lock()->GetRect()};
 
-#ifdef _DEBUG
-void OatmealEngine::ColliderComponent::DebugRender()
-{
-	SDL_Renderer* sdlRenderer{Renderer::GetInstance().GetSDLRenderer()};
-	SDL_Rect dest{};
-	dest.x = int(GetTransform().GetPosition().x);
-	dest.y = int(GetTransform().GetPosition().y);
-	dest.w = m_Size.x;
-	dest.h = m_Size.y;
-	SDL_SetRenderDrawColor(sdlRenderer, 0, 230, 64, 255);
-	SDL_RenderDrawRect(sdlRenderer, &dest);
-}
-#endif // _DEBUG
+	// Don't check with self
+	if (!SDL_RectEquals(&selfRect, &otherRect))
+	{
+		// Check if intersecting
+		if (SDL_IntersectRect(&selfRect, &otherRect, &intersectionRect))
+		{
+			auto& pos{GetTransform().GetPosition()};
+			const glm::vec3 otherPos{intersectionRect.x, intersectionRect.y, 0};
+			const glm::vec3 moveOut{pos - otherPos};
 
-SDL_Rect OatmealEngine::ColliderComponent::GetRect() const
-{
-	SDL_Rect rect{};
-	auto& pos{GetTransform().GetPosition()};
-	rect.x = int(pos.x);
-	rect.y = int(pos.y);
-	rect.w = m_Size.x;
-	rect.h = m_Size.y;
-	return rect;
+			// Prioritize X axis
+			if (abs(moveOut.x) > abs(moveOut.y) && intersectionRect.w < intersectionRect.h)
+			{
+				GetTransform().Translate(int(intersectionRect.w * Utils::Sign(moveOut.x)), 0);
+				pSelfRigidbody->ResetVelocityX();
+			}
+			else if (intersectionRect.h < intersectionRect.w)
+			{
+				GetTransform().Translate(0, int(intersectionRect.h * Utils::Sign(moveOut.y)));
+				if (pSelfRigidbody->GetVelocity().y > 0)
+					pSelfRigidbody->SetGrounded(true);
+				pSelfRigidbody->ResetVelocityY();
+
+			}
+
+			return true;
+		}
+	}
+	return false;
 }
