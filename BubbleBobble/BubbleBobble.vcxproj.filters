@@ -24,12 +24,18 @@
     <ClCompile Include="LevelBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Components\PlayerComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scenes\TestScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LevelBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\PlayerComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

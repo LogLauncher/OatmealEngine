@@ -9,6 +9,7 @@
 #include "Components.h"
 #include "ResourceManager.h"
 #include "..\LevelBuilder.h"
+#include "..\Components\PlayerComponent.h"
 
 using namespace OatmealEngine;
 
@@ -21,51 +22,87 @@ void TestScene::Initialize()
 	LoadResources();
 	auto& resourceManager{ResourceManager::GetInstance()};
 
-
-#pragma region Test components
-	
-#pragma endregion
-
-#pragma region Test game objects
 	// Level
 	LevelBuilder::Build(1, this, resourceManager.LoadTexture("Blocks").lock());
 
-	// Player
-	auto go = NewGameObject();
-	go->AddComponent(std::make_shared<SpriteComponent>(resourceManager.LoadTexture("Characters"), SDL_Point{16, 16}, 0, 0));
-	go->AddComponent(std::make_shared<ControllerComponent>(350.f,0.f, 500.f));
+#pragma region Player 1
+	// Player 1
+	{
+		const int spriteRow{0};
+		auto go = NewGameObject();
+		go->AddComponent(std::make_shared<SpriteComponent>(resourceManager.LoadTexture("Characters"), SDL_Point{16, 16}, spriteRow, 0));
+		go->AddComponent(std::make_shared<PlayerComponent>(1));
 
-	auto collider = go->AddComponent(std::make_shared<ColliderComponent>(16, 16));
-	go->AddComponent(std::make_shared<RigidbodyComponent>(collider));
+		auto collider = go->AddComponent(std::make_shared<ColliderComponent>(16, 16));
+		go->AddComponent(std::make_shared<RigidbodyComponent>(collider));
 
-	auto animation = go->AddComponent(std::make_shared<AnimationComponent>());
-	animation->AddAnimation("Idle", 
-		{
-			AnimationComponent::FrameDesc(0,0,-1),
-		}
-	);
-	animation->AddAnimation("Move",
-		{
-			AnimationComponent::FrameDesc(0,0,.1f),
-			AnimationComponent::FrameDesc(0,1,.1f),
-			AnimationComponent::FrameDesc(0,2,.1f),
-			AnimationComponent::FrameDesc(0,3,.1f),
-			AnimationComponent::FrameDesc(0,4,.1f),
-			AnimationComponent::FrameDesc(0,5,.1f),
-			AnimationComponent::FrameDesc(0,6,.1f),
-			AnimationComponent::FrameDesc(0,7,.1f),
-		}
-	);
+		auto animation = go->AddComponent(std::make_shared<AnimationComponent>());
+		animation->AddAnimation("Idle",
+			{
+				AnimationComponent::FrameDesc(spriteRow,0,-1),
+			}
+		);
+		animation->AddAnimation("Move",
+			{
+				AnimationComponent::FrameDesc(spriteRow,0,.05f),
+				AnimationComponent::FrameDesc(spriteRow,1,.05f),
+				AnimationComponent::FrameDesc(spriteRow,2,.05f),
+				AnimationComponent::FrameDesc(spriteRow,3,.05f),
+				AnimationComponent::FrameDesc(spriteRow,4,.05f),
+				AnimationComponent::FrameDesc(spriteRow,5,.05f),
+				AnimationComponent::FrameDesc(spriteRow,6,.05f),
+				AnimationComponent::FrameDesc(spriteRow,7,.05f),
+			}
+		);
 
-	go->GetTransform().SetPosition(8*3*4, 500);
-	go->GetTransform().SetScale(3,3);
+		go->GetTransform().SetPosition(8 * 3 * 4, 500);
+		go->GetTransform().SetScale(3, 3);
+	}
+#pragma endregion
+
+#pragma region Player 2
+	// Player 2
+	{
+		const int spriteRow{3};
+		auto go = NewGameObject();
+		go->AddComponent(std::make_shared<SpriteComponent>(resourceManager.LoadTexture("Characters"), SDL_Point{16, 16}, spriteRow, 0));
+		go->AddComponent(std::make_shared<PlayerComponent>(2));
+
+		auto collider = go->AddComponent(std::make_shared<ColliderComponent>(16, 16));
+		go->AddComponent(std::make_shared<RigidbodyComponent>(collider));
+
+		auto animation = go->AddComponent(std::make_shared<AnimationComponent>());
+		animation->AddAnimation("Idle",
+			{
+				AnimationComponent::FrameDesc(spriteRow,0,-1),
+			}
+		);
+		animation->AddAnimation("Move",
+			{
+				AnimationComponent::FrameDesc(spriteRow,0,.05f),
+				AnimationComponent::FrameDesc(spriteRow,1,.05f),
+				AnimationComponent::FrameDesc(spriteRow,2,.05f),
+				AnimationComponent::FrameDesc(spriteRow,3,.05f),
+				AnimationComponent::FrameDesc(spriteRow,4,.05f),
+				AnimationComponent::FrameDesc(spriteRow,5,.05f),
+				AnimationComponent::FrameDesc(spriteRow,6,.05f),
+				AnimationComponent::FrameDesc(spriteRow,7,.05f),
+			}
+		);
+
+		go->GetTransform().SetPosition(8 * 3 * 15, 500);
+		go->GetTransform().SetScale(3, 3);
+	}
+#pragma endregion
+
 
 	// FPS display
-	go = NewGameObject();
-	go->AddComponent(std::make_shared<FPSComponent>(resourceManager.LoadFont("Lingua24"), SDL_Color{245, 229, 220}));
-	go->GetTransform().SetPosition(800, 0);
+	{
+		auto go = NewGameObject();
+		go->AddComponent(std::make_shared<FPSComponent>(resourceManager.LoadFont("Lingua24"), SDL_Color{245, 229, 220}));
+		go->GetTransform().SetPosition(800, 0);
+	}
 
-#pragma endregion
 }
 
 void TestScene::LoadResources() const
