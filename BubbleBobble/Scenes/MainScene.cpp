@@ -7,7 +7,7 @@
 
 #include "GameObject.h"
 #include "Components.h"
-#include "../GameManager.h"
+#include "../Systems/GameManager.h"
 #include "ResourceManager.h"
 #include "../Systems/LevelBuilder.h"
 #include "../Components/PlayerComponent.h"

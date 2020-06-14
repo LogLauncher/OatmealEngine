@@ -4,10 +4,10 @@
 #include "BaseScene.h"
 #include "Components.h"
 #include "GameObject.h"
+#include "LevelBuilder.h"
 #include "InputManager.h"
 #include "ResourceManager.h"
-#include "Components/PlayerComponent.h"
-#include "Systems/LevelBuilder.h"
+#include "../Components/PlayerComponent.h"
 
 using namespace OatmealEngine;
 
@@ -37,9 +37,17 @@ void GameManager::Update()
 	if (!m_SecondPlayer && inputManager.IsActionTriggered("Join", PlayerIndex::PlayerTwo))
 		AddSecondPlayer();
 	if (inputManager.IsActionTriggered("NextLevel", PlayerIndex::PlayerOne))
-		LoadLevel(++m_LevelID);
+	{
+		++m_LevelID;
+		ClampRef(m_LevelID, 1, 100);
+		LoadLevel(m_LevelID);
+	}
 	if (inputManager.IsActionTriggered("PrevLevel", PlayerIndex::PlayerOne))
-		LoadLevel(--m_LevelID);
+	{
+		--m_LevelID;
+		ClampRef(m_LevelID, 1, 100);
+		LoadLevel(m_LevelID);
+	}
 }
 
 void GameManager::AddSecondPlayer()

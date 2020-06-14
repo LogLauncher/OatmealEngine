@@ -74,14 +74,14 @@ void OatmealEngine::BaseCollider::EjectFromCollider(std::shared_ptr<RigidbodyCom
 	// Prioritize Y axis
 	if (intersectionRect.h < intersectionRect.w)
 	{
-		pOtherRigidbody->GetTransform().Translate(0, int(intersectionRect.h * Utils::Sign(moveOut.y)));
+		pOtherRigidbody->GetTransform().Translate(0, int(intersectionRect.h * Sign(moveOut.y)));
 		if (pOtherRigidbody->GetVelocity().y > 0)
 			pOtherRigidbody->SetGrounded(true);
 		pOtherRigidbody->ResetVelocityY();
 	}
 	else
 	{
-		pOtherRigidbody->GetTransform().Translate(int(intersectionRect.w * Utils::Sign(moveOut.x)), 0);
+		pOtherRigidbody->GetTransform().Translate(int(intersectionRect.w * Sign(moveOut.x)), 0);
  		pOtherRigidbody->ResetVelocityX();
 	}
 }

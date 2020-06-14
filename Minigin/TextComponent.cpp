@@ -61,8 +61,8 @@ void OatmealEngine::TextComponent::LateUpdate()
 	pRenderComponent->SetDestRect(destRect);
 
 	SDL_Point direction{};
-	direction.x = int(Utils::Sign(scale.x));
-	direction.y = int(Utils::Sign(scale.y));
+	direction.x = int(Sign(scale.x));
+	direction.y = int(Sign(scale.y));
 	pRenderComponent->SetDirection(direction);
 }
 

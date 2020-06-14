@@ -33,7 +33,7 @@
     <ClCompile Include="Systems\Prefabs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameManager.cpp">
+    <ClCompile Include="Systems\GameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,7 +53,7 @@
     <ClInclude Include="Systems\Prefabs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameManager.h">
+    <ClInclude Include="Systems\GameManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
