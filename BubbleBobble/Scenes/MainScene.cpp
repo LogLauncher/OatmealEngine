@@ -7,10 +7,10 @@
 
 #include "GameObject.h"
 #include "Components.h"
+#include "../GameManager.h"
 #include "ResourceManager.h"
 #include "../Systems/LevelBuilder.h"
 #include "../Components/PlayerComponent.h"
-#include "../GameManagerComponent.h"
 
 using namespace OatmealEngine;
 
@@ -23,14 +23,8 @@ void MainScene::Initialize()
 	LoadResources();
 	auto& resourceManager{ResourceManager::GetInstance()};
 
-	// Level
-	LevelBuilder::Build(3, this, resourceManager.LoadTexture("Blocks").lock());
-
 	// GameManager
-	{
-		auto go{NewGameObject()};
-		go->AddComponent(std::make_shared<GameManagerComponent>());
-	}
+	GameManager::GetInstance().Initialize();
 
 #pragma region Player 1
 	// Player 1
@@ -98,4 +92,9 @@ void MainScene::LoadResources() const
 	resourceManager.AddTexture("Misc", "misc.png");
 
 	resourceManager.AddFont("Lingua24", "Lingua.otf", 24);
+}
+
+void MainScene::Update()
+{
+	GameManager::GetInstance().Update();
 }

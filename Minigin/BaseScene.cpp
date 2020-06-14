@@ -58,6 +58,8 @@ void OatmealEngine::BaseScene::RootFixedUpdate()
 
 void OatmealEngine::BaseScene::RootUpdate()
 {
+	Update();
+
 	for(auto& object : m_pObjects)
 		object->RootUpdate();
 

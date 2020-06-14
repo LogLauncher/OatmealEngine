@@ -202,7 +202,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\libfreetype-6.dll" "$(OutputPath)
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Components\BubbleComponent.cpp" />
-    <ClCompile Include="GameManagerComponent.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Systems\Prefabs.cpp" />
     <ClCompile Include="Systems\LevelBuilder.cpp" />
     <ClCompile Include="Components\PlayerComponent.cpp" />
@@ -216,7 +216,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\libfreetype-6.dll" "$(OutputPath)
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\BubbleComponent.h" />
-    <ClInclude Include="GameManagerComponent.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="Systems\Prefabs.h" />
     <ClInclude Include="Systems\LevelBuilder.h" />
     <ClInclude Include="Components\PlayerComponent.h" />

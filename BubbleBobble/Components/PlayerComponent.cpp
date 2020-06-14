@@ -24,14 +24,14 @@ void PlayerComponent::Awake()
 	case PlayerIndex::PlayerOne:
 		inputManager.AddInputAction(InputAction("MoveLeft",InputTriggerState::Down, SDLK_LEFT,GamepadButton::DPAD_LEFT,PlayerIndex::PlayerOne));
 		inputManager.AddInputAction(InputAction("MoveRight",InputTriggerState::Down, SDLK_RIGHT,GamepadButton::DPAD_RIGHT,PlayerIndex::PlayerOne));
-		inputManager.AddInputAction(InputAction("Jump",InputTriggerState::Pressed, SDLK_UP,GamepadButton::DPAD_UP,PlayerIndex::PlayerOne));
-		inputManager.AddInputAction(InputAction("Shoot",InputTriggerState::Pressed, SDLK_RCTRL,GamepadButton::A,PlayerIndex::PlayerOne));
+		inputManager.AddInputAction(InputAction("Jump",InputTriggerState::Pressed, SDLK_UP,GamepadButton::A,PlayerIndex::PlayerOne));
+		inputManager.AddInputAction(InputAction("Shoot",InputTriggerState::Pressed, SDLK_RCTRL,GamepadButton::B,PlayerIndex::PlayerOne));
 		break;
 	case PlayerIndex::PlayerTwo:
 		inputManager.AddInputAction(InputAction("MoveLeft",InputTriggerState::Down, SDLK_a,GamepadButton::DPAD_LEFT,PlayerIndex::PlayerTwo));
 		inputManager.AddInputAction(InputAction("MoveRight",InputTriggerState::Down, SDLK_d,GamepadButton::DPAD_RIGHT,PlayerIndex::PlayerTwo));
-		inputManager.AddInputAction(InputAction("Jump",InputTriggerState::Pressed, SDLK_w,GamepadButton::DPAD_UP,PlayerIndex::PlayerTwo));
-		inputManager.AddInputAction(InputAction("Shoot",InputTriggerState::Pressed, SDLK_LCTRL,GamepadButton::A,PlayerIndex::PlayerTwo));
+		inputManager.AddInputAction(InputAction("Jump",InputTriggerState::Pressed, SDLK_w,GamepadButton::A,PlayerIndex::PlayerTwo));
+		inputManager.AddInputAction(InputAction("Shoot",InputTriggerState::Pressed, SDLK_LCTRL,GamepadButton::B,PlayerIndex::PlayerTwo));
 		break;
 	default:
 		break;

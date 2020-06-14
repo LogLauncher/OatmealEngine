@@ -28,6 +28,7 @@ namespace OatmealEngine
 
 	protected:
 		virtual void Initialize() = 0;
+		virtual void Update() = 0;
 
 	private:
 		friend class SceneManager;
