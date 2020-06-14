@@ -7,11 +7,11 @@
 
 #include "GameObject.h"
 #include "Components.h"
-#include "../Systems/GameManager.h"
 #include "ResourceManager.h"
+#include "../Systems/Prefabs.h"
+#include "../Systems/GameManager.h"
 #include "../Systems/LevelBuilder.h"
 #include "../Components/PlayerComponent.h"
-#include "../Systems/Prefabs.h"
 
 using namespace OatmealEngine;
 
@@ -21,9 +21,12 @@ MainScene::MainScene()
 
 void MainScene::Initialize()
 {
-	LoadResources();
 	auto& resourceManager{ResourceManager::GetInstance()};
+	resourceManager.AddTexture("Blocks", "blocks.png");
+	resourceManager.AddTexture("Characters", "characters.png");
+	resourceManager.AddTexture("Misc", "misc.png");
 
+	resourceManager.AddFont("Lingua24", "Lingua.otf", 24);
 	// GameManager
 	GameManager::GetInstance().Initialize();
 
@@ -35,16 +38,6 @@ void MainScene::Initialize()
 		go->GetTransform().SetPosition(800, 0);
 	}
 
-}
-
-void MainScene::LoadResources() const
-{
-	auto& resourceManager{ResourceManager::GetInstance()};
-	resourceManager.AddTexture("Blocks", "blocks.png");
-	resourceManager.AddTexture("Characters", "characters.png");
-	resourceManager.AddTexture("Misc", "misc.png");
-
-	resourceManager.AddFont("Lingua24", "Lingua.otf", 24);
 }
 
 void MainScene::Update()

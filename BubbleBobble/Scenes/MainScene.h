@@ -12,9 +12,5 @@ protected:
 	virtual void Update() override;
 	virtual void OnSceneLoad() override;
 
-private:
-	void LoadResources() const;
-
-
 };
 

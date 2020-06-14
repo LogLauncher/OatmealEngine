@@ -11,22 +11,24 @@
 #include "SceneManager.h"
 #include "GameSettings.h"
 
+using namespace OatmealEngine;
+
 void InitScenes()
 {
-	OatmealEngine::SceneManager::GetInstance().AddScene(std::make_shared<MainScene>());
-	OatmealEngine::SceneManager::GetInstance().AddScene(std::make_shared<MenuScene>());
-	OatmealEngine::SceneManager::GetInstance().SetStartScene("MenuScene");
+	SceneManager::GetInstance().AddScene(std::make_shared<MainScene>());
+	SceneManager::GetInstance().AddScene(std::make_shared<MenuScene>());
+	SceneManager::GetInstance().SetStartScene("MenuScene");
 }
 
 int main()
 {
 	// GameSettings
-	OatmealEngine::GameSettings::WindowSettings.Width = 1200;
-	OatmealEngine::GameSettings::WindowSettings.Height = 600;
-	OatmealEngine::GameSettings::WindowSettings.VSync = false;
-	OatmealEngine::GameSettings::WindowSettings.Name = "OatmealEngine";
-	OatmealEngine::GameSettings::Gravity = {0,750.f};
-	OatmealEngine::GameSettings::GlobalScale = 3;
+	GameSettings::WindowSettings.Width = 1200;
+	GameSettings::WindowSettings.Height = 600;
+	GameSettings::WindowSettings.VSync = false;
+	GameSettings::WindowSettings.Name = "OatmealEngine";
+	GameSettings::Gravity = {0,750.f};
+	GameSettings::GlobalScale = 3;
 
 	// Initialize all the scenes
 	InitScenes();
