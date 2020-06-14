@@ -6,6 +6,12 @@
 class GameManager final : public OatmealEngine::Singleton<GameManager>
 {
 public:
+	enum class State
+	{
+		MENU,
+		GAME,
+	};
+
 	explicit GameManager();
 	virtual ~GameManager() = default;
 	DEL_ROF(GameManager);
@@ -13,7 +19,9 @@ public:
 	void Initialize();
 	void Update();
 	
-	void LoadLevel(int levelID);
+	void SetState(State state) { m_State = state; }
+
+	void LoadLevel();
 
 private:
 	std::vector<std::weak_ptr<OatmealEngine::GameObject>> m_pLevelBlocks;
@@ -22,6 +30,8 @@ private:
 	
 	bool m_SecondPlayer;
 	bool m_IsInitialized;
+
+	State m_State;
 
 	void AddSecondPlayer();
 

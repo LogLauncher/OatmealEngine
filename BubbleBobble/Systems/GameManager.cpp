@@ -15,6 +15,7 @@ GameManager::GameManager()
 	: m_LevelID{1}
 	, m_IsInitialized{false}
 	, m_SecondPlayer{false}
+	, m_State{State::MENU}
 {}
 
 void GameManager::Initialize()
@@ -25,7 +26,7 @@ void GameManager::Initialize()
 		InputManager::GetInstance().AddInputAction(InputAction("NextLevel", InputTriggerState::Pressed, SDLK_F2));
 		InputManager::GetInstance().AddInputAction(InputAction("PrevLevel", InputTriggerState::Pressed, SDLK_F1));
 
-		LevelBuilder::Build(m_LevelID, SceneManager::GetInstance().GetActiveScene().lock(), ResourceManager::GetInstance().LoadTexture("Blocks").lock(), m_pLevelBlocks);
+// 		LevelBuilder::Build(m_LevelID, SceneManager::GetInstance().GetActiveScene().lock(), ResourceManager::GetInstance().LoadTexture("Blocks").lock(), m_pLevelBlocks);
 
 		m_IsInitialized = true;
 	}
@@ -33,21 +34,29 @@ void GameManager::Initialize()
 
 void GameManager::Update()
 {
-	auto& inputManager{InputManager::GetInstance()};
-	if (!m_SecondPlayer && inputManager.IsActionTriggered("Join", PlayerIndex::PlayerTwo))
-		AddSecondPlayer();
-	if (inputManager.IsActionTriggered("NextLevel", PlayerIndex::PlayerOne))
+	switch (m_State)
 	{
-		++m_LevelID;
-		ClampRef(m_LevelID, 1, 100);
-		LoadLevel(m_LevelID);
+	case State::MENU:
+		break;
+	case State::GAME:
+		auto& inputManager{InputManager::GetInstance()};
+		if (!m_SecondPlayer && inputManager.IsActionTriggered("Join", PlayerIndex::PlayerTwo))
+			AddSecondPlayer();
+		if (inputManager.IsActionTriggered("NextLevel", PlayerIndex::PlayerOne))
+		{
+			++m_LevelID;
+			ClampRef(m_LevelID, 1, 100);
+			LoadLevel();
+		}
+		if (inputManager.IsActionTriggered("PrevLevel", PlayerIndex::PlayerOne))
+		{
+			--m_LevelID;
+			ClampRef(m_LevelID, 1, 100);
+			LoadLevel();
+		}
+		break;
 	}
-	if (inputManager.IsActionTriggered("PrevLevel", PlayerIndex::PlayerOne))
-	{
-		--m_LevelID;
-		ClampRef(m_LevelID, 1, 100);
-		LoadLevel(m_LevelID);
-	}
+
 }
 
 void GameManager::AddSecondPlayer()
@@ -98,12 +107,12 @@ void GameManager::AddSecondPlayer()
 	m_SecondPlayer = true;
 }
 
-void GameManager::LoadLevel(int levelID)
+void GameManager::LoadLevel()
 {
 	for (const auto& pObject : m_pLevelBlocks)
 		pObject.lock()->Delete();
 
 	m_pLevelBlocks.clear();
 
-	LevelBuilder::Build(levelID, SceneManager::GetInstance().GetActiveScene().lock(), ResourceManager::GetInstance().LoadTexture("Blocks").lock(), m_pLevelBlocks);
+	LevelBuilder::Build(m_LevelID, SceneManager::GetInstance().GetActiveScene().lock(), ResourceManager::GetInstance().LoadTexture("Blocks").lock(), m_pLevelBlocks);
 }

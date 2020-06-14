@@ -98,3 +98,8 @@ void MainScene::Update()
 {
 	GameManager::GetInstance().Update();
 }
+
+void MainScene::OnSceneLoad()
+{
+	GameManager::GetInstance().LoadLevel();
+}
