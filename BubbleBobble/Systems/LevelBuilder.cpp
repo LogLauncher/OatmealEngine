@@ -115,6 +115,7 @@ void LevelBuilder::CreateFullBlock(int rowWorld, int colWorld, int rowSpriteShee
 	const SDL_Point blockSize{8, 8};
 
 	auto go = pScene->NewGameObject();
+	go->SetTag("SolidBlock");
 	go->AddComponent(std::make_shared<OatmealEngine::SpriteComponent>(pTexture, blockSize, rowSpriteSheet, colSpriteSheet));
 
 	auto collider = go->AddComponent(std::make_shared<OatmealEngine::ColliderComponent>(blockSize));
@@ -128,6 +129,7 @@ void LevelBuilder::CreatePlatformBlock(int rowWorld, int colWorld, int rowSprite
 	const SDL_Point blockSize{8, 8};
 
 	auto go = pScene->NewGameObject();
+	go->SetTag("PlatformBlock");
 	go->AddComponent(std::make_shared<OatmealEngine::SpriteComponent>(pTexture, blockSize, rowSpriteSheet, colSpriteSheet));
 
 	auto collider = go->AddComponent(std::make_shared<OatmealEngine::PlatformColliderComponent>(blockSize));

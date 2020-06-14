@@ -7,6 +7,13 @@
 class BubbleComponent : public OatmealEngine::BaseComponent
 {
 public:
+	enum class State
+	{
+		MOVING_H,
+		MOVING_U,
+		POPING
+	};
+
 	explicit BubbleComponent(int directionX);
 	virtual ~BubbleComponent() = default;
 	DEL_ROF(BubbleComponent);
@@ -26,7 +33,7 @@ private:
 	const float m_SpeedV;
 	int m_DirectionX;
 
-	bool m_Poping;
+	State m_State;
 
 };
 

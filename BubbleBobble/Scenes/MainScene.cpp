@@ -23,7 +23,7 @@ void MainScene::Initialize()
 	auto& resourceManager{ResourceManager::GetInstance()};
 
 	// Level
-	LevelBuilder::Build(1, this, resourceManager.LoadTexture("Blocks").lock());
+	LevelBuilder::Build(3, this, resourceManager.LoadTexture("Blocks").lock());
 
 #pragma region Player 1
 	// Player 1
