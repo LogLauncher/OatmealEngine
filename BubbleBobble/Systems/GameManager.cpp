@@ -98,7 +98,9 @@ void GameManager::LoadLevel()
 
 	LevelBuilder::Build(m_LevelID, SceneManager::GetInstance().GetActiveScene().lock(), ResourceManager::GetInstance().LoadTexture("Blocks").lock(), m_pLevelBlocks);
 
+	m_pEnemies.push_back(Prefabs::ZenChan({14 * GameSettings::GlobalScale * 8, 2 * GameSettings::GlobalScale * 8, 0}));
 	m_pEnemies.push_back(Prefabs::ZenChan({17 * GameSettings::GlobalScale * 8, 2 * GameSettings::GlobalScale * 8, 0}));
+	m_pEnemies.push_back(Prefabs::ZenChan({20 * GameSettings::GlobalScale * 8, 2 * GameSettings::GlobalScale * 8, 0}));
 }
 
 void GameManager::RemoveEnemy(std::weak_ptr<GameObject> pObject)

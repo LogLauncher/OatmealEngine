@@ -3,9 +3,9 @@
 
 #include "GameTime.h"
 #include "GameObject.h"
-#include "..\..\Systems\GameManager.h"
 #include "ResourceManager.h"
 #include "..\..\Systems\Prefabs.h"
+#include "..\..\Systems\GameManager.h"
 
 using namespace OatmealEngine;
 
@@ -44,7 +44,7 @@ void ZenChanEnemyComponent::Update()
 		GetTransform().Translate(m_SpeedH * dt * m_Direction, 0.f);
 
 		// Jump sometimes
-		if (RandomFloat(0, 1) <= 0.00001f && m_pRigidbodyComponent.lock()->IsGrounded())
+		if (RandomFloat(0, 1) <= 0.00005f && m_pRigidbodyComponent.lock()->IsGrounded())
 			m_pRigidbodyComponent.lock()->AddForce({0.f,-m_JumpForce});
 
 		break;
