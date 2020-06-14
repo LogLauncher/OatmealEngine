@@ -1,6 +1,8 @@
 #include "MiniginPCH.h"
 #include "GameManager.h"
 
+#include "Prefabs.h"
+#include "GameTime.h"
 #include "BaseScene.h"
 #include "Components.h"
 #include "GameObject.h"
@@ -8,7 +10,6 @@
 #include "InputManager.h"
 #include "ResourceManager.h"
 #include "../Components/PlayerComponent.h"
-#include "GameTime.h"
 
 using namespace OatmealEngine;
 
@@ -47,6 +48,7 @@ void GameManager::Update()
 		auto& inputManager{InputManager::GetInstance()};
 		if (!m_SecondPlayer && inputManager.IsActionTriggered("Join", PlayerIndex::PlayerTwo))
 			AddSecondPlayer();
+
 #ifdef _DEBUG
 		if (inputManager.IsActionTriggered("NextLevel", PlayerIndex::PlayerOne))
 		{
@@ -136,4 +138,6 @@ void GameManager::LoadLevel()
 	m_pLevelBlocks.clear();
 
 	LevelBuilder::Build(m_LevelID, SceneManager::GetInstance().GetActiveScene().lock(), ResourceManager::GetInstance().LoadTexture("Blocks").lock(), m_pLevelBlocks);
+
+	m_pEnemies.push_back(Prefabs::ZenChan({17 * GameSettings::GlobalScale * 8, 2 * GameSettings::GlobalScale * 8, 0}));
 }

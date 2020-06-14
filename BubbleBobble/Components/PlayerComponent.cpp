@@ -13,7 +13,9 @@ using namespace OatmealEngine;
 PlayerComponent::PlayerComponent(PlayerIndex playerNr)
 	: m_PlayerNr{playerNr}
 	, m_SpeedH{250.f}
-	, m_JumpForce{470.f}
+	, m_JumpForce{450.f}
+	, m_ShootInterval{.35f}
+	, m_TimerShoot{0}
 {}
 
 void PlayerComponent::Awake()
@@ -22,16 +24,16 @@ void PlayerComponent::Awake()
 	switch (m_PlayerNr)
 	{
 	case PlayerIndex::PlayerOne:
-		inputManager.AddInputAction(InputAction("MoveLeft",InputTriggerState::Down, SDLK_LEFT,GamepadButton::DPAD_LEFT,PlayerIndex::PlayerOne));
-		inputManager.AddInputAction(InputAction("MoveRight",InputTriggerState::Down, SDLK_RIGHT,GamepadButton::DPAD_RIGHT,PlayerIndex::PlayerOne));
-		inputManager.AddInputAction(InputAction("Jump",InputTriggerState::Pressed, SDLK_UP,GamepadButton::A,PlayerIndex::PlayerOne));
-		inputManager.AddInputAction(InputAction("Shoot",InputTriggerState::Pressed, SDLK_RCTRL,GamepadButton::B,PlayerIndex::PlayerOne));
+		inputManager.AddInputAction(InputAction("MoveLeft", InputTriggerState::Down, SDLK_LEFT, GamepadButton::DPAD_LEFT, PlayerIndex::PlayerOne));
+		inputManager.AddInputAction(InputAction("MoveRight", InputTriggerState::Down, SDLK_RIGHT, GamepadButton::DPAD_RIGHT, PlayerIndex::PlayerOne));
+		inputManager.AddInputAction(InputAction("Jump", InputTriggerState::Pressed, SDLK_UP, GamepadButton::A, PlayerIndex::PlayerOne));
+		inputManager.AddInputAction(InputAction("Shoot", InputTriggerState::Pressed, SDLK_RCTRL, GamepadButton::B, PlayerIndex::PlayerOne));
 		break;
 	case PlayerIndex::PlayerTwo:
-		inputManager.AddInputAction(InputAction("MoveLeft",InputTriggerState::Down, SDLK_a,GamepadButton::DPAD_LEFT,PlayerIndex::PlayerTwo));
-		inputManager.AddInputAction(InputAction("MoveRight",InputTriggerState::Down, SDLK_d,GamepadButton::DPAD_RIGHT,PlayerIndex::PlayerTwo));
-		inputManager.AddInputAction(InputAction("Jump",InputTriggerState::Pressed, SDLK_w,GamepadButton::A,PlayerIndex::PlayerTwo));
-		inputManager.AddInputAction(InputAction("Shoot",InputTriggerState::Pressed, SDLK_LCTRL,GamepadButton::B,PlayerIndex::PlayerTwo));
+		inputManager.AddInputAction(InputAction("MoveLeft", InputTriggerState::Down, SDLK_a, GamepadButton::DPAD_LEFT, PlayerIndex::PlayerTwo));
+		inputManager.AddInputAction(InputAction("MoveRight", InputTriggerState::Down, SDLK_d, GamepadButton::DPAD_RIGHT, PlayerIndex::PlayerTwo));
+		inputManager.AddInputAction(InputAction("Jump", InputTriggerState::Pressed, SDLK_w, GamepadButton::A, PlayerIndex::PlayerTwo));
+		inputManager.AddInputAction(InputAction("Shoot", InputTriggerState::Pressed, SDLK_LCTRL, GamepadButton::B, PlayerIndex::PlayerTwo));
 		break;
 	default:
 		break;
@@ -47,9 +49,6 @@ void PlayerComponent::Start()
 
 void PlayerComponent::Update()
 {
-	UpdateMovement();
-	UpdateShoot();
-
 	// Check position if under the level
 	auto& transform{GetTransform()};
 	const auto& pos{transform.GetPosition()};
@@ -59,7 +58,11 @@ void PlayerComponent::Update()
 	if (pos.y > windowHeight)
 		transform.Translate(0, int(-windowHeight - 16 * scale.y));
 	if (pos.y < (-16 * scale.y))
-		transform.Translate(0, windowHeight);
+		return;
+
+	UpdateMovement();
+	UpdateShoot();
+	
 }
 
 void PlayerComponent::UpdateMovement() const
@@ -100,11 +103,16 @@ void PlayerComponent::UpdateMovement() const
 
 void PlayerComponent::UpdateShoot()
 {
-	UINT playerIndex = static_cast<UINT>(m_PlayerNr);
-	if (InputManager::GetInstance().IsActionTriggered("Shoot" + std::to_string(playerIndex)))
+	m_TimerShoot += GameTime::GetInstance().DeltaTime();
+	if (m_TimerShoot >= m_ShootInterval)
 	{
-		m_pAnimationComponent.lock()->Play("Shoot", false);
-		ShootBubble();
+		UINT playerIndex = static_cast<UINT>(m_PlayerNr);
+		if (InputManager::GetInstance().IsActionTriggered("Shoot" + std::to_string(playerIndex)))
+		{
+			m_pAnimationComponent.lock()->Play("Shoot", false);
+			ShootBubble();
+			m_TimerShoot = 0;
+		}
 	}
 }
 

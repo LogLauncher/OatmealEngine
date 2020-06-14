@@ -19,7 +19,7 @@ OatmealEngine::RigidbodyComponent::RigidbodyComponent(const std::weak_ptr<BaseCo
 
 void OatmealEngine::RigidbodyComponent::FixedUpdate()
 {
-	if (!m_IsStatic && !m_IsKinematic)
+	if (!m_IsStatic && !m_IsKinematic && m_HasGravity)
 	{
 		const auto& gameTime{GameTime::GetInstance()};
 		auto& transform{GetTransform()};

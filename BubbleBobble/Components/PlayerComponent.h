@@ -23,6 +23,9 @@ private:
 	float m_SpeedH;
 	float m_JumpForce;
 
+	const float m_ShootInterval;
+	float m_TimerShoot;
+
 	std::weak_ptr<OatmealEngine::RigidbodyComponent> m_pRigidbodyComponent;
 	std::weak_ptr<OatmealEngine::AnimationComponent> m_pAnimationComponent;
 

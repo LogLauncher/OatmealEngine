@@ -202,6 +202,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\libfreetype-6.dll" "$(OutputPath)
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Components\BubbleComponent.cpp" />
+    <ClCompile Include="Components\Enemies\EnemyComponent.cpp" />
     <ClCompile Include="Scenes\MenuScene.cpp" />
     <ClCompile Include="Systems\GameManager.cpp" />
     <ClCompile Include="Systems\Prefabs.cpp" />
@@ -209,6 +210,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\libfreetype-6.dll" "$(OutputPath)
     <ClCompile Include="Components\PlayerComponent.cpp" />
     <ClCompile Include="Scenes\MainScene.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Components\Enemies\ZenChanEnemyComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Minigin\Minigin.vcxproj">
@@ -217,12 +219,14 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\libfreetype-6.dll" "$(OutputPath)
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\BubbleComponent.h" />
+    <ClInclude Include="Components\Enemies\EnemyComponent.h" />
     <ClInclude Include="Scenes\MenuScene.h" />
     <ClInclude Include="Systems\GameManager.h" />
     <ClInclude Include="Systems\Prefabs.h" />
     <ClInclude Include="Systems\LevelBuilder.h" />
     <ClInclude Include="Components\PlayerComponent.h" />
     <ClInclude Include="Scenes\MainScene.h" />
+    <ClInclude Include="Components\Enemies\ZenChanEnemyComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
