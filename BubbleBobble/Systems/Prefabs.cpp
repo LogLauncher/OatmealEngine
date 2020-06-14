@@ -41,7 +41,5 @@ std::shared_ptr<OatmealEngine::GameObject> Prefabs::Bubble(const glm::vec3& posi
 	pCollider->SetOnTriggerCallback(std::bind(&BubbleComponent::OnTrigger, pBullet, std::placeholders::_1));
 	go->GetTransform().SetPosition(position);
 
-	go->RootStart();
-
 	return go;
 }

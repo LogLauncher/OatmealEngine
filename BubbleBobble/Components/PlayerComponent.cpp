@@ -32,7 +32,6 @@ void PlayerComponent::Awake()
 		inputManager.AddInputAction(InputAction("MoveRight",InputTriggerState::Down, SDLK_d,GamepadButton::DPAD_RIGHT,PlayerIndex::PlayerTwo));
 		inputManager.AddInputAction(InputAction("Jump",InputTriggerState::Pressed, SDLK_w,GamepadButton::DPAD_UP,PlayerIndex::PlayerTwo));
 		inputManager.AddInputAction(InputAction("Shoot",InputTriggerState::Pressed, SDLK_LCTRL,GamepadButton::A,PlayerIndex::PlayerTwo));
-		inputManager.AddInputAction(InputAction("Join",InputTriggerState::Pressed, SDLK_j,GamepadButton::START,PlayerIndex::PlayerTwo));
 		break;
 	default:
 		break;

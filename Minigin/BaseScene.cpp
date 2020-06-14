@@ -102,7 +102,11 @@ void OatmealEngine::BaseScene::AddInternal()
 {
 	if (!m_pObjectsToAdd.empty())
 	{
-		m_pObjects.insert(m_pObjects.end(), m_pObjectsToAdd.begin(), m_pObjectsToAdd.end());
+		for (auto& pObject : m_pObjectsToAdd)
+		{
+			m_pObjects.push_back(pObject);
+			pObject->RootStart();
+		}
 		m_pObjectsToAdd.clear();
 	}
 }

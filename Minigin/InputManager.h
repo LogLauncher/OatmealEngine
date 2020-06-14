@@ -84,6 +84,7 @@ namespace OatmealEngine
 		bool Update();
 		bool AddInputAction(InputAction action);
 		bool IsActionTriggered(const std::string& actionID);
+		bool IsActionTriggered(const std::string& actionID, PlayerIndex playerID);
 
 	private:
 		XINPUT_STATE m_OldGamepadState[XUSER_MAX_COUNT]{};

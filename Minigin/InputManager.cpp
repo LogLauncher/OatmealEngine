@@ -87,6 +87,13 @@ bool OatmealEngine::InputManager::IsActionTriggered(const std::string& actionID)
 {
 	return m_InputActions[actionID].IsTriggered;
 }
+
+bool OatmealEngine::InputManager::IsActionTriggered(const std::string& actionID, PlayerIndex playerID)
+{
+	UINT playerIndex = static_cast<UINT>(playerID);
+	return m_InputActions[actionID + std::to_string(playerIndex)].IsTriggered;
+}
+
 bool OatmealEngine::InputManager::AddInputAction(InputAction action)
 {
 	UINT playerIndex = static_cast<UINT>(action.PlayerNr);
