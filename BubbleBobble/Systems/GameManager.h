@@ -23,6 +23,8 @@ public:
 
 	void LoadLevel();
 
+	void RemoveEnemy(std::weak_ptr<OatmealEngine::GameObject> pObject);
+
 private:
 	std::vector<std::weak_ptr<OatmealEngine::GameObject>> m_pLevelBlocks;
 	std::vector<std::weak_ptr<OatmealEngine::GameObject>> m_pEnemies;

@@ -6,9 +6,61 @@
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "../Components/BubbleComponent.h"
+#include "../Components/PlayerComponent.h"
 #include "../Components/Enemies/ZenChanEnemyComponent.h"
 
 using namespace OatmealEngine;
+
+std::shared_ptr<OatmealEngine::GameObject> Prefabs::Player(const glm::vec3& position, PlayerIndex playerID, int animationStartRow)
+{
+	auto pScene{SceneManager::GetInstance().GetActiveScene().lock()};
+	auto go{pScene->NewGameObject()};
+	go->SetTag("Player");
+	go->AddComponent(std::make_shared<SpriteComponent>(ResourceManager::GetInstance().LoadTexture("Characters"), SDL_Point{16, 16}, animationStartRow, 0));
+	auto pPlayer{go->AddComponent(std::make_shared<PlayerComponent>(playerID))};
+
+	auto pCollider = go->AddComponent(std::make_shared<ColliderComponent>(16, 16));
+	go->AddComponent(std::make_shared<RigidbodyComponent>(pCollider));
+	pCollider->SetOnCollideCallback(std::bind(&PlayerComponent::OnCollide, pPlayer, std::placeholders::_1));
+
+	auto animation = go->AddComponent(std::make_shared<AnimationComponent>());
+	animation->AddAnimation("Idle",
+		{
+			AnimationComponent::FrameDesc(animationStartRow,0,-1),
+		}
+	);
+	animation->AddAnimation("Move",
+		{
+			AnimationComponent::FrameDesc(animationStartRow,0,.05f),
+			AnimationComponent::FrameDesc(animationStartRow,1,.05f),
+			AnimationComponent::FrameDesc(animationStartRow,2,.05f),
+			AnimationComponent::FrameDesc(animationStartRow,3,.05f),
+			AnimationComponent::FrameDesc(animationStartRow,4,.05f),
+			AnimationComponent::FrameDesc(animationStartRow,5,.05f),
+			AnimationComponent::FrameDesc(animationStartRow,6,.05f),
+			AnimationComponent::FrameDesc(animationStartRow,7,.05f),
+		}
+	);
+	animation->AddAnimation("Shoot",
+		{
+			AnimationComponent::FrameDesc(animationStartRow+1,0,.1f),
+			AnimationComponent::FrameDesc(animationStartRow+1,4,.1f),
+			AnimationComponent::FrameDesc(animationStartRow+1,0,.1f),
+		}
+	);
+	animation->AddAnimation("Hit",
+		{
+			AnimationComponent::FrameDesc(animationStartRow+2,0,.075f),
+			AnimationComponent::FrameDesc(animationStartRow+2,1,.075f),
+			AnimationComponent::FrameDesc(animationStartRow+2,2,.075f),
+			AnimationComponent::FrameDesc(animationStartRow+2,3,.075f),
+		}
+	);
+
+	go->GetTransform().SetPosition(position);
+
+	return go;
+}
 
 std::shared_ptr<OatmealEngine::GameObject> Prefabs::Bubble(const glm::vec3& position, int directionX, int animationStartCol)
 {

@@ -18,7 +18,7 @@ GameManager::GameManager()
 	, m_IsInitialized{false}
 	, m_SecondPlayer{false}
 	, m_State{State::MENU}
-	, m_TimeBeforeLevelSwitch{5.f}
+	, m_TimeBeforeLevelSwitch{4.f}
 	, m_TimerSwitchLevel{0}
 {}
 
@@ -84,49 +84,8 @@ void GameManager::Update()
 
 void GameManager::AddSecondPlayer()
 {
-	auto go = SceneManager::GetInstance().GetActiveScene().lock()->NewGameObject();
-	go->SetTag("Player");
-	go->AddComponent(std::make_shared<SpriteComponent>(ResourceManager::GetInstance().LoadTexture("Characters"), SDL_Point{16, 16}, 3, 0));
-	go->AddComponent(std::make_shared<PlayerComponent>(PlayerIndex::PlayerTwo));
-
-	auto collider = go->AddComponent(std::make_shared<ColliderComponent>(16, 16));
-	go->AddComponent(std::make_shared<RigidbodyComponent>(collider));
-
-	auto animation = go->AddComponent(std::make_shared<AnimationComponent>());
-	animation->AddAnimation("Idle",
-		{
-			AnimationComponent::FrameDesc(3,0,-1),
-		}
-	);
-	animation->AddAnimation("Move",
-		{
-			AnimationComponent::FrameDesc(3,0,.05f),
-			AnimationComponent::FrameDesc(3,1,.05f),
-			AnimationComponent::FrameDesc(3,2,.05f),
-			AnimationComponent::FrameDesc(3,3,.05f),
-			AnimationComponent::FrameDesc(3,4,.05f),
-			AnimationComponent::FrameDesc(3,5,.05f),
-			AnimationComponent::FrameDesc(3,6,.05f),
-			AnimationComponent::FrameDesc(3,7,.05f),
-		}
-	);
-	animation->AddAnimation("Shoot",
-		{
-			AnimationComponent::FrameDesc(4, 0, .1f),
-			AnimationComponent::FrameDesc(4, 4, .1f),
-			AnimationComponent::FrameDesc(4, 0, .1f),
-		}
-	);
-	animation->AddAnimation("Hit",
-		{
-			AnimationComponent::FrameDesc(5,0,.075f),
-			AnimationComponent::FrameDesc(5,1,.075f),
-			AnimationComponent::FrameDesc(5,2,.075f),
-			AnimationComponent::FrameDesc(5,3,.075f),
-		}
-	);
-	go->GetTransform().SetPosition(8 * GameSettings::GlobalScale * 26, 500);
-	go->GetTransform().SetScale(-1, 1);
+	auto pPlayer{Prefabs::Player({8 * GameSettings::GlobalScale * 26, 8 * GameSettings::GlobalScale * 20, 0}, PlayerIndex::PlayerTwo, 3)};
+	pPlayer->GetTransform().SetScale(-1, 1);
 	m_SecondPlayer = true;
 }
 
@@ -140,4 +99,11 @@ void GameManager::LoadLevel()
 	LevelBuilder::Build(m_LevelID, SceneManager::GetInstance().GetActiveScene().lock(), ResourceManager::GetInstance().LoadTexture("Blocks").lock(), m_pLevelBlocks);
 
 	m_pEnemies.push_back(Prefabs::ZenChan({17 * GameSettings::GlobalScale * 8, 2 * GameSettings::GlobalScale * 8, 0}));
+}
+
+void GameManager::RemoveEnemy(std::weak_ptr<GameObject> pObject)
+{
+	auto it = find_if(m_pEnemies.begin(), m_pEnemies.end(), [&pObject](std::weak_ptr<GameObject> pOther) {return pOther.lock() == pObject.lock(); });
+	if (it != m_pEnemies.end())
+		m_pEnemies.erase(it);
 }

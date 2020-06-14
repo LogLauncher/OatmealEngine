@@ -7,6 +7,7 @@
 #include "InputManager.h"
 #include "GameSettings.h"
 #include "../Systems/Prefabs.h"
+#include "Enemies/ZenChanEnemyComponent.h"
 
 using namespace OatmealEngine;
 
@@ -16,6 +17,9 @@ PlayerComponent::PlayerComponent(PlayerIndex playerNr)
 	, m_JumpForce{450.f}
 	, m_ShootInterval{.35f}
 	, m_TimerShoot{0}
+	, m_State{State::MOVING}
+	, m_InvincibilityTime{1.f}
+	, m_TimerInvincibility{0}
 {}
 
 void PlayerComponent::Awake()
@@ -35,10 +39,7 @@ void PlayerComponent::Awake()
 		inputManager.AddInputAction(InputAction("Jump", InputTriggerState::Pressed, SDLK_w, GamepadButton::A, PlayerIndex::PlayerTwo));
 		inputManager.AddInputAction(InputAction("Shoot", InputTriggerState::Pressed, SDLK_LCTRL, GamepadButton::B, PlayerIndex::PlayerTwo));
 		break;
-	default:
-		break;
 	}
-
 }
 
 void PlayerComponent::Start()
@@ -63,9 +64,28 @@ void PlayerComponent::Update()
 		return;
 	}
 
-	UpdateMovement();
-	UpdateShoot();
-	
+	switch (m_State)
+	{
+	case PlayerComponent::State::MOVING:
+		UpdateMovement();
+		UpdateShoot();
+		break;
+	case PlayerComponent::State::HIT:
+		if (!m_pAnimationComponent.lock()->IsPlayingAnimation())
+			m_State = State::INVULNERABLE;
+		break;
+	case PlayerComponent::State::INVULNERABLE:
+		m_TimerInvincibility += GameTime::GetInstance().DeltaTime();
+		if (m_TimerInvincibility >= m_InvincibilityTime)
+		{
+			m_TimerInvincibility = 0;
+			m_State = State::MOVING;
+		}
+		UpdateMovement();
+		UpdateShoot();
+		break;
+	}
+
 }
 
 void PlayerComponent::UpdateMovement() const
@@ -103,7 +123,6 @@ void PlayerComponent::UpdateMovement() const
 	if (!doingSomething)
 		pAnimaion->Play("Idle");
 }
-
 void PlayerComponent::UpdateShoot()
 {
 	m_TimerShoot += GameTime::GetInstance().DeltaTime();
@@ -126,4 +145,22 @@ void PlayerComponent::ShootBubble()
 	const auto& size{m_pRigidbodyComponent.lock()->GetCollider().lock()->GetSize()};
 	const SDL_Point halfSize{int(size.x / 2.f), int(size.y / 2.f)};
 	Prefabs::Bubble(glm::vec3{pos.x + (size.x * directionX), pos.y, 0.f}, directionX, int(m_PlayerNr) * 2);
+}
+
+void PlayerComponent::OnCollide(std::shared_ptr<BaseCollider> pOther)
+{
+	const auto& pOtherGameObject{pOther->GetGameObject().lock()};
+	if (pOtherGameObject->CompareTag("Enemy") && m_State == State::MOVING)
+	{
+		auto pEnemy{pOtherGameObject->GetComponent<ZenChanEnemyComponent>().lock()};
+		if (pEnemy)
+		{
+			if (pEnemy->GetState() == EnemyComponent::State::MOVING && pEnemy->CanAttack())
+			{
+				m_pAnimationComponent.lock()->Play("Hit", false);
+				m_State = State::HIT;
+				pEnemy->ResetAttack();
+			}
+		}
+	}
 }

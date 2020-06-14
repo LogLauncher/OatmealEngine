@@ -8,6 +8,12 @@
 class PlayerComponent final : public OatmealEngine::BaseComponent
 {
 public:
+	enum class State
+	{
+		MOVING,
+		HIT,
+		INVULNERABLE,
+	};
 	explicit PlayerComponent(OatmealEngine::PlayerIndex playerNr);
 	virtual ~PlayerComponent() = default;
 	DEL_ROF(PlayerComponent);
@@ -16,6 +22,7 @@ public:
 	virtual void Start() override;
 	virtual void Update() override;
 
+	virtual void OnCollide(std::shared_ptr<OatmealEngine::BaseCollider> pOther) override;
 
 private:
 	OatmealEngine::PlayerIndex m_PlayerNr;
@@ -26,6 +33,9 @@ private:
 	const float m_ShootInterval;
 	float m_TimerShoot;
 
+	const float m_InvincibilityTime;
+	float m_TimerInvincibility;
+
 	std::weak_ptr<OatmealEngine::RigidbodyComponent> m_pRigidbodyComponent;
 	std::weak_ptr<OatmealEngine::AnimationComponent> m_pAnimationComponent;
 
@@ -33,6 +43,9 @@ private:
 	void UpdateShoot();
 
 	void ShootBubble();
+
+	State m_State;
+
 
 };
 

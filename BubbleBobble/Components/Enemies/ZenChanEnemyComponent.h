@@ -5,12 +5,6 @@
 class ZenChanEnemyComponent final : public EnemyComponent
 {
 public:
-	enum class State
-	{
-		MOVING,
-		HIT,
-	};
-
 	explicit ZenChanEnemyComponent();
 	virtual ~ZenChanEnemyComponent() = default;
 	DEL_ROF(ZenChanEnemyComponent);
@@ -24,8 +18,6 @@ private:
 	float m_Timer;
 
 	int m_Direction;
-
-	State m_State;
 
 };
 

@@ -11,6 +11,7 @@
 #include "ResourceManager.h"
 #include "../Systems/LevelBuilder.h"
 #include "../Components/PlayerComponent.h"
+#include "../Systems/Prefabs.h"
 
 using namespace OatmealEngine;
 
@@ -26,54 +27,6 @@ void MainScene::Initialize()
 	// GameManager
 	GameManager::GetInstance().Initialize();
 
-#pragma region Player 1
-	// Player 1
-	{
-		auto go = NewGameObject();
-		go->SetTag("Player");
-		go->AddComponent(std::make_shared<SpriteComponent>(resourceManager.LoadTexture("Characters"), SDL_Point{16, 16}, 0, 0));
-		go->AddComponent(std::make_shared<PlayerComponent>(PlayerIndex::PlayerOne));
-
-		auto collider = go->AddComponent(std::make_shared<ColliderComponent>(16, 16));
-		go->AddComponent(std::make_shared<RigidbodyComponent>(collider));
-
-		auto animation = go->AddComponent(std::make_shared<AnimationComponent>());
-		animation->AddAnimation("Idle",
-			{
-				AnimationComponent::FrameDesc(0,0,-1),
-			}
-		);
-		animation->AddAnimation("Move",
-			{
-				AnimationComponent::FrameDesc(0,0,.05f),
-				AnimationComponent::FrameDesc(0,1,.05f),
-				AnimationComponent::FrameDesc(0,2,.05f),
-				AnimationComponent::FrameDesc(0,3,.05f),
-				AnimationComponent::FrameDesc(0,4,.05f),
-				AnimationComponent::FrameDesc(0,5,.05f),
-				AnimationComponent::FrameDesc(0,6,.05f),
-				AnimationComponent::FrameDesc(0,7,.05f),
-			}
-		);
-		animation->AddAnimation("Shoot",
-			{
-				AnimationComponent::FrameDesc(1,0,.1f),
-				AnimationComponent::FrameDesc(1,4,.1f),
-				AnimationComponent::FrameDesc(1,0,.1f),
-			}
-		);
-		animation->AddAnimation("Hit",
-			{
-				AnimationComponent::FrameDesc(2,0,.075f),
-				AnimationComponent::FrameDesc(2,1,.075f),
-				AnimationComponent::FrameDesc(2,2,.075f),
-				AnimationComponent::FrameDesc(2,3,.075f),
-			}
-		);
-
-		go->GetTransform().SetPosition(8 * GameSettings::GlobalScale * 4, 500);
-	}
-#pragma endregion
 
 	// FPS display
 	{
@@ -102,4 +55,6 @@ void MainScene::Update()
 void MainScene::OnSceneLoad()
 {
 	GameManager::GetInstance().LoadLevel();
+
+	Prefabs::Player({8 * GameSettings::GlobalScale * 4, 8 * GameSettings::GlobalScale * 20, 0}, PlayerIndex::PlayerOne, 0);
 }

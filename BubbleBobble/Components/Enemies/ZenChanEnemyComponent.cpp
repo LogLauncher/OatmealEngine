@@ -1,14 +1,14 @@
 #include "MiniginPCH.h"
 #include "ZenChanEnemyComponent.h"
 
-#include "GameObject.h"
 #include "GameTime.h"
+#include "GameObject.h"
+#include "..\..\Systems\GameManager.h"
 
 using namespace OatmealEngine;
 
 ZenChanEnemyComponent::ZenChanEnemyComponent()
 	: EnemyComponent(150.f, 35.f, 450.f)
-	, m_State{State::MOVING}
 	, m_TimeTillPop{5.f}
 	, m_Timer{0}
 	, m_Direction{RandomInt(0,1) ? -1 : 1}
@@ -22,6 +22,9 @@ void ZenChanEnemyComponent::Awake()
 
 void ZenChanEnemyComponent::Update()
 {
+	// Call base update
+	EnemyComponent::Update();
+
 	const float dt{GameTime::GetInstance().DeltaTime()};
 	switch (m_State)
 	{
@@ -29,7 +32,7 @@ void ZenChanEnemyComponent::Update()
 		m_pAnimationComponent.lock()->Play("Move");
 
 		// Toggle direction
-		if (RandomFloat(0, 1) <= 0.0005f)
+		if (RandomFloat(0, 1) <= 0.00005f)
 		{
 			m_Direction *= -1;
 			GetTransform().InvertXScale();
@@ -39,7 +42,7 @@ void ZenChanEnemyComponent::Update()
 		GetTransform().Translate(m_SpeedH * dt * m_Direction, 0.f);
 
 		// Jump sometimes
-		if (RandomFloat(0, 1) <= 0.00025f && m_pRigidbodyComponent.lock()->IsGrounded())
+		if (RandomFloat(0, 1) <= 0.00001f && m_pRigidbodyComponent.lock()->IsGrounded())
 			m_pRigidbodyComponent.lock()->AddForce({0.f,-m_JumpForce});
 
 		break;
@@ -82,6 +85,13 @@ void ZenChanEnemyComponent::OnCollide(std::shared_ptr<BaseCollider> pOther)
 			m_Direction *= -1;
 			GetTransform().InvertXScale();
 		}
+	}
+
+	// Check if player collision
+	if (pOtherGameObject->CompareTag("Player") && m_State == State::HIT)
+	{
+		GameManager::GetInstance().RemoveEnemy(GetGameObject());
+		GetGameObject().lock()->Delete();
 	}
 
 }
