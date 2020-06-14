@@ -8,11 +8,14 @@
 OatmealEngine::AnimationComponent::AnimationComponent()
 	: m_Animations{}
 	, m_pSpriteComponent{}
-	, m_CurrentAnimationName{0}
+	, m_CurrentAnimationID{0}
+	, m_PreviousAnimationID{0}
 	, m_ActiveAnimationDesc{-1,-1,0}
 	, m_Timer{}
 	, m_CurrentFrame{0}
 	, m_CurrentAnimation{}
+	, m_Loop{true}
+	, m_PlayingAnimation{false}
 {}
 
 void OatmealEngine::AnimationComponent::Start()
@@ -28,10 +31,21 @@ void OatmealEngine::AnimationComponent::LateUpdate()
 		if (m_ActiveAnimationDesc.Duration > 0 && m_Timer >= m_ActiveAnimationDesc.Duration)
 		{
 			m_Timer -= m_ActiveAnimationDesc.Duration;
-			m_pSpriteComponent.lock()->SetRowColumn(m_ActiveAnimationDesc.Row, m_ActiveAnimationDesc.Column);
 
-			m_CurrentFrame = ++m_CurrentFrame % m_CurrentAnimation.size();
-			m_ActiveAnimationDesc = m_CurrentAnimation[m_CurrentFrame];
+			++m_CurrentFrame;
+			if (m_CurrentFrame >= m_CurrentAnimation.size() && !m_Loop && m_PlayingAnimation)
+			{
+				Play(m_PreviousAnimationID);
+				m_Loop = true;
+				m_PlayingAnimation = false;
+			}
+			else
+			{
+				m_CurrentFrame = m_CurrentFrame % m_CurrentAnimation.size();
+				m_ActiveAnimationDesc = m_CurrentAnimation[m_CurrentFrame];
+			}
+
+			m_pSpriteComponent.lock()->SetRowColumn(m_ActiveAnimationDesc.Row, m_ActiveAnimationDesc.Column);
 		}
 	}
 }
@@ -48,16 +62,32 @@ bool OatmealEngine::AnimationComponent::AddAnimation(const std::string& name, co
 	return true;
 }
 
-bool OatmealEngine::AnimationComponent::Play(const std::string& name)
+bool OatmealEngine::AnimationComponent::Play(const std::string& name, bool loop)
 {
+	if (m_PlayingAnimation)
+		return false;
+
 	size_t nameHash = std::hash<std::string>{}(name);
-	if (m_CurrentAnimationName != nameHash)
+	m_Loop = loop;
+	
+	if (!m_Loop)
 	{
-		auto it{m_Animations.find(nameHash)};
+		m_PreviousAnimationID = m_CurrentAnimationID;
+		m_PlayingAnimation = true;
+	}
+
+	return Play(nameHash);
+}
+
+bool OatmealEngine::AnimationComponent::Play(size_t id)
+{
+	if (m_CurrentAnimationID != id)
+	{
+		auto it{m_Animations.find(id)};
 		if (it == m_Animations.end())
 			return false;
 
-		m_CurrentAnimationName = nameHash;
+		m_CurrentAnimationID = id;
 
 		m_CurrentFrame = 0;
 		m_Timer = 0;

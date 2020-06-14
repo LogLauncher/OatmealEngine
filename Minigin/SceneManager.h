@@ -12,6 +12,8 @@ namespace OatmealEngine
 		bool SetStartScene(const std::string& name);
 		bool LoadScene(const std::string& name);
 
+		std::weak_ptr<BaseScene> GetActiveScene() const { return m_pActiveScene; }
+
 		void Initialize();
 
 	private:

@@ -29,6 +29,7 @@ void PlayerComponent::Awake()
 		inputManager.AddInputAction(OatmealEngine::InputAction("MoveRight", OatmealEngine::InputTriggerState::Down, SDLK_d, OatmealEngine::GamepadButton::DPAD_RIGHT, OatmealEngine::PlayerIndex::PlayerTwo));
 		inputManager.AddInputAction(OatmealEngine::InputAction("Jump", OatmealEngine::InputTriggerState::Pressed, SDLK_w, OatmealEngine::GamepadButton::DPAD_UP, OatmealEngine::PlayerIndex::PlayerTwo));
 		inputManager.AddInputAction(OatmealEngine::InputAction("Shoot", OatmealEngine::InputTriggerState::Pressed, SDLK_LCTRL, OatmealEngine::GamepadButton::A, OatmealEngine::PlayerIndex::PlayerTwo));
+		inputManager.AddInputAction(OatmealEngine::InputAction("Join", OatmealEngine::InputTriggerState::Pressed, SDLK_j, OatmealEngine::GamepadButton::START, OatmealEngine::PlayerIndex::PlayerTwo));
 		break;
 	default:
 		break;
@@ -45,6 +46,7 @@ void PlayerComponent::Start()
 void PlayerComponent::Update()
 {
 	UpdateMovement();
+	UpdateShoot();
 
 	// Check position if under the level
 	auto& transform{GetTransform()};
@@ -58,7 +60,7 @@ void PlayerComponent::Update()
 		transform.Translate(0, windowHeight);
 }
 
-void PlayerComponent::UpdateMovement()
+void PlayerComponent::UpdateMovement() const
 {
 	auto& transform{GetTransform()};
 	auto pRigidbody{m_pRigidbodyComponent.lock()};
@@ -92,4 +94,11 @@ void PlayerComponent::UpdateMovement()
 
 	if (!doingSomething)
 		pAnimaion->Play("Idle");
+}
+
+void PlayerComponent::UpdateShoot() const
+{
+	UINT playerIndex = static_cast<UINT>(m_PlayerNr);
+	if (OatmealEngine::InputManager::GetInstance().IsActionTriggered("Shoot" + std::to_string(playerIndex)))
+		m_pAnimationComponent.lock()->Play("Shoot", false);
 }

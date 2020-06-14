@@ -201,7 +201,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\libfreetype-6.dll" "$(OutputPath)
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="LevelBuilder.cpp" />
+    <ClCompile Include="Systems\LevelBuilder.cpp" />
     <ClCompile Include="Components\PlayerComponent.cpp" />
     <ClCompile Include="Scenes\MainScene.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -212,7 +212,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\libfreetype-6.dll" "$(OutputPath)
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LevelBuilder.h" />
+    <ClInclude Include="Systems\LevelBuilder.h" />
     <ClInclude Include="Components\PlayerComponent.h" />
     <ClInclude Include="Scenes\MainScene.h" />
   </ItemGroup>
