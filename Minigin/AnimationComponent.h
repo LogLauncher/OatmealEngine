@@ -32,6 +32,7 @@ namespace OatmealEngine
 
 		bool AddAnimation(const std::string& name, const std::vector<FrameDesc>& animations);
 		bool Play(const std::string& name, bool loop = true);
+		bool IsPlayingAnimation() const { return m_PlayingAnimation; }
 
 	private:
 		std::map<size_t, std::vector<FrameDesc>> m_Animations;

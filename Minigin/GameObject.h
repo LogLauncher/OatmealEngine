@@ -27,6 +27,7 @@ namespace OatmealEngine
 
 		void SetScene(const std::weak_ptr<BaseScene>& pBaseScene);
 		std::weak_ptr<BaseScene> GetScene() const;
+		void Delete();
 
 		TransformComponent& GetTransform();
 		template <class T>

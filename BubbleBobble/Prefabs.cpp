@@ -5,7 +5,7 @@
 #include "Components.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
-#include "Components\BulletComponent.h"
+#include "Components\BubbleComponent.h"
 
 using namespace OatmealEngine;
 
@@ -25,8 +25,8 @@ std::shared_ptr<OatmealEngine::GameObject> Prefabs::Bubble(const glm::vec3& posi
 	auto pAnimation{go->AddComponent(std::make_shared<AnimationComponent>())};
 	pAnimation->AddAnimation("Idle",
 		{
-			AnimationComponent::FrameDesc(0, animationStartCol, .05f),
-			AnimationComponent::FrameDesc(0, animationStartCol + 1, .05f),
+			AnimationComponent::FrameDesc(0, animationStartCol, .1f),
+			AnimationComponent::FrameDesc(0, animationStartCol + 1, .1f),
 		}
 	);
 	pAnimation->AddAnimation("Pop",
@@ -37,8 +37,8 @@ std::shared_ptr<OatmealEngine::GameObject> Prefabs::Bubble(const glm::vec3& posi
 		}
 	);
 
-	auto pBullet{go->AddComponent(std::make_shared<BulletComponent>(directionX))};
-	pCollider->SetOnTriggerCallback(std::bind(&BulletComponent::OnTrigger, pBullet, std::placeholders::_1));
+	auto pBullet{go->AddComponent(std::make_shared<BubbleComponent>(directionX))};
+	pCollider->SetOnTriggerCallback(std::bind(&BubbleComponent::OnTrigger, pBullet, std::placeholders::_1));
 	go->GetTransform().SetPosition(position);
 
 	go->RootStart();

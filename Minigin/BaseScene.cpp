@@ -31,10 +31,11 @@ std::shared_ptr<OatmealEngine::GameObject> OatmealEngine::BaseScene::NewGameObje
 bool OatmealEngine::BaseScene::Remove(const std::shared_ptr<GameObject>& object)
 {
 	auto it = find(m_pObjectsToDelete.begin(), m_pObjectsToDelete.end(), object);
-	if (it == m_pObjectsToDelete.end())
+	if (it != m_pObjectsToDelete.end())
 		return false;
 
-	m_pObjectsToDelete.erase(it);
+	m_pObjectsToDelete.push_back(object);
+
 	return true;
 }
 
@@ -110,11 +111,30 @@ void OatmealEngine::BaseScene::RemoveInternal()
 {
 	for (auto& pObject : m_pObjectsToDelete)
 	{
-		auto it = find(m_pObjects.begin(), m_pObjects.end(), pObject);
-		if (it == m_pObjects.end())
-			continue;
+		{
+			auto it = find(m_pObjects.begin(), m_pObjects.end(), pObject);
+			if (it == m_pObjects.end())
+				continue;
 
-		m_pObjects.erase(it);
+			m_pObjects.erase(it);
+		}
+
+		auto pRender{pObject->GetComponent<RenderComponent>().lock()};
+		if (pRender)
+		{
+			auto it = find(m_pRenderComponents.begin(), m_pRenderComponents.end(), pRender);
+			if (it != m_pRenderComponents.end())
+				m_pRenderComponents.erase(it);
+		}
+
+		auto pRigid{pObject->GetComponent<RigidbodyComponent>().lock()};
+		if (pRigid)
+		{
+			auto it = find_if(m_pRigidbodyComponents.begin(), m_pRigidbodyComponents.end(), [pRigid](std::weak_ptr<RigidbodyComponent> pOtherRigid) {return pOtherRigid.lock() == pRigid; });
+			if (it != m_pRigidbodyComponents.end())
+				m_pRigidbodyComponents.erase(it);
+		}
+
 	}
 	m_pObjectsToDelete.clear();
 }

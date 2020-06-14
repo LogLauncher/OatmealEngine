@@ -4,12 +4,12 @@
 #include "AnimationComponent.h"
 #include "BaseCollider.h"
 
-class BulletComponent : public OatmealEngine::BaseComponent
+class BubbleComponent : public OatmealEngine::BaseComponent
 {
 public:
-	explicit BulletComponent(int directionX);
-	virtual ~BulletComponent() = default;
-	DEL_ROF(BulletComponent);
+	explicit BubbleComponent(int directionX);
+	virtual ~BubbleComponent() = default;
+	DEL_ROF(BubbleComponent);
 
 	virtual void Start() override;
 	virtual void Update() override;
@@ -22,8 +22,11 @@ private:
 	const float m_TimeMoveUp;
 	float m_TimerMove;
 
-	const float m_Speed;
+	const float m_SpeedH;
+	const float m_SpeedV;
 	int m_DirectionX;
+
+	bool m_Poping;
 
 };
 

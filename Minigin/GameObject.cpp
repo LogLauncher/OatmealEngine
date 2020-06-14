@@ -43,6 +43,7 @@ OatmealEngine::TransformComponent& OatmealEngine::GameObject::GetTransform()
 
 std::shared_ptr<OatmealEngine::RenderComponent> OatmealEngine::GameObject::AddComponent(const std::shared_ptr<RenderComponent>& pComponent)
 {
+	m_pComponents.push_back(pComponent);
 	m_pBaseScene.lock()->AddRenderComponent(pComponent);
 	pComponent->SetGameObject(shared_from_this());
 	return pComponent;
@@ -74,3 +75,8 @@ void OatmealEngine::GameObject::RootDebugRender() const
 		component->DebugRender();
 }
 #endif // _DEBUG
+
+void OatmealEngine::GameObject::Delete()
+{
+	m_pBaseScene.lock()->Remove(shared_from_this());
+}
