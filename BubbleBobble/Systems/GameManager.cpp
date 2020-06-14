@@ -8,6 +8,7 @@
 #include "InputManager.h"
 #include "ResourceManager.h"
 #include "../Components/PlayerComponent.h"
+#include "GameTime.h"
 
 using namespace OatmealEngine;
 
@@ -16,6 +17,8 @@ GameManager::GameManager()
 	, m_IsInitialized{false}
 	, m_SecondPlayer{false}
 	, m_State{State::MENU}
+	, m_TimeBeforeLevelSwitch{5.f}
+	, m_TimerSwitchLevel{0}
 {}
 
 void GameManager::Initialize()
@@ -23,10 +26,10 @@ void GameManager::Initialize()
 	if (!m_IsInitialized)
 	{
 		InputManager::GetInstance().AddInputAction(InputAction("Join", InputTriggerState::Pressed, SDLK_j, GamepadButton::START, PlayerIndex::PlayerTwo));
+#ifdef _DEBUG
 		InputManager::GetInstance().AddInputAction(InputAction("NextLevel", InputTriggerState::Pressed, SDLK_F2));
 		InputManager::GetInstance().AddInputAction(InputAction("PrevLevel", InputTriggerState::Pressed, SDLK_F1));
-
-// 		LevelBuilder::Build(m_LevelID, SceneManager::GetInstance().GetActiveScene().lock(), ResourceManager::GetInstance().LoadTexture("Blocks").lock(), m_pLevelBlocks);
+#endif // _DEBUG
 
 		m_IsInitialized = true;
 	}
@@ -39,9 +42,12 @@ void GameManager::Update()
 	case State::MENU:
 		break;
 	case State::GAME:
+		
+		// Check input
 		auto& inputManager{InputManager::GetInstance()};
 		if (!m_SecondPlayer && inputManager.IsActionTriggered("Join", PlayerIndex::PlayerTwo))
 			AddSecondPlayer();
+#ifdef _DEBUG
 		if (inputManager.IsActionTriggered("NextLevel", PlayerIndex::PlayerOne))
 		{
 			++m_LevelID;
@@ -54,6 +60,21 @@ void GameManager::Update()
 			ClampRef(m_LevelID, 1, 100);
 			LoadLevel();
 		}
+#endif // _DEBUG
+
+		// Check is can go to next level
+		if (m_pEnemies.empty())
+		{
+			m_TimerSwitchLevel += GameTime::GetInstance().DeltaTime();
+			if (m_TimerSwitchLevel >= m_TimeBeforeLevelSwitch)
+			{
+				m_TimerSwitchLevel = 0;
+				++m_LevelID;
+				ClampRef(m_LevelID, 1, 100);
+				LoadLevel(); 
+			}
+		}
+
 		break;
 	}
 

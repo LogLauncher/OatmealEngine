@@ -25,8 +25,12 @@ public:
 
 private:
 	std::vector<std::weak_ptr<OatmealEngine::GameObject>> m_pLevelBlocks;
+	std::vector<std::weak_ptr<OatmealEngine::GameObject>> m_pEnemies;
 	
 	int m_LevelID;
+
+	const float m_TimeBeforeLevelSwitch;
+	float m_TimerSwitchLevel;
 	
 	bool m_SecondPlayer;
 	bool m_IsInitialized;
