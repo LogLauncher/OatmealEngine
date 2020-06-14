@@ -6,6 +6,10 @@
 #include "RenderComponent.h"
 #include "RigidbodyComponent.h"
 
+OatmealEngine::GameObject::GameObject()
+	: m_Tag{""}
+{}
+
 void OatmealEngine::GameObject::RootAwake()
 {
 	for (const auto& component : m_pComponents)

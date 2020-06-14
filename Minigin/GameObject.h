@@ -11,7 +11,7 @@ namespace OatmealEngine
 	class GameObject final : public std::enable_shared_from_this<GameObject>
 	{
 	public:
-		GameObject() = default;
+		explicit GameObject();
 		virtual ~GameObject() = default;
 		DEL_ROF(GameObject);
 
@@ -29,6 +29,10 @@ namespace OatmealEngine
 		std::weak_ptr<BaseScene> GetScene() const;
 		void Delete();
 
+		const std::string& GetTag() const { return m_Tag; }
+		void SetTag(const std::string& tag) { m_Tag = tag; }
+		bool CompareTag(const std::string& tag) const { return m_Tag.compare(tag) == 0; }
+
 		TransformComponent& GetTransform();
 		template <class T>
 		std::shared_ptr<T> AddComponent(const std::shared_ptr<T>& pComponent);
@@ -39,6 +43,8 @@ namespace OatmealEngine
 		std::weak_ptr<T> GetComponent() const;
 
 	private:
+		std::string m_Tag;
+
 		TransformComponent m_Transform;
 		std::weak_ptr<BaseScene> m_pBaseScene;
 		std::vector<std::shared_ptr<BaseComponent>> m_pComponents;

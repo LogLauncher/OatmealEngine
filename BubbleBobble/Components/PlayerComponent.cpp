@@ -6,7 +6,7 @@
 #include "Components.h"
 #include "InputManager.h"
 #include "GameSettings.h"
-#include "..\Prefabs.h"
+#include "../Systems/Prefabs.h"
 
 using namespace OatmealEngine;
 
@@ -115,5 +115,5 @@ void PlayerComponent::ShootBubble()
 	const int directionX{Utils::Sign(GetTransform().GetScale().x)};
 	const auto& size{m_pRigidbodyComponent.lock()->GetCollider().lock()->GetSize()};
 	const SDL_Point halfSize{int(size.x / 2.f), int(size.y / 2.f)};
-	Prefabs::Bubble(glm::vec3{pos.x + halfSize.x + (size.x * directionX), pos.y, 0.f}, directionX, int(m_PlayerNr) * 2);
+	Prefabs::Bubble(glm::vec3{pos.x + (size.x * directionX), pos.y, 0.f}, directionX, int(m_PlayerNr) * 2);
 }

@@ -51,5 +51,5 @@ void BubbleComponent::Update()
 
 void BubbleComponent::OnTrigger(std::shared_ptr<BaseCollider> pOther)
 {
-	std::cout << "Bullet collided" << std::endl;
+	std::cout << pOther->GetGameObject().lock()->GetTag() << std::endl;
 }

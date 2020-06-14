@@ -27,10 +27,10 @@
     <ClCompile Include="Systems\LevelBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Prefabs.cpp">
+    <ClCompile Include="Components\BubbleComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Components\BubbleComponent.cpp">
+    <ClCompile Include="Systems\Prefabs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,10 +44,10 @@
     <ClInclude Include="Systems\LevelBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Prefabs.h">
+    <ClInclude Include="Components\BubbleComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Components\BubbleComponent.h">
+    <ClInclude Include="Systems\Prefabs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

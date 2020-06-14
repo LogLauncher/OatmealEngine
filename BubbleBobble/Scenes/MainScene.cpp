@@ -29,6 +29,7 @@ void MainScene::Initialize()
 	// Player 1
 	{
 		auto go = NewGameObject();
+		go->SetTag("Player");
 		go->AddComponent(std::make_shared<SpriteComponent>(resourceManager.LoadTexture("Characters"), SDL_Point{16, 16}, 0, 0));
 		go->AddComponent(std::make_shared<PlayerComponent>(PlayerIndex::PlayerOne));
 
@@ -77,6 +78,7 @@ void MainScene::Initialize()
 	// Player 2
 	{
 		auto go = NewGameObject();
+		go->SetTag("Player");
 		go->AddComponent(std::make_shared<SpriteComponent>(resourceManager.LoadTexture("Characters"), SDL_Point{16, 16}, 3, 0));
 		go->AddComponent(std::make_shared<PlayerComponent>(PlayerIndex::PlayerTwo));
 

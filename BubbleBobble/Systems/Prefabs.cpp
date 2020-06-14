@@ -5,7 +5,7 @@
 #include "Components.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
-#include "Components\BubbleComponent.h"
+#include "../Components/BubbleComponent.h"
 
 using namespace OatmealEngine;
 
