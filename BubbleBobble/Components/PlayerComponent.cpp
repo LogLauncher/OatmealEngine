@@ -58,7 +58,10 @@ void PlayerComponent::Update()
 	if (pos.y > windowHeight)
 		transform.Translate(0, int(-windowHeight - 16 * scale.y));
 	if (pos.y < (-16 * scale.y))
+	{
+		m_pRigidbodyComponent.lock()->ResetVelocityX();
 		return;
+	}
 
 	UpdateMovement();
 	UpdateShoot();

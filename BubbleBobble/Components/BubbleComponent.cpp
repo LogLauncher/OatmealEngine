@@ -9,7 +9,7 @@ using namespace OatmealEngine;
 
 BubbleComponent::BubbleComponent(int directionX)
 	: m_TimeMoveSide{.25f}
-	, m_TimeMoveUp{1.5f}
+	, m_TimeMoveUp{2.5f}
 	, m_TimerMove{0}
 	, m_SpeedH{500.f}
 	, m_SpeedV{50.f}

@@ -117,6 +117,7 @@ void OatmealEngine::BaseScene::RemoveInternal()
 {
 	for (auto& pObject : m_pObjectsToDelete)
 	{
+		// Objects 
 		{
 			auto it = find(m_pObjects.begin(), m_pObjects.end(), pObject);
 			if (it == m_pObjects.end())
@@ -125,6 +126,7 @@ void OatmealEngine::BaseScene::RemoveInternal()
 			m_pObjects.erase(it);
 		}
 
+		// Render components
 		auto pRender{pObject->GetComponent<RenderComponent>().lock()};
 		if (pRender)
 		{
@@ -133,6 +135,7 @@ void OatmealEngine::BaseScene::RemoveInternal()
 				m_pRenderComponents.erase(it);
 		}
 
+		// Rigidbody components
 		auto pRigid{pObject->GetComponent<RigidbodyComponent>().lock()};
 		if (pRigid)
 		{
