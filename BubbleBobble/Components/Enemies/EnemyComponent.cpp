@@ -13,6 +13,7 @@ EnemyComponent::EnemyComponent(float speedH, float speedV, float jumpForce, floa
 	, m_JumpForce{jumpForce}
 	, m_AttackInterval{attackInterval}
 	, m_TimerAttack{0}
+	, m_CanAttack{false}
 {}
 
 void EnemyComponent::Start()

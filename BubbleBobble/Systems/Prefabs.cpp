@@ -50,10 +50,10 @@ std::shared_ptr<OatmealEngine::GameObject> Prefabs::Player(const glm::vec3& posi
 	);
 	animation->AddAnimation("Hit",
 		{
-			AnimationComponent::FrameDesc(animationStartRow+2,0,.075f),
-			AnimationComponent::FrameDesc(animationStartRow+2,1,.075f),
-			AnimationComponent::FrameDesc(animationStartRow+2,2,.075f),
-			AnimationComponent::FrameDesc(animationStartRow+2,3,.075f),
+			AnimationComponent::FrameDesc(animationStartRow+2,0,.25f),
+			AnimationComponent::FrameDesc(animationStartRow+2,1,.25f),
+			AnimationComponent::FrameDesc(animationStartRow+2,2,.25f),
+			AnimationComponent::FrameDesc(animationStartRow+2,3,.25f),
 		}
 	);
 
