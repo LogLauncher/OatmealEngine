@@ -12,7 +12,7 @@ OatmealEngine::ColliderComponent::ColliderComponent(const SDL_Point& size)
 	: BaseCollider(size)
 {}
 
-void OatmealEngine::ColliderComponent::CollidedLogic(RigidbodyComponent* pOtherRigidbody, const SDL_Rect& intersectionRect)
+void OatmealEngine::ColliderComponent::CollidedLogic(std::shared_ptr<RigidbodyComponent> pOtherRigidbody, const SDL_Rect& intersectionRect)
 {
 	EjectFromCollider(pOtherRigidbody, intersectionRect);
 }

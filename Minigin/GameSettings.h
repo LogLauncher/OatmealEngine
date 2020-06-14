@@ -27,9 +27,11 @@ namespace OatmealEngine
 
 		static WindowDetails WindowSettings;
 		static glm::vec2 Gravity;
+		static int GlobalScale;
 	};
 
 	__declspec(selectany) OatmealEngine::GameSettings::WindowDetails GameSettings::WindowSettings{};
 	__declspec(selectany) glm::vec2 GameSettings::Gravity{0, 150.f};
+	__declspec(selectany) int GameSettings::GlobalScale{1};
 
 }

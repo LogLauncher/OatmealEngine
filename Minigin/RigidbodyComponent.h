@@ -5,7 +5,7 @@ namespace OatmealEngine
 {
 	class BaseCollider;
 
-	class RigidbodyComponent final : public BaseComponent
+	class RigidbodyComponent final : public BaseComponent, public std::enable_shared_from_this<RigidbodyComponent>
 	{
 	public:
 		explicit RigidbodyComponent(const std::weak_ptr<BaseCollider>& pColliderComponent);
@@ -29,15 +29,17 @@ namespace OatmealEngine
 		void EnableGravity(bool hasGravity) { m_HasGravity = hasGravity; }
 		
 		bool IsStatic() const { return m_IsStatic; }
+		bool IsKinematic() const { return m_IsKinematic; }
+		void SetKinematic(bool isKinematic) { m_IsKinematic = isKinematic; }
 
 	private:
 		glm::vec2 m_Velocity;
 		std::weak_ptr<BaseCollider> m_pCollider;
 
 		bool m_IsGrounded;
-
 		bool m_HasGravity;
 		bool m_IsStatic;
+		bool m_IsKinematic;
 
 	};
 }

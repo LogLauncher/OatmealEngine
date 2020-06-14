@@ -65,7 +65,7 @@ bool OatmealEngine::BaseCollider::IsColliding(std::shared_ptr<BaseCollider> pOth
 	return false;
 }
 
-void OatmealEngine::BaseCollider::EjectFromCollider(RigidbodyComponent* pOtherRigidbody, const SDL_Rect& intersectionRect) const
+void OatmealEngine::BaseCollider::EjectFromCollider(std::shared_ptr<RigidbodyComponent> pOtherRigidbody, const SDL_Rect& intersectionRect) const
 {
 	auto& pos{pOtherRigidbody->GetTransform().GetPosition()};
 	const glm::vec3 otherPos{intersectionRect.x, intersectionRect.y, 0};
@@ -95,4 +95,18 @@ SDL_Rect OatmealEngine::BaseCollider::GetRect() const
 	rect.w = m_Size.x;
 	rect.h = m_Size.y;
 	return rect;
+}
+
+void OatmealEngine::BaseCollider::CallCallbacks(std::shared_ptr<BaseCollider> pOther) const
+{
+	if (!m_IsTrigger)
+	{
+		if (m_OnCollideCallback)
+			m_OnCollideCallback(pOther);
+	}
+	else
+	{
+		if (m_OnTriggerCallback)
+			m_OnTriggerCallback(pOther);
+	}
 }

@@ -27,7 +27,9 @@ private:
 	std::weak_ptr<OatmealEngine::AnimationComponent> m_pAnimationComponent;
 
 	void UpdateMovement() const;
-	void UpdateShoot() const;
+	void UpdateShoot();
+
+	void ShootBubble();
 
 };
 

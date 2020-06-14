@@ -6,8 +6,11 @@
 #include "Components.h"
 #include "InputManager.h"
 #include "GameSettings.h"
+#include "..\Prefabs.h"
 
-PlayerComponent::PlayerComponent(OatmealEngine::PlayerIndex playerNr)
+using namespace OatmealEngine;
+
+PlayerComponent::PlayerComponent(PlayerIndex playerNr)
 	: m_PlayerNr{playerNr}
 	, m_SpeedH{250.f}
 	, m_JumpForce{470.f}
@@ -15,21 +18,21 @@ PlayerComponent::PlayerComponent(OatmealEngine::PlayerIndex playerNr)
 
 void PlayerComponent::Awake()
 {
-	auto& inputManager{OatmealEngine::InputManager::GetInstance()};
+	auto& inputManager{InputManager::GetInstance()};
 	switch (m_PlayerNr)
 	{
-	case OatmealEngine::PlayerIndex::PlayerOne:
-		inputManager.AddInputAction(OatmealEngine::InputAction("MoveLeft", OatmealEngine::InputTriggerState::Down, SDLK_LEFT, OatmealEngine::GamepadButton::DPAD_LEFT, OatmealEngine::PlayerIndex::PlayerOne));
-		inputManager.AddInputAction(OatmealEngine::InputAction("MoveRight", OatmealEngine::InputTriggerState::Down, SDLK_RIGHT, OatmealEngine::GamepadButton::DPAD_RIGHT, OatmealEngine::PlayerIndex::PlayerOne));
-		inputManager.AddInputAction(OatmealEngine::InputAction("Jump", OatmealEngine::InputTriggerState::Pressed, SDLK_UP, OatmealEngine::GamepadButton::DPAD_UP, OatmealEngine::PlayerIndex::PlayerOne));
-		inputManager.AddInputAction(OatmealEngine::InputAction("Shoot", OatmealEngine::InputTriggerState::Pressed, SDLK_RCTRL, OatmealEngine::GamepadButton::A, OatmealEngine::PlayerIndex::PlayerOne));
+	case PlayerIndex::PlayerOne:
+		inputManager.AddInputAction(InputAction("MoveLeft",InputTriggerState::Down, SDLK_LEFT,GamepadButton::DPAD_LEFT,PlayerIndex::PlayerOne));
+		inputManager.AddInputAction(InputAction("MoveRight",InputTriggerState::Down, SDLK_RIGHT,GamepadButton::DPAD_RIGHT,PlayerIndex::PlayerOne));
+		inputManager.AddInputAction(InputAction("Jump",InputTriggerState::Pressed, SDLK_UP,GamepadButton::DPAD_UP,PlayerIndex::PlayerOne));
+		inputManager.AddInputAction(InputAction("Shoot",InputTriggerState::Pressed, SDLK_RCTRL,GamepadButton::A,PlayerIndex::PlayerOne));
 		break;
-	case OatmealEngine::PlayerIndex::PlayerTwo:
-		inputManager.AddInputAction(OatmealEngine::InputAction("MoveLeft", OatmealEngine::InputTriggerState::Down, SDLK_a, OatmealEngine::GamepadButton::DPAD_LEFT, OatmealEngine::PlayerIndex::PlayerTwo));
-		inputManager.AddInputAction(OatmealEngine::InputAction("MoveRight", OatmealEngine::InputTriggerState::Down, SDLK_d, OatmealEngine::GamepadButton::DPAD_RIGHT, OatmealEngine::PlayerIndex::PlayerTwo));
-		inputManager.AddInputAction(OatmealEngine::InputAction("Jump", OatmealEngine::InputTriggerState::Pressed, SDLK_w, OatmealEngine::GamepadButton::DPAD_UP, OatmealEngine::PlayerIndex::PlayerTwo));
-		inputManager.AddInputAction(OatmealEngine::InputAction("Shoot", OatmealEngine::InputTriggerState::Pressed, SDLK_LCTRL, OatmealEngine::GamepadButton::A, OatmealEngine::PlayerIndex::PlayerTwo));
-		inputManager.AddInputAction(OatmealEngine::InputAction("Join", OatmealEngine::InputTriggerState::Pressed, SDLK_j, OatmealEngine::GamepadButton::START, OatmealEngine::PlayerIndex::PlayerTwo));
+	case PlayerIndex::PlayerTwo:
+		inputManager.AddInputAction(InputAction("MoveLeft",InputTriggerState::Down, SDLK_a,GamepadButton::DPAD_LEFT,PlayerIndex::PlayerTwo));
+		inputManager.AddInputAction(InputAction("MoveRight",InputTriggerState::Down, SDLK_d,GamepadButton::DPAD_RIGHT,PlayerIndex::PlayerTwo));
+		inputManager.AddInputAction(InputAction("Jump",InputTriggerState::Pressed, SDLK_w,GamepadButton::DPAD_UP,PlayerIndex::PlayerTwo));
+		inputManager.AddInputAction(InputAction("Shoot",InputTriggerState::Pressed, SDLK_LCTRL,GamepadButton::A,PlayerIndex::PlayerTwo));
+		inputManager.AddInputAction(InputAction("Join",InputTriggerState::Pressed, SDLK_j,GamepadButton::START,PlayerIndex::PlayerTwo));
 		break;
 	default:
 		break;
@@ -52,7 +55,7 @@ void PlayerComponent::Update()
 	auto& transform{GetTransform()};
 	const auto& pos{transform.GetPosition()};
 	const auto& scale{transform.GetScale()};
-	const int windowHeight{OatmealEngine::GameSettings::WindowSettings.Height};
+	const int windowHeight{GameSettings::WindowSettings.Height};
 
 	if (pos.y > windowHeight)
 		transform.Translate(0, int(-windowHeight - 16 * scale.y));
@@ -65,14 +68,14 @@ void PlayerComponent::UpdateMovement() const
 	auto& transform{GetTransform()};
 	auto pRigidbody{m_pRigidbodyComponent.lock()};
 	auto pAnimaion{m_pAnimationComponent.lock()};
-	auto& inputManager{OatmealEngine::InputManager::GetInstance()};
+	auto& inputManager{InputManager::GetInstance()};
 
 	UINT playerIndex = static_cast<UINT>(m_PlayerNr);
 	bool doingSomething{false};
 	if (inputManager.IsActionTriggered("MoveLeft" + std::to_string(playerIndex)))
 	{
 		pAnimaion->Play("Move");
-		transform.Translate(-m_SpeedH * OatmealEngine::GameTime::GetInstance().DeltaTime(), 0.f);
+		transform.Translate(-m_SpeedH * GameTime::GetInstance().DeltaTime(), 0.f);
 		if (transform.GetScale().x > 0)
 			transform.InvertXScale();
 		doingSomething = true;
@@ -80,7 +83,7 @@ void PlayerComponent::UpdateMovement() const
 	if (inputManager.IsActionTriggered("MoveRight" + std::to_string(playerIndex)))
 	{
 		pAnimaion->Play("Move");
-		transform.Translate(m_SpeedH * OatmealEngine::GameTime::GetInstance().DeltaTime(), 0.f);
+		transform.Translate(m_SpeedH * GameTime::GetInstance().DeltaTime(), 0.f);
 		if (transform.GetScale().x < 0)
 			transform.InvertXScale();
 		doingSomething = true;
@@ -96,9 +99,21 @@ void PlayerComponent::UpdateMovement() const
 		pAnimaion->Play("Idle");
 }
 
-void PlayerComponent::UpdateShoot() const
+void PlayerComponent::UpdateShoot()
 {
 	UINT playerIndex = static_cast<UINT>(m_PlayerNr);
-	if (OatmealEngine::InputManager::GetInstance().IsActionTriggered("Shoot" + std::to_string(playerIndex)))
+	if (InputManager::GetInstance().IsActionTriggered("Shoot" + std::to_string(playerIndex)))
+	{
 		m_pAnimationComponent.lock()->Play("Shoot", false);
+		ShootBubble();
+	}
+}
+
+void PlayerComponent::ShootBubble()
+{
+	const auto& pos{GetTransform().GetPosition()};
+	const int directionX{Utils::Sign(GetTransform().GetScale().x)};
+	const auto& size{m_pRigidbodyComponent.lock()->GetCollider().lock()->GetSize()};
+	const SDL_Point halfSize{int(size.x / 2.f), int(size.y / 2.f)};
+	Prefabs::Bubble(glm::vec3{pos.x + halfSize.x + (size.x * directionX), pos.y, 0.f}, directionX, int(m_PlayerNr) * 2);
 }

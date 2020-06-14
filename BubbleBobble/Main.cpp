@@ -24,6 +24,7 @@ int main()
 	OatmealEngine::GameSettings::WindowSettings.VSync = false;
 	OatmealEngine::GameSettings::WindowSettings.Name = "OatmealEngine";
 	OatmealEngine::GameSettings::Gravity = {0,750.f};
+	OatmealEngine::GameSettings::GlobalScale = 3;
 
 	// Initialize all the scenes
 	InitScenes();

@@ -81,12 +81,12 @@ namespace OatmealEngine
 		}
 		void SetScale(const glm::vec2& scale)
 		{
-			m_Scale = scale;
+			SetScale(scale.x, scale.y);
 		}
 		void SetScale(float x, float y)
 		{
-			m_Scale.x = x;
-			m_Scale.y = y;
+			m_Scale.x = x * GameSettings::GlobalScale;
+			m_Scale.y = y * GameSettings::GlobalScale;
 		}
 		void InvertXScale()
 		{
@@ -100,7 +100,7 @@ namespace OatmealEngine
 	private:
 		glm::vec3 m_Position{};
 		float m_Rotation{};
-		glm::vec2 m_Scale{1,1};
+		glm::vec2 m_Scale{1 * GameSettings::GlobalScale,1 * GameSettings::GlobalScale};
 
 	};
 }

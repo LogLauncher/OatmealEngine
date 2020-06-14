@@ -5,6 +5,7 @@
 
 #include "Components.h"
 #include "GameObject.h"
+#include "GameSettings.h"
 
 bool LevelBuilder::Build(int levelNr, OatmealEngine::BaseScene* pScene, const std::shared_ptr<OatmealEngine::Texture2D>& pTexture)
 {
@@ -112,7 +113,6 @@ bool LevelBuilder::Build(int levelNr, OatmealEngine::BaseScene* pScene, const st
 void LevelBuilder::CreateFullBlock(int rowWorld, int colWorld, int rowSpriteSheet, int colSpriteSheet, OatmealEngine::BaseScene* pScene, const std::shared_ptr<OatmealEngine::Texture2D>& pTexture)
 {
 	const SDL_Point blockSize{8, 8};
-	const float scale{3};
 
 	auto go = pScene->NewGameObject();
 	go->AddComponent(std::make_shared<OatmealEngine::SpriteComponent>(pTexture, blockSize, rowSpriteSheet, colSpriteSheet));
@@ -120,14 +120,12 @@ void LevelBuilder::CreateFullBlock(int rowWorld, int colWorld, int rowSpriteShee
 	auto collider = go->AddComponent(std::make_shared<OatmealEngine::ColliderComponent>(blockSize));
 	go->AddComponent(std::make_shared<OatmealEngine::RigidbodyComponent>(collider, true));
 
-	go->GetTransform().SetPosition(colWorld * blockSize.x * scale, rowWorld * blockSize.y * scale);
-	go->GetTransform().SetScale(scale, scale);
+	go->GetTransform().SetPosition(colWorld * blockSize.x * OatmealEngine::GameSettings::GlobalScale, rowWorld * blockSize.y * OatmealEngine::GameSettings::GlobalScale);
 }
 
 void LevelBuilder::CreatePlatformBlock(int rowWorld, int colWorld, int rowSpriteSheet, int colSpriteSheet, OatmealEngine::BaseScene* pScene, const std::shared_ptr<OatmealEngine::Texture2D>& pTexture)
 {
 	const SDL_Point blockSize{8, 8};
-	const float scale{3};
 
 	auto go = pScene->NewGameObject();
 	go->AddComponent(std::make_shared<OatmealEngine::SpriteComponent>(pTexture, blockSize, rowSpriteSheet, colSpriteSheet));
@@ -135,6 +133,5 @@ void LevelBuilder::CreatePlatformBlock(int rowWorld, int colWorld, int rowSprite
 	auto collider = go->AddComponent(std::make_shared<OatmealEngine::PlatformColliderComponent>(blockSize));
 	go->AddComponent(std::make_shared<OatmealEngine::RigidbodyComponent>(collider, true));
 
-	go->GetTransform().SetPosition(colWorld * blockSize.x * scale, rowWorld * blockSize.y * scale);
-	go->GetTransform().SetScale(scale, scale);
+	go->GetTransform().SetPosition(colWorld * blockSize.x * OatmealEngine::GameSettings::GlobalScale, rowWorld * blockSize.y * OatmealEngine::GameSettings::GlobalScale);
 }

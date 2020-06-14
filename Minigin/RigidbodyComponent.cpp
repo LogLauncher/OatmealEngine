@@ -13,12 +13,13 @@ OatmealEngine::RigidbodyComponent::RigidbodyComponent(const std::weak_ptr<BaseCo
 	, m_Velocity{0,0}
 	, m_HasGravity{true}
 	, m_IsStatic{isStatic}
+	, m_IsKinematic{false}
 	, m_IsGrounded{false}
 {}
 
 void OatmealEngine::RigidbodyComponent::FixedUpdate()
 {
-	if (!m_IsStatic)
+	if (!m_IsStatic && !m_IsKinematic)
 	{
 		const auto& gameTime{GameTime::GetInstance()};
 		auto& transform{GetTransform()};
@@ -37,15 +38,11 @@ void OatmealEngine::RigidbodyComponent::UpdateCollision(const std::vector<std::w
 		auto pOtherCollider{pOtherRigidbody.lock()->GetCollider().lock()};
 		if (pCollider->IsColliding(pOtherCollider, intersectionRect))
 		{
-			if (!pOtherCollider->IsTrigger())
-			{
-				pOtherCollider->CollidedLogic(this, intersectionRect);
-				// #TODO collision callback
-			}
-			else
-			{
-				// #TODO trigger callback
-			}
+			if (!pOtherCollider->IsTrigger() && !pCollider->IsTrigger())
+				pOtherCollider->CollidedLogic(shared_from_this(), intersectionRect);
+
+			pOtherCollider->CallCallbacks(pCollider);
+			pCollider->CallCallbacks(pOtherCollider);
 		}
 	}
 }

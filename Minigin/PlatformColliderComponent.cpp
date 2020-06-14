@@ -12,7 +12,7 @@ OatmealEngine::PlatformColliderComponent::PlatformColliderComponent(const SDL_Po
 	: BaseCollider(size)
 {}
 
-void OatmealEngine::PlatformColliderComponent::CollidedLogic(RigidbodyComponent* pOtherRigidbody, const SDL_Rect& intersectionRect)
+void OatmealEngine::PlatformColliderComponent::CollidedLogic(std::shared_ptr<RigidbodyComponent> pOtherRigidbody, const SDL_Rect& intersectionRect)
 {
 	if (pOtherRigidbody->GetVelocity().y <= 0.001f)
 		return;

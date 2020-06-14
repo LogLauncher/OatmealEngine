@@ -11,7 +11,7 @@ namespace OatmealEngine
 		virtual ~ColliderComponent() = default;
 		DEL_ROF(ColliderComponent);
 
-		virtual void CollidedLogic(RigidbodyComponent* pOtherRigidbody, const SDL_Rect& intersectionRect) override;
+		virtual void CollidedLogic(std::shared_ptr<RigidbodyComponent> pOtherRigidbody, const SDL_Rect& intersectionRect) override;
 
 	};
 }

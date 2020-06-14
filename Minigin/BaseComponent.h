@@ -4,6 +4,8 @@
 namespace OatmealEngine
 {
 	class GameObject;
+	class BaseCollider;
+
 	class BaseComponent
 	{
 	public:
@@ -17,6 +19,9 @@ namespace OatmealEngine
 		virtual void FixedUpdate() {};
 		virtual void Update() {};
 		virtual void LateUpdate() {};
+
+		virtual void OnTrigger(std::shared_ptr<BaseCollider> pOther) {};
+		virtual void OnCollide(std::shared_ptr<BaseCollider> pOther) {};
 
 #ifdef _DEBUG
 		virtual void DebugRender() {};

@@ -69,8 +69,7 @@ void MainScene::Initialize()
 			}
 		);
 
-		go->GetTransform().SetPosition(8 * 3 * 4, 500);
-		go->GetTransform().SetScale(3, 3);
+		go->GetTransform().SetPosition(8 * GameSettings::GlobalScale * 4, 500);
 	}
 #pragma endregion
 
@@ -117,8 +116,8 @@ void MainScene::Initialize()
 				AnimationComponent::FrameDesc(5,3,.075f),
 			}
 		);
-		go->GetTransform().SetPosition(8 * 3 * 26, 500);
-		go->GetTransform().SetScale(-3, 3);
+		go->GetTransform().SetPosition(8 * GameSettings::GlobalScale * 26, 500);
+		go->GetTransform().SetScale(-1, 1);
 	}
 #pragma endregion
 
@@ -136,6 +135,7 @@ void MainScene::LoadResources() const
 	auto& resourceManager{ResourceManager::GetInstance()};
 	resourceManager.AddTexture("Blocks", "blocks.png");
 	resourceManager.AddTexture("Characters", "characters.png");
+	resourceManager.AddTexture("Misc", "misc.png");
 
 	resourceManager.AddFont("Lingua24", "Lingua.otf", 24);
 }
