@@ -5,6 +5,8 @@
 #include "Components.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
+#include "../Components/ItemComponent.h"
+#include "../Components/ScoreComponent.h"
 #include "../Components/BubbleComponent.h"
 #include "../Components/PlayerComponent.h"
 #include "../Components/Enemies/ZenChanEnemyComponent.h"
@@ -134,7 +136,38 @@ std::shared_ptr<OatmealEngine::GameObject> Prefabs::ZenChan(const glm::vec3& pos
 
 	auto pEnemy{go->AddComponent(std::make_shared<ZenChanEnemyComponent>())};
 	pCollider->SetOnCollideCallback(std::bind(&ZenChanEnemyComponent::OnCollide, pEnemy, std::placeholders::_1));
+	
 	go->GetTransform().SetPosition(position);
+	return go;
+}
 
+std::shared_ptr<OatmealEngine::GameObject> Prefabs::Item(const glm::vec3& position, const std::weak_ptr<Texture2D>& textureItem, const std::weak_ptr<Texture2D>& texturePoints, int points, int animationStartRow, int animationStartCol)
+{
+	auto pScene{SceneManager::GetInstance().GetActiveScene().lock()};
+	auto go{pScene->NewGameObject()};
+	go->SetTag("Item");
+
+	go->AddComponent(std::make_shared<SpriteComponent>(textureItem, SDL_Point{16,16}, 1, 0));
+
+	auto pCollider = go->AddComponent(std::make_shared<ColliderComponent>(16, 16));
+
+	auto pRigidbody{go->AddComponent(std::make_shared<RigidbodyComponent>(pCollider))};
+
+	auto pItem{go->AddComponent(std::make_shared<ItemComponent>(texturePoints, points, animationStartRow, animationStartCol))};
+	pCollider->SetOnCollideCallback(std::bind(&ItemComponent::OnCollide, pItem, std::placeholders::_1));
+
+	go->GetTransform().SetPosition(position);
+	return go;
+}
+
+std::shared_ptr<OatmealEngine::GameObject> Prefabs::Points(const glm::vec3& position, const std::weak_ptr<OatmealEngine::Texture2D>& texturePoints, int animationStartRow, int animationStartCol)
+{
+	auto pScene{SceneManager::GetInstance().GetActiveScene().lock()};
+	auto go{pScene->NewGameObject()};
+
+	go->AddComponent(std::make_shared<SpriteComponent>(texturePoints, SDL_Point{16,16}, animationStartRow, animationStartCol));
+	go->AddComponent(std::make_shared<ScoreComponent>());
+
+	go->GetTransform().SetPosition(position);
 	return go;
 }

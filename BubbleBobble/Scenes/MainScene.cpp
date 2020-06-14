@@ -21,22 +21,16 @@ MainScene::MainScene()
 
 void MainScene::Initialize()
 {
+	// Resources
 	auto& resourceManager{ResourceManager::GetInstance()};
 	resourceManager.AddTexture("Blocks", "blocks.png");
 	resourceManager.AddTexture("Characters", "characters.png");
 	resourceManager.AddTexture("Misc", "misc.png");
 
 	resourceManager.AddFont("Lingua24", "Lingua.otf", 24);
+	
 	// GameManager
 	GameManager::GetInstance().Initialize();
-
-
-	// FPS display
-	{
-		auto go = NewGameObject();
-		go->AddComponent(std::make_shared<FPSComponent>(resourceManager.LoadFont("Lingua24"), SDL_Color{245, 229, 220}));
-		go->GetTransform().SetPosition(800, 0);
-	}
 
 }
 

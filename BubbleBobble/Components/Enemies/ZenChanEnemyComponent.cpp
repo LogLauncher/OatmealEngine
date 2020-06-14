@@ -4,6 +4,8 @@
 #include "GameTime.h"
 #include "GameObject.h"
 #include "..\..\Systems\GameManager.h"
+#include "ResourceManager.h"
+#include "..\..\Systems\Prefabs.h"
 
 using namespace OatmealEngine;
 
@@ -90,6 +92,8 @@ void ZenChanEnemyComponent::OnCollide(std::shared_ptr<BaseCollider> pOther)
 	// Check if player collision
 	if (pOtherGameObject->CompareTag("Player") && m_State == State::HIT)
 	{
+		auto texture{ResourceManager::GetInstance().LoadTexture("Misc")};
+		Prefabs::Item(GetTransform().GetPosition(), texture, texture, 100, 2, 0);
 		GameManager::GetInstance().RemoveEnemy(GetGameObject());
 		GetGameObject().lock()->Delete();
 	}

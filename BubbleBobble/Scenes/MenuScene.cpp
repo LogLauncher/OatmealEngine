@@ -18,7 +18,7 @@ void MenuScene::Initialize()
 	auto& resourceManager{ResourceManager::GetInstance()};
 	resourceManager.AddTexture("Menu", "menu_background.png");
 
-	InputManager::GetInstance().AddInputAction(InputAction("StartGame", InputTriggerState::Pressed, SDLK_RETURN));
+	InputManager::GetInstance().AddInputAction(InputAction("StartGame", InputTriggerState::Pressed, SDLK_RETURN, GamepadButton::START, PlayerIndex::PlayerOne));
 
 	auto go{NewGameObject()};
 	go->AddComponent(std::make_shared<SpriteComponent>(ResourceManager::GetInstance().LoadTexture("Menu")));
