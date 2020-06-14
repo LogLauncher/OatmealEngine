@@ -24,42 +24,53 @@ std::shared_ptr<OatmealEngine::GameObject> OatmealEngine::BaseScene::NewGameObje
 {
 	auto gameObject{std::make_shared<GameObject>()};
 	gameObject->SetScene(shared_from_this());
-	m_pObjects.push_back(gameObject);
+	m_pObjectsToAdd.push_back(gameObject);
 	return gameObject;
 }
 
 bool OatmealEngine::BaseScene::Remove(const std::shared_ptr<GameObject>& object)
 {
-	auto it = find(m_pObjects.begin(), m_pObjects.end(), object);
-	if (it == m_pObjects.end())
+	auto it = find(m_pObjectsToDelete.begin(), m_pObjectsToDelete.end(), object);
+	if (it == m_pObjectsToDelete.end())
 		return false;
 
-	m_pObjects.erase(it);
+	m_pObjectsToDelete.erase(it);
 	return true;
 }
 
-void OatmealEngine::BaseScene::RootStart() const
+void OatmealEngine::BaseScene::RootStart()
 {
+	AddInternal();
+
 	for (auto& object : m_pObjects)
 		object->RootStart();
 }
 
-void OatmealEngine::BaseScene::RootFixedUpdate() const
+void OatmealEngine::BaseScene::RootFixedUpdate()
 {
 	for (auto& object : m_pObjects)
 		object->RootFixedUpdate();
+
+	AddInternal();
+	RemoveInternal();
 }
 
-void OatmealEngine::BaseScene::RootUpdate() const
+void OatmealEngine::BaseScene::RootUpdate()
 {
 	for(auto& object : m_pObjects)
 		object->RootUpdate();
+
+	AddInternal();
+	RemoveInternal();
 }
 
-void OatmealEngine::BaseScene::RootLateUpdate() const
+void OatmealEngine::BaseScene::RootLateUpdate()
 {
 	for (auto& object : m_pObjects)
 		object->RootLateUpdate();
+
+	AddInternal();
+	RemoveInternal();
 }
 
 void OatmealEngine::BaseScene::RootRender() const
@@ -85,3 +96,26 @@ void OatmealEngine::BaseScene::RootDebugRender() const
 		object->RootDebugRender();
 }
 #endif
+
+void OatmealEngine::BaseScene::AddInternal()
+{
+	if (!m_pObjectsToAdd.empty())
+	{
+		m_pObjects.insert(m_pObjects.end(), m_pObjectsToAdd.begin(), m_pObjectsToAdd.end());
+		m_pObjectsToAdd.clear();
+	}
+}
+
+void OatmealEngine::BaseScene::RemoveInternal()
+{
+	for (auto& pObject : m_pObjectsToDelete)
+	{
+		auto it = find(m_pObjects.begin(), m_pObjects.end(), pObject);
+		if (it == m_pObjects.end())
+			continue;
+
+		m_pObjects.erase(it);
+	}
+	m_pObjectsToDelete.clear();
+}
+

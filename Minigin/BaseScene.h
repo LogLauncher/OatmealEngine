@@ -32,10 +32,10 @@ namespace OatmealEngine
 	private:
 		friend class SceneManager;
 
-		void RootStart() const;
-		void RootFixedUpdate() const;
-		void RootUpdate() const;
-		void RootLateUpdate() const;
+		void RootStart();
+		void RootFixedUpdate();
+		void RootUpdate();
+		void RootLateUpdate();
 		void RootRender() const;
 
 		void UpdateCollision() const;
@@ -44,8 +44,15 @@ namespace OatmealEngine
 		void RootDebugRender() const;
 #endif
 
+		void AddInternal();
+		void RemoveInternal();
+
 		std::string m_Name;
 		std::vector<std::shared_ptr<GameObject>> m_pObjects{};
+
+		std::vector<std::shared_ptr<GameObject>> m_pObjectsToAdd{};
+		std::vector<std::shared_ptr<GameObject>> m_pObjectsToDelete{};
+
 		std::vector<std::shared_ptr<RenderComponent>> m_pRenderComponents{};
 		std::vector<std::weak_ptr<RigidbodyComponent>> m_pRigidbodyComponents{};
 		bool m_IsInitialized;

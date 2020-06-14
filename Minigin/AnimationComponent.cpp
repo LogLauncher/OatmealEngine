@@ -33,7 +33,7 @@ void OatmealEngine::AnimationComponent::LateUpdate()
 			m_Timer -= m_ActiveAnimationDesc.Duration;
 
 			++m_CurrentFrame;
-			if (m_CurrentFrame >= m_CurrentAnimation.size() && !m_Loop && m_PlayingAnimation)
+			if (m_CurrentFrame >= int(m_CurrentAnimation.size()) && !m_Loop && m_PlayingAnimation)
 			{
 				Play(m_PreviousAnimationID);
 				m_Loop = true;
