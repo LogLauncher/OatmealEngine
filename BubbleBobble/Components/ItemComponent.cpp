@@ -23,7 +23,7 @@ void ItemComponent::Update()
 	m_Timer += GameTime::GetInstance().DeltaTime();
 	if (m_Timer >= m_TimerBeforePickup)
 		m_CanPickUp = true;
-	else if (m_Timer >= m_TimeBeforeDelete)
+	if (m_Timer >= m_TimeBeforeDelete)
 		GetGameObject().lock()->Delete();
 
 }
